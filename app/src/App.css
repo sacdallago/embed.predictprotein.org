@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  
 }
 
 .App-logo {
@@ -44,3 +44,5 @@
 .card-body {
   text-align: justify
 }
+
+.container{text-align:center}

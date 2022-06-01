@@ -99,9 +99,8 @@ class App extends React.Component {
         </Container>
         <div className="row mb-5"></div>
 
-        <Container>
-          <Features />
-        </Container>
+        <Features />
+        
         <div className="row mb-5"></div>
 
         <div className="row mb-5"></div>

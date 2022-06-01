@@ -3,12 +3,6 @@ import PropTypes from 'prop-types';
 //import './featureViewer.scss';
 
 
-const styles = theme => ({
-    paper: {
-        minHeight: 180
-    }
-});
-
 class FeatureViewer extends React.Component {
 
     componentDidMount(){
@@ -65,15 +59,22 @@ class FeatureViewer extends React.Component {
             document.getElementById("fv1").innerHTML = "";
             this.ft = new window.FeatureViewer(newProps.data.sequence,
                 '#fv1',
-                {
-                    showAxis: true,
-                    showSequence: true,
-                    brushActive: true, //zoom
-                    toolbar:true, //current zoom & mouse position
-                    bubbleHelp:true,
-                    zoomMax:50 //define the maximum range of the zoom
-                });
+            {
+                showAxis: true,
+                showSequence: true,
+                brushActive: true, //zoom
+                toolbar:true, //current zoom & mouse position
+                bubbleHelp:false,
+                zoomMax:50 //define the maximum range of the zoom
+            });
             
+            
+            /*
+            this.ft.onFeatureSelected(function (d) {
+                    console.log(d.detail);
+                });
+            */
+
             // TODO - test feature, delete later
             this.ft.addFeature({
                 data: [{x:5,y:10},{x:20,y:30},{x:50,y:74}],
@@ -81,7 +82,8 @@ class FeatureViewer extends React.Component {
                 className: "test1",
                 color: "#005572",
                 type: "rect",
-                filter: "type1"
+                filter: "type1",
+                height: 20
             })
 
             if(newProps.data.predictedDisorder){
@@ -123,7 +125,6 @@ class FeatureViewer extends React.Component {
                     height: 20
                 });
             }
-            debugger;
            
         }
     }
