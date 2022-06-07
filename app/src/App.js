@@ -62,26 +62,7 @@ class App extends React.Component {
     const { classes } = this.props;
     return (
       <div className="App">
-        <div id="mydiv" />
-        <script>
-          
-          {
-            
-            window.onload = function() {
-              /*
-              var yourDiv = document.getElementById('mydiv');
-              var ProtVista = require('ProtVista');
-              var instance = new ProtVista({
-                  el: yourDiv,
-                  uniprotacc: 'P05067'
-              });
-              
-              console.log(instance);
-              */
-          }
-          
-          }
-        </script>
+  
         <Navbar bg="dark" variant="dark">
           <Container>
             <Navbar.Brand href="#home"> </Navbar.Brand>

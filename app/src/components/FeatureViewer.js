@@ -75,16 +75,7 @@ class FeatureViewer extends React.Component {
                 });
             */
 
-            // TODO - test feature, delete later
-            this.ft.addFeature({
-                data: [{x:5,y:10},{x:20,y:30},{x:50,y:74}],
-                name: "test feature 1",
-                className: "test1",
-                color: "#005572",
-                type: "rect",
-                filter: "type1",
-                height: 20
-            })
+            
 
             if(newProps.data.predictedDisorder){
                 let disorder = this.findIndexes(newProps.data.predictedDisorder, ['X']);

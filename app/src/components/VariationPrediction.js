@@ -1,15 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-class MutationMatrix extends React.Component {
+class VariationPrediction extends React.Component {
   componentWillReceiveProps(newProps) {
     var data = newProps.data;
+
+    var x_labels = data.x_axis.map(
+      (e, index) => index + 1 + " " + e
+    );
+
     var layout = {
-      title: "Variation prediction",
       showlegend: false,
-      autosize: true,
-      width: 800,
-      height: 600,
+      autosize: false,
+      width: 1000,
+      height: 710,
       margin: {
         autoexpand: true,
       },
@@ -21,8 +25,10 @@ class MutationMatrix extends React.Component {
       xaxis: {
         tickmode: "linear",
         automargin: false,
-        dividerwidth: 4,
-        autorange: false,
+
+        //autorange: false,
+
+        range: [0, (x_labels.length / 3) ],
 
         showgrid: true,
         spikedash: 'solid',
@@ -31,14 +37,7 @@ class MutationMatrix extends React.Component {
         zeroline: false,
         showline: true,
       },
-      /*
-      xaxis: {
-        tickmode: "linear",
-        autorange: false,
-        dividerwidth: 3,
-        automargin: true
-      },
-      */
+      
       yaxis: {
         tickmode: "linear",
         fixedrange: true,
@@ -54,15 +53,11 @@ class MutationMatrix extends React.Component {
       },
       scrollZoom: false,
       //staticPlot: true,
-      displayModeBar: true,
+      //displayModeBar: true,
       editable: false,
       showLink: false,
       displaylogo: false,
     };
-
-    var x_labels = data.x_axis.map(
-      (e, index) => index + 1 + " " + e
-    );
 
     this.fig = new window.Plotly.newPlot(
       "gd",
@@ -101,9 +96,9 @@ class MutationMatrix extends React.Component {
   }
 }
 
-MutationMatrix.propTypes = {
+VariationPrediction.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.object,
 };
 
-export default MutationMatrix;
+export default VariationPrediction;
