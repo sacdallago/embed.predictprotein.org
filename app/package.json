@@ -1,12 +1,14 @@
 {
   "name": "app",
   "version": "0.1.0",
+  "homepage": "https://sacdallago.github.io/embed.predictprotein.org",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^13.0.0",
     "@testing-library/user-event": "^13.2.1",
     "bootstrap": "^5.1.3",
+    "gh-pages": "^4.0.0",
     "mdb-react-ui-kit": "^3.0.0",
     "prop-types": "^15.8.1",
     "protein-parser": "^0.1.1",
@@ -21,6 +23,8 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
