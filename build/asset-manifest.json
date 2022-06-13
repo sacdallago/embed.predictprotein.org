@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/embed.predictprotein.org/static/css/main.9895e206.css",
-    "main.js": "/embed.predictprotein.org/static/js/main.50d67bdf.js",
+    "main.js": "/embed.predictprotein.org/static/js/main.cfabd2b3.js",
     "static/media/golgiApparatus.PNG": "/embed.predictprotein.org/static/media/golgiApparatus.76a52b5e6757d775ab2f.PNG",
     "static/media/vacuole.PNG": "/embed.predictprotein.org/static/media/vacuole.cf711724421c0688f6c2.PNG",
     "static/media/nucleus.PNG": "/embed.predictprotein.org/static/media/nucleus.d1f21c57ff29e91af31a.PNG",
@@ -14,10 +14,10 @@
     "static/media/cytoplasm.PNG": "/embed.predictprotein.org/static/media/cytoplasm.84d0ec31376b21652606.PNG",
     "index.html": "/embed.predictprotein.org/index.html",
     "main.9895e206.css.map": "/embed.predictprotein.org/static/css/main.9895e206.css.map",
-    "main.50d67bdf.js.map": "/embed.predictprotein.org/static/js/main.50d67bdf.js.map"
+    "main.cfabd2b3.js.map": "/embed.predictprotein.org/static/js/main.cfabd2b3.js.map"
   },
   "entrypoints": [
     "static/css/main.9895e206.css",
-    "static/js/main.50d67bdf.js"
+    "static/js/main.cfabd2b3.js"
   ]
 }
