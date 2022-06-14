@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/embed.predictprotein.org/static/css/main.9895e206.css",
-    "main.js": "/embed.predictprotein.org/static/js/main.cfabd2b3.js",
-    "static/media/golgiApparatus.PNG": "/embed.predictprotein.org/static/media/golgiApparatus.76a52b5e6757d775ab2f.PNG",
-    "static/media/vacuole.PNG": "/embed.predictprotein.org/static/media/vacuole.cf711724421c0688f6c2.PNG",
-    "static/media/nucleus.PNG": "/embed.predictprotein.org/static/media/nucleus.d1f21c57ff29e91af31a.PNG",
-    "static/media/endoplasmicReticulum.PNG": "/embed.predictprotein.org/static/media/endoplasmicReticulum.3c2b73b320afa8c079a5.PNG",
-    "static/media/mitochondrion.PNG": "/embed.predictprotein.org/static/media/mitochondrion.fb0ce126074873dbdbdd.PNG",
-    "static/media/plastid.PNG": "/embed.predictprotein.org/static/media/plastid.e50e42a8a64f82cd05a7.PNG",
-    "static/media/peroxisome.PNG": "/embed.predictprotein.org/static/media/peroxisome.8bedc4c8ae31074cc08b.PNG",
-    "static/media/secreted.PNG": "/embed.predictprotein.org/static/media/secreted.907480c03cdfb1d50939.PNG",
-    "static/media/plasmaMembrane.PNG": "/embed.predictprotein.org/static/media/plasmaMembrane.b2831740dd2965fff86b.PNG",
-    "static/media/cytoplasm.PNG": "/embed.predictprotein.org/static/media/cytoplasm.84d0ec31376b21652606.PNG",
-    "index.html": "/embed.predictprotein.org/index.html",
-    "main.9895e206.css.map": "/embed.predictprotein.org/static/css/main.9895e206.css.map",
-    "main.cfabd2b3.js.map": "/embed.predictprotein.org/static/js/main.cfabd2b3.js.map"
+    "main.css": "/static/css/main.9895e206.css",
+    "main.js": "/static/js/main.3039a524.js",
+    "static/media/golgiApparatus.PNG": "/static/media/golgiApparatus.76a52b5e6757d775ab2f.PNG",
+    "static/media/vacuole.PNG": "/static/media/vacuole.cf711724421c0688f6c2.PNG",
+    "static/media/nucleus.PNG": "/static/media/nucleus.d1f21c57ff29e91af31a.PNG",
+    "static/media/endoplasmicReticulum.PNG": "/static/media/endoplasmicReticulum.3c2b73b320afa8c079a5.PNG",
+    "static/media/mitochondrion.PNG": "/static/media/mitochondrion.fb0ce126074873dbdbdd.PNG",
+    "static/media/plastid.PNG": "/static/media/plastid.e50e42a8a64f82cd05a7.PNG",
+    "static/media/peroxisome.PNG": "/static/media/peroxisome.8bedc4c8ae31074cc08b.PNG",
+    "static/media/secreted.PNG": "/static/media/secreted.907480c03cdfb1d50939.PNG",
+    "static/media/plasmaMembrane.PNG": "/static/media/plasmaMembrane.b2831740dd2965fff86b.PNG",
+    "static/media/cytoplasm.PNG": "/static/media/cytoplasm.84d0ec31376b21652606.PNG",
+    "index.html": "/index.html",
+    "main.9895e206.css.map": "/static/css/main.9895e206.css.map",
+    "main.3039a524.js.map": "/static/js/main.3039a524.js.map"
   },
   "entrypoints": [
     "static/css/main.9895e206.css",
-    "static/js/main.cfabd2b3.js"
+    "static/js/main.3039a524.js"
   ]
 }

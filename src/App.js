@@ -75,7 +75,6 @@ class App extends React.Component {
             </Nav>
           </Container>
         </Navbar>
-        
 
         <Container>
           <SequenceInput />
