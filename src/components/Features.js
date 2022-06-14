@@ -7,7 +7,15 @@ import SequenceHighlighter from "./SequenceHighlither";
 import { proteinColorSchemes } from "../utils/Graphics";
 import storeComponentWrapper from "../stores/jobDispatcher";
 import FeatureGrabber from "./FeatureGrabber";
-import { Tabs, Tab, Table, ListGroup, Accordion, NavLink, Alert } from "react-bootstrap";
+import {
+  Tabs,
+  Tab,
+  Table,
+  ListGroup,
+  Accordion,
+  NavLink,
+  Alert,
+} from "react-bootstrap";
 import FeatureViewer from "./FeatureViewer";
 
 // subcell location images
@@ -24,6 +32,8 @@ import secreted from "../assets/secreted.PNG";
 
 import { Container } from "react-bootstrap";
 import VariationPrediction from "./VariationPrediction";
+import { Link } from "react-router-dom";
+import { Button } from "bootstrap";
 
 //import ProtvistaProteomicsdb from "./protvista-proteomicsdb/src/index.js";
 
@@ -349,7 +359,6 @@ const pointMutationData = {
   ],
 };
 
-var linkToPrintPage = <a href={'printpage'}>here</a>;
 
 class Features extends React.Component {
   constructor(props) {
@@ -393,7 +402,17 @@ class Features extends React.Component {
       );
     }
   }
-  
+
+  redirectFunction = () => {
+    console.log('redirecting')
+    const history = this.history
+    console.log(this.state)
+    history.push({
+        pathname: "/printpage",
+        state: this.state
+    })
+    history.go("/printpage")
+  }
 
   render() {
     let features =
@@ -837,21 +856,17 @@ class Features extends React.Component {
                   eventKey="variationPrediction"
                   title="Variation prediction"
                 >
-                  
-                    <Container style={{ textAlign: "center" }}>
-                      <VariationPrediction data={pointMutationData} />
-                    </Container>
+                  <Container style={{ textAlign: "center" }}>
+                    <VariationPrediction data={pointMutationData} />
+                  </Container>
                 </Tab>
 
                 <Tab
                   eventKey="conservationPrediction"
                   title="Conservation prediction"
                 >
-                  <div className="row mb-5">
-                   Soon...
-                  </div>
+                  <div className="row mb-5">Soon...</div>
                 </Tab>
-
               </Tabs>
             </div>
           </Container>
@@ -859,32 +874,36 @@ class Features extends React.Component {
 
         {this.state.loading !== null && (
           <Container>
-                <div className="col-lg-12">
-                  <MDBTypography style={{ textAlign: "center" }} tag="h4">
-                    Sequence Structure
-                  </MDBTypography>
-                </div>
-
-                Soon...
-
+            <div className="col-lg-12">
+              <MDBTypography style={{ textAlign: "center" }} tag="h4">
+                Sequence Structure
+              </MDBTypography>
+            </div>
+            Soon...
           </Container>
         )}
 
         <div>
           {this.state.loading !== null && (
-             
             <div className="col-lg-12">
               <div className="row mb-5"></div>
               <Container style={{ textAlign: "center" }}>
-                <Alert key="primary" variant="primary" href={ "http://amigo.geneontology.org/amigo/term/"}>
-                  <NavLink to="/printpage">Press here to get the printed output.</NavLink>
+                <Alert key="primary" variant="primary">
+                  <Link
+                    to={{
+                      pathname: "/printpage",
+                      state: {sequence: this.state.sequence, features: this.state.features}, 
+                    }}
+                  >
+                    Press here to get the printed output.
+                  </Link>
                 </Alert>
+                <button onClick={this.redirectFunction}>Click me</button>
               </Container>
-              
             </div>
           )}
         </div>
-        
+
         <FeatureGrabber />
       </div>
     );

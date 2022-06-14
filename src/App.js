@@ -64,7 +64,9 @@ class App extends React.Component {
     const { classes } = this.props;
     return (
       <div className="App">
+
         {console.log(process.env.PUBLIC_URL)}
+
         <Navbar bg="dark" variant="dark">
           <Container>
             <Navbar.Brand href="#home"> </Navbar.Brand>
