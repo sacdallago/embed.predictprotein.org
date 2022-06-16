@@ -7,6 +7,8 @@ import SequenceHighlighter from "./SequenceHighlither";
 import { proteinColorSchemes } from "../utils/Graphics";
 import storeComponentWrapper from "../stores/jobDispatcher";
 import FeatureGrabber from "./FeatureGrabber";
+import { useNavigate, useLocation, Navigate } from "react-router-dom";
+
 import {
   Tabs,
   Tab,
@@ -405,13 +407,8 @@ class Features extends React.Component {
 
   redirectFunction = () => {
     console.log('redirecting')
-    const history = this.history
-    console.log(this.state)
-    history.push({
-        pathname: "/printpage",
-        state: this.state
-    })
-    history.go("/printpage")
+    const navigate = useNavigate();
+    navigate('/printpage', { state: { name:'Xyz' }})
   }
 
   render() {
@@ -891,14 +888,22 @@ class Features extends React.Component {
                 <Alert key="primary" variant="primary">
                   <Link
                     to={{
-                      pathname: "/printpage",
-                      state: {sequence: this.state.sequence, features: this.state.features}, 
+                      pathname: `/printpage/${this.state.sequence}`,
+                      query: this.state.features, 
                     }}
+                    props={{
+                      features: this.state.features
+                    }}
+                    onClick={this.redirectFunction}
                   >
                     Press here to get the printed output.
                   </Link>
+                 
                 </Alert>
-                <button onClick={this.redirectFunction}>Click me</button>
+
+                <button
+                  onClick={this.redirectFunction}
+                  >go to page</button>
               </Container>
             </div>
           )}

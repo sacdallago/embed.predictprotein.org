@@ -67,17 +67,6 @@ class App extends React.Component {
 
         {console.log(process.env.PUBLIC_URL)}
 
-        <Navbar bg="dark" variant="dark">
-          <Container>
-            <Navbar.Brand href="#home"> </Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="https://github.com/sacdallago/bio_embeddings">
-                Code
-              </Nav.Link>
-            </Nav>
-          </Container>
-        </Navbar>
-
         <Container>
           <SequenceInput />
           <SequenceStatus />
