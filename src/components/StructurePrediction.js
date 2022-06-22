@@ -50,7 +50,7 @@ class StructurePrediction extends React.Component {
 
   render() {
     return (
-            <div id="myViewer" style={{ textAlign: 'center', float: 'left', width: '700px', height: '500px', position: 'relative' }}></div>
+            <div id="myViewer" style={{ textAlign: 'center', float: 'inherit', width: '1296px', height: '700px', position: 'relative' }}></div>
     );
   }
 }

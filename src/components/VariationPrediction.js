@@ -12,7 +12,7 @@ class VariationPrediction extends React.Component {
     var layout = {
       showlegend: false,
       autosize: false,
-      width: 1000,
+      width: 1296,
       height: 710,
       margin: {
         autoexpand: true,
@@ -90,8 +90,7 @@ class VariationPrediction extends React.Component {
   }
 
   render() {
-    return <div className="use-bootstrap" id={"gd"}>
-<rect width="100" height="100" />
+    return <div className="use-bootstrap" id={"gd"} style={{textAlign: 'center', float: 'inherit', position: 'relative'}}>
     </div>;
   }
 }

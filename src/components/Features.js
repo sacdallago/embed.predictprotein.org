@@ -417,7 +417,9 @@ class Features extends React.Component {
 
     return (
       <div>
+        {console.log(this.state)}
         {this.state.loading !== null &&
+          this.state.proteinStatus != 0 &&
           "predictedBPOGraphDataString" in features && (
             <div>
               <Container style={{ textAlign: "center" }}>
@@ -438,24 +440,47 @@ class Features extends React.Component {
             </div>
           )}
         <Container>
-          {this.state.loading !== null && (
-            <div className="row mb-5">
-              <div className="col-lg-12">
-                <MDBTypography tag="h4">Your Sequence</MDBTypography>
-                <div>
-                  <SequenceHighlighter
-                    string={
-                      this.state.loading || this.state.sequence === null
-                        ? placeholder.sequence
-                        : this.state.sequence
-                    }
-                    proteinColorScheme={proteinColorSchemes["mview"]}
-                  />
-                </div>
-              </div>
+        {this.state.loading !== null && this.state.proteinStatus != 0 && (
+          <Container>
+            <div className="col-lg-12">
+              <MDBTypography style={{ textAlign: "center" }} tag="h4">
+                Sequence Structure
+              </MDBTypography>
             </div>
-          )}
-          {this.state.loading !== null && (
+            <div className="row mb-5"></div>
+            <div>
+              <StructurePrediction data={structurePredictionData} />
+            </div>
+            <div className="row mb-5"></div>
+          </Container>
+        )}
+          <div>
+            {this.state.loading !== null && (
+              <div> </div>
+              /*
+            <div className="col-lg-12">
+              <Container style={{ textAlign: "center" }}>
+                <Alert key="secondary" variant="secondary">
+                  <Link
+                    to={{
+                      pathname: `/printpage/${this.state.sequence}`,
+                      state: { foo: 'bar'}
+                    }}
+                    reloadDocument={false}
+                    state={{ test: "test" }}
+                    onClick={() => useNavigate(`/printpage/${this.state.sequence}`)}
+                  >
+                    Press here to get the printed output.
+                  </Link>
+                 
+                </Alert>
+              </Container>
+              <div className="row mb-5"></div>
+            </div>
+            */
+            )}
+          </div>
+          {this.state.loading !== null && this.state.proteinStatus != 0 && (
             <div className="row mb-5">
               <div className="col-lg-12">
                 <MDBTypography tag="h4">Protein-Level Features</MDBTypography>
@@ -518,6 +543,26 @@ class Features extends React.Component {
                           The graphical results show such terms (predicted:
                           yellow boxes, inferred: white boxes).
                         </MDBTypography>
+
+                        <br />
+                    <MDBTypography variant={"body2"}>
+                      <h5>Cite</h5>
+                    </MDBTypography>
+                    <br />
+                    <MDBTypography>
+                    Light-Attention:{" "}
+                            {
+                              <a
+                                href={
+                                  "https://academic.oup.com/bioinformaticsadvances/article/1/1/vbab035/6432029"
+                                }
+                                target={"_blank"}
+                                ref={"author"}
+                              >
+                                 https://academic.oup.com/bioinformaticsadvances/article/1/1/vbab035/6432029
+                              </a>
+                            }
+                    </MDBTypography>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
@@ -790,6 +835,26 @@ class Features extends React.Component {
                             most similar protein for each ontology is
                             transferred to the query protein.
                           </MDBTypography>
+
+                          <br />
+                          <MDBTypography variant={"body2"}>
+                            <h5>Cite</h5>
+                          </MDBTypography>
+                          <br />
+                          <MDBTypography>
+                            goPredSim:{" "}
+                            {
+                              <a
+                                href={
+                                  "https://www.nature.com/articles/s41598-020-80786-0"
+                                }
+                                target={"_blank"}
+                                ref={"author"}
+                              >
+                                https://www.nature.com/articles/s41598-020-80786-0
+                              </a>
+                            }
+                          </MDBTypography>
                         </Accordion.Body>
                       </Accordion.Item>
                     </Accordion>
@@ -800,30 +865,136 @@ class Features extends React.Component {
           )}
         </Container>
 
-        {this.state.loading !== null && (
+        {this.state.loading !== null && this.state.proteinStatus != 0 && (
           <Container style={{ textAlign: "justify" }}>
             <div className="row mb-5">
               <div className="col-lg-12">
                 <div className="row mb-5"></div>
                 <MDBTypography style={{ textAlign: "center" }} tag="h4">
-                  Residue-Level Features
+                  Residue-Landscape Features
                 </MDBTypography>
               </div>
 
               <FeatureViewer data={this.state.features} />
+              <div className="row mb-5"> </div>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>Help</Accordion.Header>
+                  <Accordion.Body>
+                    <br />
+                    <MDBTypography variant={"body2"}>
+                      <h5>What is predicted?</h5>
+                    </MDBTypography>
+                    <br />
+                    <MDBTypography>
+                      RePROF and ProtT5-sec predict secondary structure
+                      elements, i.e. Helix, Strand and Other (details in "How Do
+                      We Predict Secondary Structure?"). Furthermore, RePROF
+                      also predicts solvent accessibility of protein residues
+                      for 10 states of relative accessibility. These are grouped
+                      into two states: buried and exposed.
+                    </MDBTypography>
 
+                    <br />
+                    <MDBTypography variant={"body2"}>
+                      <h5>
+                        What Can You Expect From Secondary Structure Prediction?
+                      </h5>
+                    </MDBTypography>
+                    <br />
+                    <MDBTypography>
+                      The expected levels of accuracy (RePROF secondary
+                      structure = 72±11% (three state per-residue accuracy, Q3)
+                      and RePROF solvent accessibility = 75±7% (two-state
+                      per-residue accuracy)) are valid for typical globular,
+                      water-soluble proteins when the multiple sequence
+                      alignment (MSA) contains many and diverse sequences. High
+                      values for the reliability indices indicate more accurate
+                      predictions (although: for alignments with little
+                      variation in the sequences, the reliability indices adopt
+                      misleadingly high values). An expected accuracy of 70%
+                      does not imply that for your protein 70% of all residues
+                      are correctly predicted. Instead, this number is
+                      calculated as an average of many hard to predict proteins.
+                      An expected accuracy of 70±10% (one standard deviation)
+                      implies that, on average, for two thirds of all proteins
+                      between 60 and 80% of the residues will be predicted
+                      correctly (expected accuracy of PHDsec). Thus, prediction
+                      accuracy can be higher than 80% or lower than 60% for your
+                      protein. Few methods supply well tested indices for the
+                      reliability of predictions. Such indices can help to
+                      reduce or increase your trust in a particular prediction.
+                      Secondary structure predictions from RePROF (as well as
+                      other methods) focus on predicting hydrogen bonds.
+                      Consequently, occasionally strongly predicted (high
+                      reliability index) helices are observed as strands and
+                      vice versa. Secondary structure prediction of RePROF
+                      treats N- and C-terminal ends of proteins as solvent
+                      molecules. The size of the input window for predicting 1D
+                      structure is up to 17 residues. Thus, the first and the
+                      last 17 residues of your sequence will 'see solvent'.
+                      Especially for short fragments you did cut out from large
+                      proteins, this may result in false predictions. ProtT5-sec
+                      is a novel secondary structure prediction method which
+                      achieves a Q3 of 81-87% (CASP12=81%, TS115=87%) using a
+                      two-layer convolutional neural network. The advantage of
+                      this method is that it does not rely on the number or the
+                      diversity of sequences in the MSAs. Instead, the method
+                      learned the "language of protein sequences", and can be
+                      leveraged to create representations from single protein
+                      sequences, i.e. your query sequence. These representations
+                      can then be used to train machine learning devices to
+                      predict protein features, in this case: secondary
+                      structure.
+                    </MDBTypography>
+
+                    <br />
+                    <MDBTypography variant={"body2"}>
+                      <h5>Cite</h5>
+                    </MDBTypography>
+                    <br />
+                    <MDBTypography>
+                    ProtTrans:{" "}
+                            {
+                              <a
+                                href={
+                                  "https://ieeexplore.ieee.org/document/9477085"
+                                }
+                                target={"_blank"}
+                                ref={"author"}
+                              >
+                                https://ieeexplore.ieee.org/document/9477085
+                              </a>
+                            }
+                          <MDBTypography>
+                          VESPA: {" "}
+                            {
+                              <a
+                                href={
+                                  "https://doi.org/10.1007/s00439-021-02411-y"
+                                }
+                                target={"_blank"}
+                                ref={"author"}
+                              >
+                                https://doi.org/10.1007/s00439-021-02411-y
+                              </a>
+                            }
+                          </MDBTypography>
+                      
+                    </MDBTypography>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
               <div className="row mb-5"> </div>
 
               <Tabs
-                defaultActiveKey="DSSP3"
+                defaultActiveKey="variationPrediction"
                 id="uncontrolled-tab-example"
                 className="mb-3"
               >
-                <Tab
-                  eventKey="DSSP3"
-                  title="Secondary Structure in Three States (DSSP3)"
-                >
-                  {features.predictedDSSP3 && (
+                {features.predictedDSSP3 && (
+                  <div></div>
+                  /*
                     <div className="row mb-5">
                       <div className="col-lg-12">
                         <div>
@@ -834,13 +1005,12 @@ class Features extends React.Component {
                         </div>
                       </div>
                     </div>
-                  )}
-                </Tab>
-                <Tab
-                  eventKey="DSSP8"
-                  title="Secondary Structure in Eight States (DSSP8)"
-                >
-                  {features.predictedDSSP8 && (
+                    */
+                )}
+
+                {features.predictedDSSP8 && (
+                  <div></div>
+                  /*
                     <div className="row mb-5">
                       <div className="col-lg-12">
                         <div>
@@ -851,10 +1021,12 @@ class Features extends React.Component {
                         </div>
                       </div>
                     </div>
-                  )}
-                </Tab>
-                <Tab eventKey="disorder" title="Disorder Prediction">
-                  {features.predictedDisorder && (
+                    */
+                )}
+
+                {features.predictedDisorder && (
+                  <div></div>
+                  /*
                     <div className="row mb-5">
                       <div className="col-lg-12">
                         <div>
@@ -865,8 +1037,8 @@ class Features extends React.Component {
                         </div>
                       </div>
                     </div>
-                  )}
-                </Tab>
+                    */
+                )}
                 <Tab
                   eventKey="variationPrediction"
                   title="Variation Prediction"
@@ -886,49 +1058,6 @@ class Features extends React.Component {
             </div>
           </Container>
         )}
-
-        {this.state.loading !== null && (
-          <Container>
-            <div className="col-lg-12">
-              <MDBTypography style={{ textAlign: "center" }} tag="h4">
-                Sequence Structure
-              </MDBTypography>
-            </div>
-            <div className="row mb-5"></div>
-            <div>
-              <StructurePrediction data={structurePredictionData} />
-            </div>
-            <div className="row mb-5"></div>
-          </Container>
-        )}
-
-        <div>
-          {this.state.loading !== null && (
-            <div></div>
-            /*
-            <div className="col-lg-12">
-              <div className="row mb-5"></div>
-              <Container style={{ textAlign: "center" }}>
-                <Alert key="primary" variant="primary">
-                  <Link
-                    to={{
-                      pathname: `/printpage/${this.state.sequence}`,
-                      state: { foo: 'bar'}
-                    }}
-                    reloadDocument={false}
-                    state={{ test: "test" }}
-                    onClick={() => useNavigate(`/printpage/${this.state.sequence}`)}
-                  >
-                    Press here to get the printed output.
-                  </Link>
-                 
-                </Alert>
-              </Container>
-            </div>
-            */
-          )}
-        </div>
-
         <FeatureGrabber />
       </div>
     );
