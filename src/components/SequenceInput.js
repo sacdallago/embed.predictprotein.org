@@ -64,7 +64,6 @@ class SequenceInput extends React.Component {
 
     // if valid sequence passed
     if (retrievingFunction !== undefined) {
-      console.log('here')
       retrievingFunction(textInput)
         .then(([proteins, _]) => {
           // check what kind of input is given - Fasta, just a sequence, uniprot id, etc
@@ -259,14 +258,9 @@ LAHAIHQVTK`,
     this.setState({
       proteinSequenceInput: event.target.value,
     });
-    
-    // TODO: last character is not set in proteinSequenceInput 
-    console.log(this.state);
-    
-
+        
     // Check if there is currently a sequence being checked
     if (this.props.jobParameters.proteinStatus !== proteinStatus.LOADING) {
-      //
       this.props.action({
         type: this.proteinStatusAction,
         payload: {
@@ -274,7 +268,6 @@ LAHAIHQVTK`,
         },
       });
     }
-    console.log('step 1')
     delay("SEQUENCE_INPUT_CHANGE", this.handleChange, 1000);
   }
   render() {
@@ -284,12 +277,10 @@ LAHAIHQVTK`,
 
         <div className="col-lg-12">
           <Form.Group as={Row} className="mb-3" controlId="sequenceinput">
-            <Form.Label>
-              <h2>Sequence</h2>
-            </Form.Label>
+        
             <Col sm={12}>
               <OverlayTrigger
-                placement="right"
+                placement="bottom"
                 delay={{ show: 250, hide: 400 }}
                 overlay={renderTooltip}
               >

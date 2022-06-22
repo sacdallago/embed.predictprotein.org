@@ -64,17 +64,6 @@ class App extends React.Component {
     const { classes } = this.props;
     return (
       <div className="App">
-        {console.log(process.env.PUBLIC_URL)}
-        <Navbar bg="dark" variant="dark">
-          <Container>
-            <Navbar.Brand href="#home"> </Navbar.Brand>
-            <Nav className="me-auto">
-              <Nav.Link href="https://github.com/sacdallago/bio_embeddings">
-                Code
-              </Nav.Link>
-            </Nav>
-          </Container>
-        </Navbar>
 
         <Container>
           <SequenceInput />
@@ -86,7 +75,6 @@ class App extends React.Component {
         
         <div className="row mb-5"></div>
 
-        <div className="row mb-5"></div>
         <div className="col-lg-12">
           <Container>
             <Cite />

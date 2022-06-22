@@ -27,26 +27,47 @@ import { Provider } from "react-redux";
 import { store } from "./stores/index";
 import ReactGA from "react-ga";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { BrowserRouter as Router, Route, Routes, Switch } from "react-router-dom";
-import {PrintPage} from "./components";
-import { NavLink } from "react-bootstrap";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  Switch,
+} from "react-router-dom";
+import { PrintPage } from "./components";
+import { createBrowserHistory } from "history";
+import { Nav, Navbar, NavLink, Container } from "react-bootstrap";
 
 ReactGA.initialize(process.env.REACT_GA || "UA-137257046-2");
+const history = createBrowserHistory();
 
 ReactDOM.render(
-
   <Provider store={store}>
+    <Navbar bg="dark" variant="dark">
+      <Container>
+        <Navbar.Brand href="#home"> </Navbar.Brand>
+        <Nav className="me-auto">
+          <Nav.Link href="https://github.com/sacdallago/bio_embeddings" target="_blank" rel="noopener noreferrer">
+            Code
+          </Nav.Link>
+        </Nav>
+      </Container>
+    </Navbar>
     <React.StrictMode>
-
-    <Router>
-    
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/printpage" element={<PrintPage />} />
-    </Routes>
-  </Router>
-
-
+      <Router history={history}>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route
+            path="/printpage/:sequence"
+            element={<PrintPage />}
+            render={(features) => (
+              <PrintPage
+              features={features}
+              />
+              )
+            }
+          />
+        </Routes>
+      </Router>
     </React.StrictMode>
   </Provider>,
   document.getElementById("root")
