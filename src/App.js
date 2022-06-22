@@ -65,8 +65,6 @@ class App extends React.Component {
     return (
       <div className="App">
 
-        {console.log(process.env.PUBLIC_URL)}
-
         <Container>
           <SequenceInput />
           <SequenceStatus />
@@ -77,7 +75,6 @@ class App extends React.Component {
         
         <div className="row mb-5"></div>
 
-        <div className="row mb-5"></div>
         <div className="col-lg-12">
           <Container>
             <Cite />

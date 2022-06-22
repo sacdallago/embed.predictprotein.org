@@ -8,6 +8,8 @@ import { proteinColorSchemes } from "../utils/Graphics";
 import storeComponentWrapper from "../stores/jobDispatcher";
 import FeatureGrabber from "./FeatureGrabber";
 import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import { Spinner, Card } from "react-bootstrap";
+import StructurePrediction from "./StructurePrediction";
 
 import {
   Tabs,
@@ -36,10 +38,6 @@ import { Container } from "react-bootstrap";
 import VariationPrediction from "./VariationPrediction";
 import { Link } from "react-router-dom";
 import { Button } from "bootstrap";
-
-//import ProtvistaProteomicsdb from "./protvista-proteomicsdb/src/index.js";
-
-// TODO: Add Container everywhere except for feature viewer !!!
 
 const locations_mapping = {
   Cytoplasm: cytoplasm,
@@ -360,7 +358,7 @@ const pointMutationData = {
     "B",
   ],
 };
-
+const structurePredictionData = require("../colabfold_structure_response.json");
 
 class Features extends React.Component {
   constructor(props) {
@@ -406,10 +404,10 @@ class Features extends React.Component {
   }
 
   redirectFunction = () => {
-    console.log('redirecting')
+    console.log("redirecting");
     const navigate = useNavigate();
-    navigate('/printpage', { state: { name:'Xyz' }})
-  }
+    navigate("/printpage", { state: { name: "Xyz" } });
+  };
 
   render() {
     let features =
@@ -419,6 +417,26 @@ class Features extends React.Component {
 
     return (
       <div>
+        {this.state.loading !== null &&
+          "predictedBPOGraphDataString" in features && (
+            <div>
+              <Container style={{ textAlign: "center" }}>
+                <Card>
+                  <Card.Body>
+                    <span>
+                      <h5>Getting the results...</h5>
+                    </span>
+                    <Spinner
+                      animation="border"
+                      variant="primary"
+                      role="status"
+                    ></Spinner>
+                  </Card.Body>
+                </Card>
+                <div className="row mb-5"></div>
+              </Container>
+            </div>
+          )}
         <Container>
           {this.state.loading !== null && (
             <div className="row mb-5">
@@ -440,11 +458,11 @@ class Features extends React.Component {
           {this.state.loading !== null && (
             <div className="row mb-5">
               <div className="col-lg-12">
-                <MDBTypography tag="h4">Protein-level features</MDBTypography>
+                <MDBTypography tag="h4">Protein-Level Features</MDBTypography>
               </div>
 
               <Tabs defaultActiveKey="ml" className="mb-3">
-                <Tab eventKey="ml" title="Subcellular location">
+                <Tab eventKey="ml" title="Subcellular Location">
                   <div class="row">
                     <div className="col-md-7">
                       <img
@@ -788,7 +806,7 @@ class Features extends React.Component {
               <div className="col-lg-12">
                 <div className="row mb-5"></div>
                 <MDBTypography style={{ textAlign: "center" }} tag="h4">
-                  Residue-level features
+                  Residue-Level Features
                 </MDBTypography>
               </div>
 
@@ -803,7 +821,7 @@ class Features extends React.Component {
               >
                 <Tab
                   eventKey="DSSP3"
-                  title="Secondary structure in three states (DSSP3)"
+                  title="Secondary Structure in Three States (DSSP3)"
                 >
                   {features.predictedDSSP3 && (
                     <div className="row mb-5">
@@ -820,7 +838,7 @@ class Features extends React.Component {
                 </Tab>
                 <Tab
                   eventKey="DSSP8"
-                  title="Secondary structure in eight states (DSSP8)"
+                  title="Secondary Structure in Eight States (DSSP8)"
                 >
                   {features.predictedDSSP8 && (
                     <div className="row mb-5">
@@ -835,7 +853,7 @@ class Features extends React.Component {
                     </div>
                   )}
                 </Tab>
-                <Tab eventKey="disorder" title="Disorder prediction">
+                <Tab eventKey="disorder" title="Disorder Prediction">
                   {features.predictedDisorder && (
                     <div className="row mb-5">
                       <div className="col-lg-12">
@@ -851,7 +869,7 @@ class Features extends React.Component {
                 </Tab>
                 <Tab
                   eventKey="variationPrediction"
-                  title="Variation prediction"
+                  title="Variation Prediction"
                 >
                   <Container style={{ textAlign: "center" }}>
                     <VariationPrediction data={pointMutationData} />
@@ -860,9 +878,9 @@ class Features extends React.Component {
 
                 <Tab
                   eventKey="conservationPrediction"
-                  title="Conservation prediction"
+                  title="Conservation Prediction"
                 >
-                  <div className="row mb-5">Soon...</div>
+                  <div className="row mb-5"></div>
                 </Tab>
               </Tabs>
             </div>
@@ -876,12 +894,18 @@ class Features extends React.Component {
                 Sequence Structure
               </MDBTypography>
             </div>
-            Soon...
+            <div className="row mb-5"></div>
+            <div>
+              <StructurePrediction data={structurePredictionData} />
+            </div>
+            <div className="row mb-5"></div>
           </Container>
         )}
 
         <div>
           {this.state.loading !== null && (
+            <div></div>
+            /*
             <div className="col-lg-12">
               <div className="row mb-5"></div>
               <Container style={{ textAlign: "center" }}>
@@ -889,23 +913,19 @@ class Features extends React.Component {
                   <Link
                     to={{
                       pathname: `/printpage/${this.state.sequence}`,
-                      query: this.state.features, 
+                      state: { foo: 'bar'}
                     }}
-                    props={{
-                      features: this.state.features
-                    }}
-                    onClick={this.redirectFunction}
+                    reloadDocument={false}
+                    state={{ test: "test" }}
+                    onClick={() => useNavigate(`/printpage/${this.state.sequence}`)}
                   >
                     Press here to get the printed output.
                   </Link>
                  
                 </Alert>
-
-                <button
-                  onClick={this.redirectFunction}
-                  >go to page</button>
               </Container>
             </div>
+            */
           )}
         </div>
 

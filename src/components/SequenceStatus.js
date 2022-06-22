@@ -2,9 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import storeComponentWrapper from "../stores/jobDispatcher";
 import { proteinStatus } from "../stores/JobParameters";
-import { Spinner } from "react-bootstrap";
-import { Alert } from "react-bootstrap";
-import { Card } from "react-bootstrap";
+import { Spinner, Container, Alert, Card } from "react-bootstrap";
+
 
 class SequenceStatus extends React.Component {
   constructor(props) {
@@ -14,6 +13,7 @@ class SequenceStatus extends React.Component {
       proteinStatus:
         this.props.jobParameters.proteinStatus || proteinStatus.NULL,
     };
+    console.log(this.state)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,18 +73,15 @@ class SequenceStatus extends React.Component {
       case proteinStatus.LOADING:
         return (
           <div className="col-lg-12">
-            <Card>
-              <Card.Body>
-                <span>
-                  <h5>Checking validity....</h5>
-                </span>
+            <Container style={{ textAlign: "center" }}>
+            <Alert key="secondary" variant="secondary">
                 <Spinner
                   animation="border"
                   variant="primary"
                   role="status"
                 ></Spinner>
-              </Card.Body>
-            </Card>
+             </Alert>
+            </Container>
           </div>
         );
       case proteinStatus.MULTIPLESEQUENCES:

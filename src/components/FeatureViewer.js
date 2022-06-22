@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 class FeatureViewer extends React.Component {
 
     componentDidMount(){
+        console.log('comp did mount')
         if(this.props.data !== null){
             this.ft = new window.FeatureViewer(this.props.data.sequence,
                 '#fv1',
@@ -53,6 +54,7 @@ class FeatureViewer extends React.Component {
 
 
     componentWillReceiveProps(newProps){
+        console.log('comp rec props')
         if(newProps.data !== null){
             this.ft && this.ft.clearInstance();
             delete this.ft;
@@ -68,14 +70,13 @@ class FeatureViewer extends React.Component {
                 zoomMax:50 //define the maximum range of the zoom
             });
             
-            
-            /*
             this.ft.onFeatureSelected(function (d) {
-                    console.log(d.detail);
+                    console.log('start')
+                    console.log(d.detail.start);
+                    console.log('end')
+                    console.log(d.detail.end);
                 });
-            */
-
-            
+    
 
             if(newProps.data.predictedDisorder){
                 let disorder = this.findIndexes(newProps.data.predictedDisorder, ['X']);

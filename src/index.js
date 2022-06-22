@@ -46,7 +46,7 @@ ReactDOM.render(
       <Container>
         <Navbar.Brand href="#home"> </Navbar.Brand>
         <Nav className="me-auto">
-          <Nav.Link href="https://github.com/sacdallago/bio_embeddings">
+          <Nav.Link href="https://github.com/sacdallago/bio_embeddings" target="_blank" rel="noopener noreferrer">
             Code
           </Nav.Link>
         </Nav>
@@ -59,9 +59,9 @@ ReactDOM.render(
           <Route
             path="/printpage/:sequence"
             element={<PrintPage />}
-            render={(props) => (
+            render={(features) => (
               <PrintPage
-              {...props}
+              features={features}
               />
               )
             }

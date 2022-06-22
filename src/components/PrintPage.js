@@ -5,10 +5,9 @@ import PropTypes from "prop-types";
 import { proteinStatus } from "../stores/JobParameters";
 import { resultStatus } from "../stores/JobResults";
 import { proteinColorSchemes } from "../utils/Graphics";
-import { useLocation,useParams } from "react-router-dom";
+import { useLocation,useParams, withRouter } from "react-router-dom";
 import { MDBTypography } from "mdb-react-ui-kit";
 import { Container } from "react-bootstrap";
-
 
 const url = "/printpage";
 
@@ -18,10 +17,12 @@ const placeholder = {
   };
 
 const PrintPage = (props) => {
-  
+
   console.log(useLocation())
   let sequence = useLocation().pathname.split('/')[2]
   console.log(props)
+ 
+  
   return (
     <>
      <div className="row mb-5"></div>
