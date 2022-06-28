@@ -1,8 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Container } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 
 class StructurePrediction extends React.Component {
+
+  selectFeature() {
+    console.log(this.viewerInstance)
+    this.viewerInstance.visual.select({ data: [{ struct_asym_id: 'B', start_residue_number: 1, end_residue_number: 2, color:{r:255,g:255,b:0}, focus: true }]})
+  };
+
+
   componentWillReceiveProps(newProps) {
     var data = newProps.data;
 
@@ -21,7 +28,7 @@ class StructurePrediction extends React.Component {
       },
       hideControls: true,
       visualStyle: "cartoon",
-      hideCanvasControls: ["animation", "controlToggle", "controlInfo"],
+      hideCanvasControls: ['expand', 'selection', 'animation', 'controlToggle', 'controlInfo'],
       alphafoldView: true,
       bgColor: {
         b: 255,
@@ -32,8 +39,10 @@ class StructurePrediction extends React.Component {
 
     //Get element from HTML/Template to place the viewer
     var viewerContainer = document.getElementById("myViewer");
+
     //Call render method to display the 3D view
     viewerInstance.render(viewerContainer, options);
+
 
     //Select/Highlight not working?
     viewerInstance.visual.select({
@@ -43,14 +52,20 @@ class StructurePrediction extends React.Component {
           struct_asym_id: "A",
           start_residue_number: 1,
           end_residue_number: 5,
+          start: 1,
+          end: 5
         },
       ],
     });
+
   }
 
   render() {
     return (
-            <div id="myViewer" style={{ textAlign: 'center', float: 'inherit', width: '1296px', height: '700px', position: 'relative' }}></div>
+     
+      <div id="myViewer" style={{ textAlign: 'center', float: 'inherit', width: '1296px', height: '700px', position: 'relative' }}>
+      <Button onClick={console.log(14)}>click</Button>
+      </div>
     );
   }
 }

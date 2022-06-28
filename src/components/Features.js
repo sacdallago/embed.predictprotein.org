@@ -440,22 +440,7 @@ class Features extends React.Component {
             </div>
           )}
         <Container>
-        {this.state.loading !== null && this.state.proteinStatus != 0 && (
-          <Container>
-            <div className="col-lg-12">
-              <MDBTypography style={{ textAlign: "center" }} tag="h4">
-                Sequence Structure
-              </MDBTypography>
-            </div>
-            <div className="row mb-5"></div>
-            <div>
-              <StructurePrediction data={structurePredictionData} />
-            </div>
-            <div className="row mb-5"></div>
-          </Container>
-        )}
-          <div>
-            {this.state.loading !== null && (
+        {this.state.loading !== null && (
               <div> </div>
               /*
             <div className="col-lg-12">
@@ -479,6 +464,9 @@ class Features extends React.Component {
             </div>
             */
             )}
+ 
+          <div>
+            
           </div>
           {this.state.loading !== null && this.state.proteinStatus != 0 && (
             <div className="row mb-5">
@@ -497,7 +485,7 @@ class Features extends React.Component {
                           ]
                         }
                         alt="Subcell Location"
-                        height={300}
+                        height={390}
                       />
                     </div>
                     <div className="col-md-5">
@@ -864,7 +852,28 @@ class Features extends React.Component {
             </div>
           )}
         </Container>
-
+        {this.state.loading !== null && this.state.proteinStatus != 0 && (
+          <Container>
+            <div className="col-lg-12">
+              <MDBTypography style={{ textAlign: "center" }} tag="h4">
+                Sequence Structure
+              </MDBTypography>
+            </div>
+            <div className="row mb-5"></div>
+            <div>
+              <StructurePrediction data={structurePredictionData} />
+            </div>
+            <div className="row mb-5"></div>
+          </Container>
+        )}
+         {this.state.loading !== null && this.state.proteinStatus != 0 && (
+          <div>
+            <Container style={{ textAlign: "justify" }}>
+        <FeatureViewer data={this.state.features} />
+              <div className="row mb-5"> </div>
+              </Container>
+              </div>
+              )}
         {this.state.loading !== null && this.state.proteinStatus != 0 && (
           <Container style={{ textAlign: "justify" }}>
             <div className="row mb-5">
@@ -875,8 +884,77 @@ class Features extends React.Component {
                 </MDBTypography>
               </div>
 
-              <FeatureViewer data={this.state.features} />
-              <div className="row mb-5"> </div>
+              
+              
+
+              <Tabs
+                defaultActiveKey="variationPrediction"
+                id="uncontrolled-tab-example"
+                className="mb-3"
+              >
+                {features.predictedDSSP3 && (
+                  <div></div>
+                  /*
+                    <div className="row mb-5">
+                      <div className="col-lg-12">
+                        <div>
+                          <SequenceHighlighter
+                            string={features.predictedDSSP3}
+                            proteinColorScheme={proteinColorSchemes["dssp8"]}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    */
+                )}
+
+                {features.predictedDSSP8 && (
+                  <div></div>
+                  /*
+                    <div className="row mb-5">
+                      <div className="col-lg-12">
+                        <div>
+                          <SequenceHighlighter
+                            string={features.predictedDSSP8}
+                            proteinColorScheme={proteinColorSchemes["dssp8"]}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    */
+                )}
+
+                {features.predictedDisorder && (
+                  <div></div>
+                  /*
+                    <div className="row mb-5">
+                      <div className="col-lg-12">
+                        <div>
+                          <SequenceHighlighter
+                            string={features.predictedDisorder}
+                            proteinColorScheme={proteinColorSchemes["disorder"]}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    */
+                )}
+                <Tab
+                  eventKey="variationPrediction"
+                  title="Variant Effect Prediction"
+                >
+                  <Container style={{ textAlign: "center" }}>
+                    <VariationPrediction data={pointMutationData} />
+                  </Container>
+                </Tab>
+
+                <Tab
+                  eventKey="conservationPrediction"
+                  title="Conservation Prediction"
+                >
+                  <div className="row mb-5"></div>
+                </Tab>
+              </Tabs>
               <Accordion>
                 <Accordion.Item eventKey="0">
                   <Accordion.Header>Help</Accordion.Header>
@@ -986,75 +1064,6 @@ class Features extends React.Component {
                 </Accordion.Item>
               </Accordion>
               <div className="row mb-5"> </div>
-
-              <Tabs
-                defaultActiveKey="variationPrediction"
-                id="uncontrolled-tab-example"
-                className="mb-3"
-              >
-                {features.predictedDSSP3 && (
-                  <div></div>
-                  /*
-                    <div className="row mb-5">
-                      <div className="col-lg-12">
-                        <div>
-                          <SequenceHighlighter
-                            string={features.predictedDSSP3}
-                            proteinColorScheme={proteinColorSchemes["dssp8"]}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    */
-                )}
-
-                {features.predictedDSSP8 && (
-                  <div></div>
-                  /*
-                    <div className="row mb-5">
-                      <div className="col-lg-12">
-                        <div>
-                          <SequenceHighlighter
-                            string={features.predictedDSSP8}
-                            proteinColorScheme={proteinColorSchemes["dssp8"]}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    */
-                )}
-
-                {features.predictedDisorder && (
-                  <div></div>
-                  /*
-                    <div className="row mb-5">
-                      <div className="col-lg-12">
-                        <div>
-                          <SequenceHighlighter
-                            string={features.predictedDisorder}
-                            proteinColorScheme={proteinColorSchemes["disorder"]}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    */
-                )}
-                <Tab
-                  eventKey="variationPrediction"
-                  title="Variation Prediction"
-                >
-                  <Container style={{ textAlign: "center" }}>
-                    <VariationPrediction data={pointMutationData} />
-                  </Container>
-                </Tab>
-
-                <Tab
-                  eventKey="conservationPrediction"
-                  title="Conservation Prediction"
-                >
-                  <div className="row mb-5"></div>
-                </Tab>
-              </Tabs>
             </div>
           </Container>
         )}
