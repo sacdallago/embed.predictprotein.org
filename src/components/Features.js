@@ -359,6 +359,7 @@ const pointMutationData = {
   ],
 };
 const structurePredictionData = require("../colabfold_structure_response.json");
+//const structurePredictionData = require("http://data.bioembeddings.com/public/tmp/colabfold_structure_response.json");
 
 class Features extends React.Component {
   constructor(props) {
@@ -375,6 +376,28 @@ class Features extends React.Component {
   }
 
   setFeatures = (embedder, results) => {
+    /*
+    console.log('before fetch')
+    fetch('http://data.bioembeddings.com/public/tmp/colabfold_structure_response.json', {
+      method: "POST",
+      mode: "cors", // no-cors, cors, *same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+          "Content-Type": "application/json",
+          "Access-Control-Allow-Origin" : "*", 
+          "Access-Control-Allow-Credentials" : true 
+      },
+      redirect: "follow", // manual, *follow, error
+      referrer: "no-referrer", // no-referrer, *client
+     }
+    )
+    .then(response => {
+      console.log(response)
+      response.json()})
+    
+    console.log('after fetch')
+      */
     // Base off of ProtT5
     let features = { ...results["prottrans_t5_xl_u50"] };
 
@@ -440,34 +463,7 @@ class Features extends React.Component {
             </div>
           )}
         <Container>
-        {this.state.loading !== null && (
-              <div> </div>
-              /*
-            <div className="col-lg-12">
-              <Container style={{ textAlign: "center" }}>
-                <Alert key="secondary" variant="secondary">
-                  <Link
-                    to={{
-                      pathname: `/printpage/${this.state.sequence}`,
-                      state: { foo: 'bar'}
-                    }}
-                    reloadDocument={false}
-                    state={{ test: "test" }}
-                    onClick={() => useNavigate(`/printpage/${this.state.sequence}`)}
-                  >
-                    Press here to get the printed output.
-                  </Link>
-                 
-                </Alert>
-              </Container>
-              <div className="row mb-5"></div>
-            </div>
-            */
-            )}
- 
-          <div>
-            
-          </div>
+          <div></div>
           {this.state.loading !== null && this.state.proteinStatus != 0 && (
             <div className="row mb-5">
               <div className="col-lg-12">
@@ -511,46 +507,42 @@ class Features extends React.Component {
                         </MDBTypography>
                         <br />
                         <MDBTypography>
-                          The output of goPredSim is a list of Gene Ontology
-                          (GO) terms. GO thrives to capture the complexity of
-                          protein function and standardize the vocabulary used
-                          to describe those in a human- and machine-readable
-                          manner. GO separates different aspects of function
-                          into three hierarchies: MFO (Molecular Function
-                          Ontology), BPO (biological process ontology), and CCO
-                          (cellular component(s) or subcellular localization(s)
-                          in which the protein acts). Each ontology is a rooted
-                          graph in which each node represents a GO term and each
-                          link a functional relationship. Thus, the prediction
-                          of our method can be seen as three subgraphs of the
-                          full ontologies. These three subgraphs are displayed
-                          below the tabular result. Often, the tabular result
-                          only contain very specific functional terms not
-                          reflecting the more general role of the protein that
-                          can be inferred by going to the root of the ontology.
-                          The graphical results show such terms (predicted:
-                          yellow boxes, inferred: white boxes).
+                          LocTree3 predicts the sub-cellular localization for
+                          all proteins in all domains of life. Water-soluble
+                          globular and trans-membrane proteins are predicted in
+                          one 18 classes in Eukaryota (chloroplast, chloroplast
+                          membrane, cytosol, ER, Golgi, ER membrane, Golgi
+                          membrane, extra-cellular, mitochondria, mitochondria
+                          membrane, nucleus, nucleus membrane, peroxisome,
+                          peroxisome membrane, plasma membrane, plastid, vacuole
+                          and vacuole membrane), 6 classes in Bacteria (cytosol,
+                          extra-cellular, fimbrium, outer membrane, periplasmic
+                          space and plasma membrane) and 3 classes in Archaea
+                          (cytosol, extra-cellular and plasma membrane). Each
+                          prediction is accompanied by a confidence score
+                          (ranging from 0=unreliable to 100=reliable) and a Gene
+                          Ontology term of the predicted localization class.
                         </MDBTypography>
 
                         <br />
-                    <MDBTypography variant={"body2"}>
-                      <h5>Cite</h5>
-                    </MDBTypography>
-                    <br />
-                    <MDBTypography>
-                    Light-Attention:{" "}
-                            {
-                              <a
-                                href={
-                                  "https://academic.oup.com/bioinformaticsadvances/article/1/1/vbab035/6432029"
-                                }
-                                target={"_blank"}
-                                ref={"author"}
-                              >
-                                 https://academic.oup.com/bioinformaticsadvances/article/1/1/vbab035/6432029
-                              </a>
-                            }
-                    </MDBTypography>
+                        <MDBTypography variant={"body2"}>
+                          <h5>Cite</h5>
+                        </MDBTypography>
+                        <br />
+                        <MDBTypography>
+                          Light-Attention:{" "}
+                          {
+                            <a
+                              href={
+                                "https://academic.oup.com/bioinformaticsadvances/article/1/1/vbab035/6432029"
+                              }
+                              target={"_blank"}
+                              ref={"author"}
+                            >
+                              https://academic.oup.com/bioinformaticsadvances/article/1/1/vbab035/6432029
+                            </a>
+                          }
+                        </MDBTypography>
                       </Accordion.Body>
                     </Accordion.Item>
                   </Accordion>
@@ -747,6 +739,18 @@ class Features extends React.Component {
                         </Table>
                       )}
                   </div>
+
+                  {Object.keys(features.predictedBPO).length == 0 &&
+                    Object.keys(features.predictedCCO).length == 0 &&
+                    Object.keys(features.predictedMFO).length == 0 && (
+                      <div>
+                        <br />
+                        <MDBTypography variant={"body2"}>
+                          <h5>No GO predictions found!</h5>
+                        </MDBTypography>
+                        <br />
+                      </div>
+                    )}
                   <div className="row mb-5"> </div>
                   <div className="row mb-5">
                     <Accordion>
@@ -866,14 +870,14 @@ class Features extends React.Component {
             <div className="row mb-5"></div>
           </Container>
         )}
-         {this.state.loading !== null && this.state.proteinStatus != 0 && (
+        {this.state.loading !== null && this.state.proteinStatus != 0 && (
           <div>
             <Container style={{ textAlign: "justify" }}>
-        <FeatureViewer data={this.state.features} />
+              <FeatureViewer data={this.state.features} />
               <div className="row mb-5"> </div>
-              </Container>
-              </div>
-              )}
+            </Container>
+          </div>
+        )}
         {this.state.loading !== null && this.state.proteinStatus != 0 && (
           <Container style={{ textAlign: "justify" }}>
             <div className="row mb-5">
@@ -883,9 +887,6 @@ class Features extends React.Component {
                   Residue-Landscape Features
                 </MDBTypography>
               </div>
-
-              
-              
 
               <Tabs
                 defaultActiveKey="variationPrediction"
@@ -1032,33 +1033,28 @@ class Features extends React.Component {
                     </MDBTypography>
                     <br />
                     <MDBTypography>
-                    ProtTrans:{" "}
-                            {
-                              <a
-                                href={
-                                  "https://ieeexplore.ieee.org/document/9477085"
-                                }
-                                target={"_blank"}
-                                ref={"author"}
-                              >
-                                https://ieeexplore.ieee.org/document/9477085
-                              </a>
-                            }
-                          <MDBTypography>
-                          VESPA: {" "}
-                            {
-                              <a
-                                href={
-                                  "https://doi.org/10.1007/s00439-021-02411-y"
-                                }
-                                target={"_blank"}
-                                ref={"author"}
-                              >
-                                https://doi.org/10.1007/s00439-021-02411-y
-                              </a>
-                            }
-                          </MDBTypography>
-                      
+                      ProtTrans:{" "}
+                      {
+                        <a
+                          href={"https://ieeexplore.ieee.org/document/9477085"}
+                          target={"_blank"}
+                          ref={"author"}
+                        >
+                          https://ieeexplore.ieee.org/document/9477085
+                        </a>
+                      }
+                      <MDBTypography>
+                        VESPA:{" "}
+                        {
+                          <a
+                            href={"https://doi.org/10.1007/s00439-021-02411-y"}
+                            target={"_blank"}
+                            ref={"author"}
+                          >
+                            https://doi.org/10.1007/s00439-021-02411-y
+                          </a>
+                        }
+                      </MDBTypography>
                     </MDBTypography>
                   </Accordion.Body>
                 </Accordion.Item>
@@ -1066,6 +1062,29 @@ class Features extends React.Component {
               <div className="row mb-5"> </div>
             </div>
           </Container>
+        )}
+
+        {this.state.loading !== null && (
+          <div className="col-lg-12">
+            <Container style={{ textAlign: "center" }}>
+              <Alert key="secondary" variant="secondary">
+                <Link
+                  to={{
+                    pathname: `/printpage/${this.state.sequence}`,
+                    state: { foo: "bar" },
+                  }}
+                  reloadDocument={false}
+                  state={{ test: "test" }}
+                  onClick={() =>
+                    useNavigate(`/printpage/${this.state.sequence}`)
+                  }
+                >
+                  Press here to get the printed output.
+                </Link>
+              </Alert>
+            </Container>
+            <div className="row mb-5"></div>
+          </div>
         )}
         <FeatureGrabber />
       </div>
