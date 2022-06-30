@@ -71,6 +71,8 @@ class StructurePrediction extends React.Component {
      
       <>
         {this.viewerInstance != null && (
+          <div></div>
+          /*
         <Button onClick={() => {
           console.log('in click function')
           this.viewerInstance.visual.select({ data: [
@@ -84,6 +86,7 @@ class StructurePrediction extends React.Component {
             },
           ]})
         }}>Click</Button>
+        */
       )}
       
       <div id="myViewer" style={{ textAlign: 'center', float: 'inherit', width: '1296px', height: '700px', position: 'relative' }}>

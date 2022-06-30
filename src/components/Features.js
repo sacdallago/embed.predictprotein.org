@@ -893,53 +893,6 @@ class Features extends React.Component {
                 id="uncontrolled-tab-example"
                 className="mb-3"
               >
-                {features.predictedDSSP3 && (
-                  <div></div>
-                  /*
-                    <div className="row mb-5">
-                      <div className="col-lg-12">
-                        <div>
-                          <SequenceHighlighter
-                            string={features.predictedDSSP3}
-                            proteinColorScheme={proteinColorSchemes["dssp8"]}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    */
-                )}
-
-                {features.predictedDSSP8 && (
-                  <div></div>
-                  /*
-                    <div className="row mb-5">
-                      <div className="col-lg-12">
-                        <div>
-                          <SequenceHighlighter
-                            string={features.predictedDSSP8}
-                            proteinColorScheme={proteinColorSchemes["dssp8"]}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    */
-                )}
-
-                {features.predictedDisorder && (
-                  <div></div>
-                  /*
-                    <div className="row mb-5">
-                      <div className="col-lg-12">
-                        <div>
-                          <SequenceHighlighter
-                            string={features.predictedDisorder}
-                            proteinColorScheme={proteinColorSchemes["disorder"]}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                    */
-                )}
                 <Tab
                   eventKey="variationPrediction"
                   title="Variant Effect Prediction"
@@ -1074,10 +1027,7 @@ class Features extends React.Component {
                     state: { foo: "bar" },
                   }}
                   reloadDocument={false}
-                  state={{ test: "test" }}
-                  onClick={() =>
-                    useNavigate(`/printpage/${this.state.sequence}`)
-                  }
+                  state={{ features: features }}
                 >
                   Press here to get the printed output.
                 </Link>
