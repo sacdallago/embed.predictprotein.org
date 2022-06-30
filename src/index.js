@@ -32,6 +32,7 @@ import {
   Route,
   Routes,
   Switch,
+  HashRouter
 } from "react-router-dom";
 import { PrintPage } from "./components";
 import { createBrowserHistory } from "history";
@@ -53,21 +54,21 @@ ReactDOM.render(
       </Container>
     </Navbar>
     <React.StrictMode>
-      <Router history={history}>
+      <HashRouter history={history}>
         <Routes>
           <Route path="/" element={<App />} />
           <Route
             path="/printpage/:sequence"
-            element={<PrintPage />}
+            element={<PrintPage/>}
             render={(features) => (
               <PrintPage
-              features={features}
+              {...features}
               />
               )
             }
           />
         </Routes>
-      </Router>
+      </HashRouter>
     </React.StrictMode>
   </Provider>,
   document.getElementById("root")

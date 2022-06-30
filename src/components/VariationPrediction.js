@@ -22,11 +22,13 @@ class VariationPrediction extends React.Component {
       modebar: {
         remove: ["zoom", "zoomin", "zoomout", "autoscale", "reset", "lasso"],
       },
+
+
+      
+
       xaxis: {
         tickmode: "linear",
         automargin: false,
-
-        //autorange: false,
 
         range: [0, (x_labels.length / 3) ],
 
@@ -36,13 +38,20 @@ class VariationPrediction extends React.Component {
 
         zeroline: false,
         showline: true,
+        title: 'sequence position',
+        
       },
       
       yaxis: {
         tickmode: "linear",
         fixedrange: true,
         showline: true,
+        title: 'mutant'
       },
+
+      zaxis: {
+        title: 'effect score'
+      }
     };
 
     var config = {
@@ -81,6 +90,11 @@ class VariationPrediction extends React.Component {
           ],
           y: data.y_axis,
           hoverongaps: false,
+          hovertemplate:
+            "%{yaxis.title.text}: %{y}<br>" +
+            "%{xaxis.title.text}: %{x}<br>" +
+            "effect score: %{z}<br>" +
+            "<extra></extra>"
         },
       ],
       layout,

@@ -123,7 +123,7 @@ class FeatureViewer extends React.Component {
 
         this.ft.addFeature({
           data: dataDemo,
-          name: "continious",
+          name: "Conservation",
           className: "test5",
           color: "#008B8D",
           type: "line",
