@@ -36,6 +36,8 @@ import secreted from "../assets/secreted.PNG";
 
 import { Container } from "react-bootstrap";
 import VariationPrediction from "./VariationPrediction";
+import ConservationPrediction from "./ConservationPrediction";
+
 import { Link } from "react-router-dom";
 import { Button } from "bootstrap";
 
@@ -376,28 +378,8 @@ class Features extends React.Component {
   }
 
   setFeatures = (embedder, results) => {
-    /*
-    console.log('before fetch')
-    fetch('http://data.bioembeddings.com/public/tmp/colabfold_structure_response.json', {
-      method: "POST",
-      mode: "cors", // no-cors, cors, *same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
-      headers: {
-          "Content-Type": "application/json",
-          "Access-Control-Allow-Origin" : "*", 
-          "Access-Control-Allow-Credentials" : true 
-      },
-      redirect: "follow", // manual, *follow, error
-      referrer: "no-referrer", // no-referrer, *client
-     }
-    )
-    .then(response => {
-      console.log(response)
-      response.json()})
-    
-    console.log('after fetch')
-      */
+   
+
     // Base off of ProtT5
     let features = { ...results["prottrans_t5_xl_u50"] };
 
@@ -405,6 +387,7 @@ class Features extends React.Component {
       loading: results["prottrans_t5_xl_u50"].status !== resultStatus.DONE,
       features: features,
     });
+
   };
 
   componentWillReceiveProps(nextProps) {
@@ -878,6 +861,25 @@ class Features extends React.Component {
             </Container>
           </div>
         )}
+        {this.state.loading !== null && (
+          <div className="col-lg-12">
+            <Container style={{ textAlign: "center" }}>
+              <Alert key="secondary" variant="secondary">
+                <Link
+                  to={{
+                    pathname: `/printpage/${this.state.sequence}`,
+                    state: { foo: "bar" },
+                  }}
+                  reloadDocument={false}
+                  state={{ features: features }}
+                >
+                  Press here to get the printed output.
+                </Link>
+              </Alert>
+            </Container>
+            <div className="row mb-5"></div>
+          </div>
+        )}
         {this.state.loading !== null && this.state.proteinStatus != 0 && (
           <Container style={{ textAlign: "justify" }}>
             <div className="row mb-5">
@@ -889,24 +891,26 @@ class Features extends React.Component {
               </div>
 
               <Tabs
-                defaultActiveKey="variationPrediction"
+                defaultActiveKey="conservationPrediction"
                 id="uncontrolled-tab-example"
                 className="mb-3"
               >
+                <Tab
+                  eventKey="conservationPrediction"
+                  title="Conservation Prediction"
+                >
+                  <Container style={{ textAlign: "center" }}>
+                    <ConservationPrediction data={this.state.features} />
+                  </Container>
+                </Tab>
+
                 <Tab
                   eventKey="variationPrediction"
                   title="Variant Effect Prediction"
                 >
                   <Container style={{ textAlign: "center" }}>
-                    <VariationPrediction data={pointMutationData} />
+                    <VariationPrediction data={this.state.features} />
                   </Container>
-                </Tab>
-
-                <Tab
-                  eventKey="conservationPrediction"
-                  title="Conservation Prediction"
-                >
-                  <div className="row mb-5"></div>
                 </Tab>
               </Tabs>
               <Accordion>
@@ -1017,25 +1021,7 @@ class Features extends React.Component {
           </Container>
         )}
 
-        {this.state.loading !== null && (
-          <div className="col-lg-12">
-            <Container style={{ textAlign: "center" }}>
-              <Alert key="secondary" variant="secondary">
-                <Link
-                  to={{
-                    pathname: `/printpage/${this.state.sequence}`,
-                    state: { foo: "bar" },
-                  }}
-                  reloadDocument={false}
-                  state={{ features: features }}
-                >
-                  Press here to get the printed output.
-                </Link>
-              </Alert>
-            </Container>
-            <div className="row mb-5"></div>
-          </div>
-        )}
+        
         <FeatureGrabber />
       </div>
     );

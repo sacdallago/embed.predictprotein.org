@@ -82,6 +82,42 @@ class FeatureViewer extends React.Component {
         });
       }
 
+      if (newProps.data.predictedBindingMetal) {
+        let bindingMetal = this.findIndexes(newProps.data.predictedBindingMetal, ["M"]);
+
+        this.ft.addFeature({
+          data: this.findRanges(bindingMetal["M"]),
+          name: "Metal",
+          color: "#4940e6",
+          type: "rect",
+          height: 20,
+        });
+      }
+      
+      if (newProps.data.predictedBindingNucleicAcids) {
+        let bindingNucleicAcids = this.findIndexes(newProps.data.predictedBindingNucleicAcids, ["N"]);
+
+        this.ft.addFeature({
+          data: this.findRanges(bindingNucleicAcids["N"]),
+          name: "Nucleic Acids",
+          color: "#d44515",
+          type: "rect",
+          height: 20,
+        });
+      }
+
+      if (newProps.data.predictedBindingSmallMolecules) {
+        let bindingSmallMolecules = this.findIndexes(newProps.data.predictedBindingSmallMolecules, ["S"]);
+
+        this.ft.addFeature({
+          data: this.findRanges(bindingSmallMolecules["S"]),
+          name: "Small Molecules",
+          color: "#389428",
+          type: "rect",
+          height: 20,
+        });
+      }
+
       if (newProps.data.predictedDSSP3) {
         let secondaryStructure3 = this.findIndexes(
           newProps.data.predictedDSSP3,

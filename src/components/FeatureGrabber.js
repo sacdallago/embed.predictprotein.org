@@ -115,6 +115,52 @@ class FeaturesGrabber extends React.Component {
         ;
     };
 
+    getSequenceStructure = (sequence) => {
+       
+        fetch('https://api.bioembeddings.com/api/structure', {
+            method: "POST", // *GET, POST, PUT, DELETE, etc.
+            mode: "cors", // no-cors, cors, *same-origin
+            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: "same-origin", // include, *same-origin, omit
+            headers: {
+                "Content-Type": "application/json",
+            },
+            redirect: "follow", // manual, *follow, error
+            referrer: "no-referrer", // no-referrer, *client
+            body: JSON.stringify({
+                "sequence": "MALLHSARVLSGVASAFHPGLAAAASARASSWWAHVEMGPPDPILGVTEAYKRDTNSKKMNLGVGAYRDDNGKPYVLPSVRKAEAQIAAKGLDKEYLPIGGLAEFCRASAELALGENSEVVKSGRFVTVQTISGTGALRIGASFLQRFFKFSRDVFLPKPSWGNHTPIFRDAGMQLQSYRYYDPKTCGFDFTGALEDISKIPEQSVLLLHACAHNPTGVDPRPEQWKEIATVVKKRNLFAFFDMAYQGFASGDGDKDAWAVRHFIEQGINVCLCQSYAKNMGLYGERVGAFTVICKDADEAKRVESQLKILIRPMYSNPPIHGARIASTILTSPDLRKQWLQEVKGMADRIIGMRTQLVSNLKKEGSTHSWQHITDQIGMFCFTGLKPEQVERLTKEFSIYMTKDGRISVAGVTSGNVGYLAHAIHQVTK",
+                "predictor": "colabfold",
+            }), // body data type must match "Content-Type" header
+        })
+            .then(response => response.json())
+            .then(json => {
+                debugger;
+                // TODO trigger new result
+                this.props.action({
+                    type: "SET_RESULT",
+                    payload: {
+                        result: {
+                            ...json,
+                            status: resultStatus.DONE
+                        }
+                    }
+                });
+            })
+            .catch(e => {
+                console.error(e);
+
+                this.props.action({
+                    type: "SET_RESULT",
+                    payload: {
+                        result: {
+                            status: resultStatus.INVALID
+                        }
+                    }
+                });
+            })
+        ;
+    };
+
     componentWillReceiveProps(nextProps) {
         let jobParameters = nextProps.jobParameters;
         let jobResults = nextProps.jobResults;
@@ -132,6 +178,8 @@ class FeaturesGrabber extends React.Component {
                     });
                     
                     this.getFeatures(jobParameters.protein.sequence, 'prottrans_t5_xl_u50');
+                    //this.getSequenceStructure(jobParameters.protein.sequence);
+
                 }
                 break;
             case proteinStatus.LOADING:

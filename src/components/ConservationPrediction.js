@@ -1,13 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-class VariationPrediction extends React.Component {
+class ConservationPrediction extends React.Component {
   componentWillReceiveProps(newProps) {
     var receivedData = newProps;
+    if(receivedData.data.predictedConservation != undefined) {
 
-    if(receivedData.data.predictedVariation != undefined) {
-
-      let data = receivedData.data.predictedVariation
+      console.log('hereeee')
+      let data = receivedData.data.predictedConservation
 
       var x_labels = data.x_axis.map(
         (e, index) => index + 1 + " " + e
@@ -39,7 +39,6 @@ class VariationPrediction extends React.Component {
   
           zeroline: false,
           showline: true,
-          title: 'sequence position',
           
         },
         
@@ -47,18 +46,15 @@ class VariationPrediction extends React.Component {
           tickmode: "linear",
           fixedrange: true,
           showline: true,
-          title: 'mutant'
         },
   
-        zaxis: {
-          title: 'effect score'
-        }
+       
       };
   
       var config = {
         toImageButtonOptions: {
           format: "svg", // one of png, svg, jpeg, webp
-          filename: "variation",
+          filename: "conservation",
           scale: 1, // Multiply title/legend/axis/canvas sizes by this factor
         },
         scrollZoom: false,
@@ -70,7 +66,7 @@ class VariationPrediction extends React.Component {
       };
   
       this.fig = new window.Plotly.newPlot(
-        "gd",
+        "conservationPred",
         [
           {
             type: "scatter",
@@ -91,30 +87,24 @@ class VariationPrediction extends React.Component {
             ],
             y: data.y_axis,
             hoverongaps: false,
-            hovertemplate:
-              "%{yaxis.title.text}: %{y}<br>" +
-              "%{xaxis.title.text}: %{x}<br>" +
-              "effect score: %{z}<br>" +
-              "<extra></extra>"
+           
           },
         ],
         layout,
         config
       );
-    }
-    
-        
+    }        
   }
 
   render() {
-    return <div className="use-bootstrap" id={"gd"} style={{textAlign: 'center', float: 'inherit', position: 'relative'}}>
+    return <div className="use-bootstrap" id={"conservationPred"} style={{textAlign: 'center', float: 'inherit', position: 'relative'}}>
     </div>;
   }
 }
 
-VariationPrediction.propTypes = {
+ConservationPrediction.propTypes = {
   classes: PropTypes.object.isRequired,
   data: PropTypes.object,
 };
 
-export default VariationPrediction;
+export default ConservationPrediction;
