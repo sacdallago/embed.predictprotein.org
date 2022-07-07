@@ -167,8 +167,6 @@ class Features extends React.Component {
               {
                 title: "Protein-Level Features",
                 itemId: "/protein-level-features",
-                // you can use your own custom Icon component as well
-                // icon is optional
                 subNav: [
                   {
                     title: "Subcellular Location",
