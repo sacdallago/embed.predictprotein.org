@@ -10,6 +10,7 @@ import SequenceStatus from "./components/SequenceStatus";
 import { BrowserRouter as Router, Routes, Route}
     from 'react-router-dom';
 import PrintPage from "./components/PrintPage";
+import {Navigation} from 'react-minimal-side-navigation';
 
 
 const uniprotRegex =
@@ -64,7 +65,7 @@ class App extends React.Component {
     const { classes } = this.props;
     return (
       <div className="App">
-
+        
         <Container>
           <SequenceInput />
           <SequenceStatus />
