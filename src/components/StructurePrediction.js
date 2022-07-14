@@ -18,9 +18,11 @@ class StructurePrediction extends React.Component {
 
   componentWillReceiveProps(newProps) {
     var data = newProps.data;
+
     console.log(data)
+
     // Make sure data and data.structure and data.structure.pdb exist!
-    var pdbBlob = new Blob([data.structure.pdb], {
+    var pdbBlob = new Blob([data.pdb], {
       type: "text/plain",
     });
     //Create plugin instance
@@ -28,13 +30,13 @@ class StructurePrediction extends React.Component {
 
     //Set options (Checkout available options list in the documentation)
     this.options = {
-      /*
+      
       customData: {
         url: URL.createObjectURL(pdbBlob),
         format: "pdb",
       },
-      */
-      moleculeId: '2nnu',
+      
+      //moleculeId: '2nnu',
       hideControls: true,
       visualStyle: "cartoon",
       hideCanvasControls: ['expand', 'selection', 'animation', 'controlToggle', 'controlInfo'],
@@ -52,36 +54,22 @@ class StructurePrediction extends React.Component {
     //Call render method to display the 3D view
     this.viewerInstance.render(this.viewerContainer, this.options);
 
-    //Select/Highlight not working?
-    /*
-    this.viewerInstance.visual.select({
-      data: [
-        {
-          entity_id: "1",
-          struct_asym_id: "A",
-          start_residue_number: 1,
-          end_residue_number: 5,
-          start: 1,
-          end: 5
-        },
-      ],
-    });
-    */
 
   }
 
   render() {
-    console.log(this.viewerInstance)
     return (
      
       <>
         {this.viewerInstance != null && (
+          <div></div>
+          /*
         <Button onClick={(e) => {
           console.log('in click function')
           debugger;
           this.viewerInstance.visual.select({ data: [{struct_asym_id: 'B', color:{r:255,g:255,b:0}, focus:true}], nonSelectedColor: {r:255,g:255,b:255} })
         }}>Click</Button>
-        
+        */
       )}
       
       <div id="myViewer" style={{ textAlign: 'center', float: 'inherit', width: '1296px', height: '700px', position: 'relative' }}>

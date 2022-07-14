@@ -6,7 +6,6 @@ class ConservationPrediction extends React.Component {
     var receivedData = newProps;
     if(receivedData.data.predictedConservation != undefined) {
 
-      console.log('hereeee')
       let data = receivedData.data.predictedConservation
 
       var x_labels = data.x_axis.map(

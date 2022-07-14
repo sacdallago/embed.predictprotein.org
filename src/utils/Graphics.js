@@ -43,6 +43,54 @@ export const proteinColorSchemes = {
             'X':'#505050',
         }
     },
+    metal: {
+        primary : {
+            // placeholder
+            '+':'#ededed',
+
+            '-':'#ededed',
+            'M':'#4940e6',
+        },
+        contrast : {
+            // placeholder
+            '+':'#ededed',
+
+            '-':'#ededed',
+            'M':'#4940e6',
+        }
+    },
+    nucleicAcids: {
+        primary : {
+            // placeholder
+            '+':'#ededed',
+
+            '-':'#ededed',
+            'N':'#d44515',
+        },
+        contrast : {
+            // placeholder
+            '+':'#ededed',
+
+            '-':'#ededed',
+            'N':'#d44515',
+        }
+    },
+    smallMolecules: {
+        primary : {
+            // placeholder
+            '+':'#ededed',
+
+            '-':'#ededed',
+            'S':'#389428',
+        },
+        contrast : {
+            // placeholder
+            '+':'#ededed',
+
+            '-':'#ededed',
+            'S':'#389428',
+        }
+    },
     mview: {
         primary : {
             // placeholder

@@ -23,6 +23,10 @@ const placeholder = {
 
 const initial = {
     prottrans_t5_xl_u50: placeholder,
+    colabfold: {
+        status: 0,
+        structure: {}
+    }
 };
 
 function JobResults(state = initial, action) {
@@ -30,7 +34,8 @@ function JobResults(state = initial, action) {
         case 'SET_RESULT':
             return {
                 ...state,
-                [action.payload.embedder]: action.payload.result
+                [action.payload.embedder]: action.payload.result,
+                [action.payload.predictor]: action.payload.result
             };
 
         case 'RESET_RESULTS':

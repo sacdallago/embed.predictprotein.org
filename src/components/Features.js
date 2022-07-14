@@ -81,6 +81,7 @@ class Features extends React.Component {
     super(props);
 
     this.state = {
+      structureStatus: 0,
       proteinStatus:
         this.props.jobParameters.proteinStatus || proteinStatus.NULL,
       embedder: this.props.jobParameters.embedder || "seqvec",
@@ -98,9 +99,20 @@ class Features extends React.Component {
 
   setFeatures = (embedder, results) => {
     // Base off of ProtT5
-    let features = { ...results["prottrans_t5_xl_u50"] };
+    console.log(results)
+    let features = { ...results["prottrans_t5_xl_u50"], ...results["colabfold"]};
 
+    console.log("pdb" in results["colabfold"].structure)
+    if ("pdb" in results["colabfold"].structure == false) {
+      console.log('setting to 0')
+      return this.setState({
+        structureStatus: 0,
+        loading: results["prottrans_t5_xl_u50"].status !== resultStatus.DONE,
+        features: features,
+      });
+    }
     return this.setState({
+      structureStatus: 1,
       loading: results["prottrans_t5_xl_u50"].status !== resultStatus.DONE,
       features: features,
     });
@@ -151,7 +163,7 @@ class Features extends React.Component {
       this.state.loading || this.state.features === null
         ? placeholder
         : this.state.features;
-
+    console.log(features)
     return (
       <div>
         {this.state.loading !== null && this.state.proteinStatus != 0 && (
@@ -616,7 +628,7 @@ class Features extends React.Component {
             </div>
           )}
         </Container>
-        {this.state.loading !== null && this.state.proteinStatus != 0 && (
+        {this.state.loading !== null && this.state.proteinStatus != 0 && this.state.structureStatus != 0 && (
           <Container ref={this.sequenceStructureRef}>
             <div className="col-lg-12">
               <MDBTypography style={{ textAlign: "center" }} tag="h4">
@@ -625,10 +637,27 @@ class Features extends React.Component {
             </div>
             <div className="row mb-5"></div>
             <div>
-              <StructurePrediction data={structurePredictionData} />
+              <StructurePrediction data={this.state.features.structure} />
             </div>
             <div className="row mb-5"></div>
           </Container>
+        )}
+        { this.state.loading !== null && this.state.proteinStatus != 0 && this.state.structureStatus == 0 && (
+          <div className="col-lg-12">
+            
+            <Container style={{ textAlign: "center" }}>
+            <div className="col-lg-12">
+              <MDBTypography style={{ textAlign: "center" }} tag="h4">
+                Sequence Structure
+              </MDBTypography>
+            </div>
+            <div className="row mb-5"></div>
+            <MDBTypography style={{ textAlign: "center" }} tag="h6">
+                The Structure Prediction can take little time. Please wait or reload the page with the same input in couple of minutes.
+                </MDBTypography>
+            </Container>
+            <div className="row mb-5"></div>
+          </div>
         )}
         {this.state.loading !== null && this.state.proteinStatus != 0 && (
           <div>
@@ -638,7 +667,7 @@ class Features extends React.Component {
             </Container>
           </div>
         )}
-        {this.state.loading !== null && (
+        {this.state.loading !== null &&  this.state.proteinStatus != 0 &&(
           <div className="col-lg-12">
             <Container style={{ textAlign: "center" }}>
               <Alert key="secondary" variant="secondary">
@@ -797,13 +826,6 @@ class Features extends React.Component {
             </div>
           </Container>
         )}
-
-        {this.state.loading !== null && (
-          <div className="col-lg-12">
-            <button onClick={this.executeScroll}>click me</button>
-          </div>
-        )}
-
         <FeatureGrabber />
       </div>
     );

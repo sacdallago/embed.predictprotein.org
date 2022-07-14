@@ -79,6 +79,42 @@ const PrintPage = (props) => {
           </div>
         </div>
 
+        <MDBTypography tag="h4">Metal</MDBTypography>
+        <div className="row mb-5">
+          <div className="col-lg-12">
+            <div>
+              <SequenceHighlighter
+                string={features.predictedBindingMetal}
+                proteinColorScheme={proteinColorSchemes["metal"]}
+              />
+            </div>
+          </div>
+        </div>
+
+        <MDBTypography tag="h4">Nucleic acids</MDBTypography>
+        <div className="row mb-5">
+          <div className="col-lg-12">
+            <div>
+              <SequenceHighlighter
+                string={features.predictedBindingNucleicAcids}
+                proteinColorScheme={proteinColorSchemes["nucleicAcids"]}
+              />
+            </div>
+          </div>
+        </div>
+
+        <MDBTypography tag="h4">Small molecules</MDBTypography>
+        <div className="row mb-5">
+          <div className="col-lg-12">
+            <div>
+              <SequenceHighlighter
+                string={features.predictedBindingSmallMolecules}
+                proteinColorScheme={proteinColorSchemes["smallMolecules"]}
+              />
+            </div>
+          </div>
+        </div>
+
       </Container>
     </>
   );

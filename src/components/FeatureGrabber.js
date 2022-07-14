@@ -11,6 +11,7 @@ class FeaturesGrabber extends React.Component {
         super(props);
 
         this.protein = props.jobParameters.protein;
+        this.continueFetching = true;
     }
 
     processGoPredSimResults = (json) => {
@@ -86,7 +87,7 @@ class FeaturesGrabber extends React.Component {
         })
             .then(response => response.json())
             .then(json => {
-        
+                
                 // TODO trigger new result
                 this.props.action({
                     type: "SET_RESULT",
@@ -115,36 +116,50 @@ class FeaturesGrabber extends React.Component {
         ;
     };
 
+    wait(ms = 90000) { // One and a half minute
+        return new Promise(resolve => {
+          setTimeout(resolve, ms);
+        });
+      }
+    
+
     getSequenceStructure = (sequence) => {
        
         fetch('https://api.bioembeddings.com/api/structure', {
-            method: "POST", // *GET, POST, PUT, DELETE, etc.
-            mode: "cors", // no-cors, cors, *same-origin
-            cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-            credentials: "same-origin", // include, *same-origin, omit
+            method: "POST",
+            mode: "cors", 
+            cache: "no-cache", 
+            credentials: "same-origin", 
             headers: {
                 "Content-Type": "application/json",
             },
-            redirect: "follow", // manual, *follow, error
-            referrer: "no-referrer", // no-referrer, *client
+            redirect: "follow", 
+            referrer: "no-referrer", 
             body: JSON.stringify({
-                "sequence": "MALLHSARVLSGVASAFHPGLAAAASARASSWWAHVEMGPPDPILGVTEAYKRDTNSKKMNLGVGAYRDDNGKPYVLPSVRKAEAQIAAKGLDKEYLPIGGLAEFCRASAELALGENSEVVKSGRFVTVQTISGTGALRIGASFLQRFFKFSRDVFLPKPSWGNHTPIFRDAGMQLQSYRYYDPKTCGFDFTGALEDISKIPEQSVLLLHACAHNPTGVDPRPEQWKEIATVVKKRNLFAFFDMAYQGFASGDGDKDAWAVRHFIEQGINVCLCQSYAKNMGLYGERVGAFTVICKDADEAKRVESQLKILIRPMYSNPPIHGARIASTILTSPDLRKQWLQEVKGMADRIIGMRTQLVSNLKKEGSTHSWQHITDQIGMFCFTGLKPEQVERLTKEFSIYMTKDGRISVAGVTSGNVGYLAHAIHQVTK",
+                "sequence": sequence,
                 "predictor": "colabfold",
-            }), // body data type must match "Content-Type" header
+            }), 
         })
-            .then(response => response.json())
+            .then(response => {
+                return response.json()
+            })
             .then(json => {
-                debugger;
-                // TODO trigger new result
-                this.props.action({
-                    type: "SET_RESULT",
-                    payload: {
-                        result: {
-                            ...json,
-                            status: resultStatus.DONE
+                if(json.status == "OK") {
+                    this.continueFetching = false;
+                    this.props.action({
+                        type: "SET_RESULT",
+                        payload: {
+                            predictor: 'colabfold',
+                            result: {
+                                ...json,
+                                status: resultStatus.DONE
+                            }
                         }
-                    }
-                });
+                    });
+                    console.log(this.props)
+                }
+                
+
             })
             .catch(e => {
                 console.error(e);
@@ -152,6 +167,7 @@ class FeaturesGrabber extends React.Component {
                 this.props.action({
                     type: "SET_RESULT",
                     payload: {
+                        predictor: 'colabfold',
                         result: {
                             status: resultStatus.INVALID
                         }
@@ -178,7 +194,15 @@ class FeaturesGrabber extends React.Component {
                     });
                     
                     this.getFeatures(jobParameters.protein.sequence, 'prottrans_t5_xl_u50');
-                    //this.getSequenceStructure(jobParameters.protein.sequence);
+                    this.getSequenceStructure(jobParameters.protein.sequence);
+                    
+                    /*
+                    while(this.continueFetching) {
+                        this.wait();
+                        console.log('fetching once...')
+                        this.getSequenceStructure(jobParameters.protein.sequence);
+                    }
+                    */
 
                 }
                 break;
