@@ -101,9 +101,15 @@ class Features extends React.Component {
     // Base off of ProtT5
     console.log(results)
     let features = { ...results["prottrans_t5_xl_u50"], ...results["colabfold"]};
-
-    console.log("pdb" in results["colabfold"].structure)
-    if ("pdb" in results["colabfold"].structure == false) {
+    
+    if (features.sequence.length > 500) {
+      return this.setState({
+        structureStatus: -1,
+        loading: results["prottrans_t5_xl_u50"].status !== resultStatus.DONE,
+        features: features,
+      });
+    }
+    else if ("pdb" in results["colabfold"].structure == false) {
       console.log('setting to 0')
       return this.setState({
         structureStatus: 0,
@@ -166,6 +172,27 @@ class Features extends React.Component {
     console.log(features)
     return (
       <div>
+        {this.state.loading !== null &&
+          this.state.proteinStatus != 0 &&
+          "predictedBPOGraphDataString" in features && (
+            <div>
+              <Container style={{ textAlign: "center" }}>
+                <Card>
+                  <Card.Body>
+                    <span>
+                      <h5>Getting the results...</h5>
+                    </span>
+                    <Spinner
+                      animation="border"
+                      variant="primary"
+                      role="status"
+                    ></Spinner>
+                  </Card.Body>
+                </Card>
+                <div className="row mb-5"></div>
+              </Container>
+            </div>
+          )}
         {this.state.loading !== null && this.state.proteinStatus != 0 && (
           <Container style={{ textAlign: "left" }}>
           <Navigation
@@ -214,27 +241,7 @@ class Features extends React.Component {
           </Container>
         )}
 
-        {this.state.loading !== null &&
-          this.state.proteinStatus != 0 &&
-          "predictedBPOGraphDataString" in features && (
-            <div>
-              <Container style={{ textAlign: "center" }}>
-                <Card>
-                  <Card.Body>
-                    <span>
-                      <h5>Getting the results...</h5>
-                    </span>
-                    <Spinner
-                      animation="border"
-                      variant="primary"
-                      role="status"
-                    ></Spinner>
-                  </Card.Body>
-                </Card>
-                <div className="row mb-5"></div>
-              </Container>
-            </div>
-          )}
+        
         <Container>
           {this.state.loading !== null && this.state.proteinStatus != 0 && (
             <div ref={this.proteinLevelFeaturesRef} className="row mb-5">
@@ -628,7 +635,23 @@ class Features extends React.Component {
             </div>
           )}
         </Container>
-        {this.state.loading !== null && this.state.proteinStatus != 0 && this.state.structureStatus != 0 && (
+        {this.state.loading !== null && this.state.proteinStatus != 0 && this.state.structureStatus == -1 && (
+          <Container ref={this.sequenceStructureRef}>
+            <div className="col-lg-12">
+              <MDBTypography style={{ textAlign: "center" }} tag="h4">
+                Sequence Structure
+              </MDBTypography>
+            </div>
+            <div className="row mb-5"></div>
+            <div className="col-lg-12">
+              <MDBTypography style={{ textAlign: "center" }} tag="h5">
+                There is no sequence structure predictions for proteins longer than 500 AA!
+              </MDBTypography>
+            </div>
+            <div className="row mb-5"></div>
+          </Container>
+        )}
+        {this.state.loading !== null && this.state.proteinStatus != 0 && this.state.structureStatus == 1 && (
           <Container ref={this.sequenceStructureRef}>
             <div className="col-lg-12">
               <MDBTypography style={{ textAlign: "center" }} tag="h4">
@@ -637,7 +660,7 @@ class Features extends React.Component {
             </div>
             <div className="row mb-5"></div>
             <div>
-              <StructurePrediction data={this.state.features.structure} />
+              <StructurePrediction data={this.state.features.structure.pdb} />
             </div>
             <div className="row mb-5"></div>
           </Container>
@@ -653,7 +676,7 @@ class Features extends React.Component {
             </div>
             <div className="row mb-5"></div>
             <MDBTypography style={{ textAlign: "center" }} tag="h6">
-                The Structure Prediction can take little time. Please wait or reload the page with the same input in couple of minutes.
+                The Structure Prediction can take a little time. Please reload the page with the same input in a couple of minutes.
                 </MDBTypography>
             </Container>
             <div className="row mb-5"></div>

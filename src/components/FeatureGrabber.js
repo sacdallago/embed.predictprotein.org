@@ -194,7 +194,10 @@ class FeaturesGrabber extends React.Component {
                     });
                     
                     this.getFeatures(jobParameters.protein.sequence, 'prottrans_t5_xl_u50');
-                    this.getSequenceStructure(jobParameters.protein.sequence);
+
+                    if(jobParameters.protein.sequence.length <= 500){
+                        this.getSequenceStructure(jobParameters.protein.sequence);
+                    }
                     
                     /*
                     while(this.continueFetching) {

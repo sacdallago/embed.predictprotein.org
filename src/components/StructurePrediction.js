@@ -22,7 +22,7 @@ class StructurePrediction extends React.Component {
     console.log(data)
 
     // Make sure data and data.structure and data.structure.pdb exist!
-    var pdbBlob = new Blob([data.pdb], {
+    var pdbBlob = new Blob([data], {
       type: "text/plain",
     });
     //Create plugin instance
