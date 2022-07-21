@@ -30,8 +30,8 @@ class VariationPrediction extends React.Component {
         xaxis: {
           tickmode: "linear",
           automargin: false,
-  
-          range: [0, (x_labels.length / (x_labels.length / 90)) ],
+          tickangle: 'auto',
+          range: [0, (x_labels.length / (x_labels.length / 70))],
   
           showgrid: true,
           spikedash: 'solid',
