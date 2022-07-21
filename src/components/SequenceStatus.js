@@ -12,7 +12,7 @@ class SequenceStatus extends React.Component {
 
         this.state = {
             proteinStatus: this.props.jobParameters.proteinStatus || proteinStatus.NULL,
-            jobResultsStatus: this.props.jobResults.status || resultStatus.NULL
+            jobResultsStatus: this.props.jobResults.prottrans_t5_xl_u50?.status || resultStatus.NULL
         };
     }
 
@@ -22,7 +22,7 @@ class SequenceStatus extends React.Component {
 
         this.setState({
             proteinStatus: jobParameters.proteinStatus,
-            jobResultsStatus: jobResults.status
+            jobResultsStatus: jobResults.prottrans_t5_xl_u50?.status
         });
     }
 
@@ -56,7 +56,7 @@ class SequenceStatus extends React.Component {
                 } else {
                     return (
                         <div>
-                            <Alert key="success" variant="success">
+                            <Alert key="warning" variant="warning">
                                 Valid identifier passed. We are beaming the results from our server to your computer...
                             </Alert>
                         </div>
@@ -75,7 +75,7 @@ class SequenceStatus extends React.Component {
                 } else {
                     return (
                         <div>
-                            <Alert key="success" variant="success">
+                            <Alert key="warning" variant="warning">
                                 Valid sequence passed. We are beaming the results from our server to your computer...
                             </Alert>
                         </div>

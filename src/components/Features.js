@@ -174,6 +174,14 @@ class Features extends React.Component {
     }
   };
 
+  checkJobStatus() {
+    return (
+        this.state.proteinStatus !== proteinStatus.INVALID &&
+        this.state.proteinStatus !== proteinStatus.NULL &&
+        this.state.proteinStatus !== proteinStatus.LOADING
+    )
+  }
+
   render() {
     let features =
         this.state.loading || this.state.features === null
@@ -183,9 +191,7 @@ class Features extends React.Component {
     return (
         <div>
           {
-            this.state.loading !== null &&
-            this.state.proteinStatus !== proteinStatus.INVALID &&
-            this.state.proteinStatus !== proteinStatus.LOADING &&
+            this.checkJobStatus() &&
             (
                 <div>
                   <h3>Predicted features</h3>
@@ -222,9 +228,7 @@ class Features extends React.Component {
             )
           }
           {
-            this.state.loading !== null &&
-            this.state.proteinStatus !== proteinStatus.INVALID &&
-            this.state.proteinStatus !== proteinStatus.LOADING &&
+            this.checkJobStatus() &&
             (
                 <div ref={this.residueLevelFeaturesRef}>
                   <MDBTypography tag="h3">Residue features</MDBTypography>
@@ -238,9 +242,7 @@ class Features extends React.Component {
             )
           }
           {
-            this.state.loading !== null &&
-            this.state.proteinStatus !== proteinStatus.INVALID &&
-            this.state.proteinStatus !== proteinStatus.LOADING &&
+            this.checkJobStatus() &&
             (
                 <Alert key="secondary" variant="secondary" style={{textAlign: "center"}}>
                   <Link
@@ -258,9 +260,7 @@ class Features extends React.Component {
           }
           {/*PROTEIN LEVEL FEATURES START*/}
           {
-            this.state.loading !== null &&
-            this.state.proteinStatus !== proteinStatus.INVALID &&
-            this.state.proteinStatus !== proteinStatus.LOADING &&
+            this.checkJobStatus() &&
             (
                 <div ref={this.proteinLevelFeaturesRef}>
                   <MDBTypography tag="h3">Protein features</MDBTypography>
@@ -283,9 +283,7 @@ class Features extends React.Component {
             )
           }
           {
-            this.state.loading !== null &&
-            this.state.proteinStatus !== proteinStatus.INVALID &&
-            this.state.proteinStatus !== proteinStatus.LOADING &&
+            this.checkJobStatus() &&
             (
                 <div ref={this.residueLandscapeFeaturesRef} style={{ textAlign: "justify" }}>
                   <h3>Single Amino acid Variant (SAV) effect</h3>
@@ -305,9 +303,7 @@ class Features extends React.Component {
           }
           {/*STRUCTURE START*/}
           {
-            this.state.loading !== null &&
-            this.state.proteinStatus !== proteinStatus.INVALID &&
-            this.state.proteinStatus !== proteinStatus.LOADING &&
+            this.checkJobStatus() &&
             this.state.structureStatus === -1 && (
                 <Container ref={this.sequenceStructureRef}>
                   <div className="col-lg-12">
@@ -325,7 +321,7 @@ class Features extends React.Component {
                 </Container>
             )}
           {console.log(this.state?.features?.structure?.pdb)}
-          { this.state?.features?.structure?.pdb !== undefined && (
+          { this.checkJobStatus() && this.state?.features?.structure?.pdb !== undefined && (
               <Container ref={this.sequenceStructureRef}>
                 <div className="col-lg-12">
                   <MDBTypography style={{ textAlign: "center" }} tag="h4">
@@ -339,7 +335,7 @@ class Features extends React.Component {
                 <div className="row mb-5"></div>
               </Container>
           )}
-          { this.state.loading !== null && this.state.proteinStatus !== 0 && this.state.structureStatus === 0 && (
+          { this.checkJobStatus() && this.state.structureStatus === 0 && (
               <div className="col-lg-12">
 
                 <Container ref={this.sequenceStructureRef} style={{ textAlign: "center" }}>
