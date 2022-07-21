@@ -49,7 +49,6 @@ class FeatureViewer extends React.Component {
   };
 
   componentWillReceiveProps(newProps) {
-    console.log("comp rec props");
     if (newProps.data !== null) {
       this.ft && this.ft.clearInstance();
       delete this.ft;
@@ -148,23 +147,26 @@ class FeatureViewer extends React.Component {
           height: 20,
         });
 
-        var dataDemo = [];
-        for (var i = 1; i < 500; i++) {
-          var count = Math.floor(Math.random() * 20 + 1);
-          dataDemo.push({
-            x: i * 2,
-            y: count,
-          });
-        }
+      }
 
+      if(newProps.data.predictedConservation) {
+
+        var conservation = []
+        newProps.data.predictedConservation.forEach((y, i) => {
+          conservation.push({
+            x: i,
+            y: y,
+          });
+        });
+        
         this.ft.addFeature({
-          data: dataDemo,
+          data: conservation,
           name: "Conservation",
           className: "test5",
           color: "#008B8D",
           type: "line",
           filter: "type2",
-          height: "5",
+          height: 10,
         });
       }
     }

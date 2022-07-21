@@ -96,12 +96,14 @@ class Features extends React.Component {
 
   }
 
+  delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+  }
 
   setFeatures = (embedder, results) => {
     // Base off of ProtT5
     console.log(results)
     let features = { ...results["prottrans_t5_xl_u50"], ...results["colabfold"]};
-    
     if (features.sequence.length > 500) {
       return this.setState({
         structureStatus: -1,
@@ -117,6 +119,7 @@ class Features extends React.Component {
         features: features,
       });
     }
+    console.log('setting to 1')
     return this.setState({
       structureStatus: 1,
       loading: results["prottrans_t5_xl_u50"].status !== resultStatus.DONE,
@@ -157,7 +160,7 @@ class Features extends React.Component {
     else if(id == '/sequence-structure' ) {
       this.sequenceStructureRef.current.scrollIntoView()
     } 
-    else if(id == '/residue-landscape-features/conservation-prediction' ||
+    else if(
     id == '/residue-landscape-features/variation-prediction') {
       this.residueLandscapeFeaturesRef.current.scrollIntoView()
     }
@@ -225,11 +228,7 @@ class Features extends React.Component {
                 title: "Residue-Landscape Features",
                 itemId: "/residue-landscape-features",
                 subNav: [
-                  {
-                    title: "Conservation Prediction",
-                    itemId:
-                      "/residue-landscape-features/conservation-prediction",
-                  },
+                 
                   {
                     title: "Variant Effect Prediction",
                     itemId: "/residue-landscape-features/variation-prediction",
@@ -651,7 +650,9 @@ class Features extends React.Component {
             <div className="row mb-5"></div>
           </Container>
         )}
-        {this.state.loading !== null && this.state.proteinStatus != 0 && this.state.structureStatus == 1 && (
+        {console.log(this.state?.features?.structure?.pdb)}
+        {/*this.state.loading !== null && this.state.proteinStatus != 0 && this.state.structureStatus == 1 &&*/}
+        { this.state?.features?.structure?.pdb != undefined && (
           <Container ref={this.sequenceStructureRef}>
             <div className="col-lg-12">
               <MDBTypography style={{ textAlign: "center" }} tag="h4">
@@ -660,7 +661,7 @@ class Features extends React.Component {
             </div>
             <div className="row mb-5"></div>
             <div>
-              <StructurePrediction data={this.state.features.structure.pdb} />
+              <StructurePrediction data={this.state?.features?.structure?.pdb} />
             </div>
             <div className="row mb-5"></div>
           </Container>
@@ -668,7 +669,7 @@ class Features extends React.Component {
         { this.state.loading !== null && this.state.proteinStatus != 0 && this.state.structureStatus == 0 && (
           <div className="col-lg-12">
             
-            <Container style={{ textAlign: "center" }}>
+            <Container ref={this.sequenceStructureRef} style={{ textAlign: "center" }}>
             <div className="col-lg-12">
               <MDBTypography style={{ textAlign: "center" }} tag="h4">
                 Sequence Structure
@@ -676,7 +677,7 @@ class Features extends React.Component {
             </div>
             <div className="row mb-5"></div>
             <MDBTypography style={{ textAlign: "center" }} tag="h6">
-                The Structure Prediction can take a little time. Please reload the page with the same input in a couple of minutes.
+                The Structure Prediction can take a while. Please reload the page with the same input whithin a couple of minutes.
                 </MDBTypography>
             </Container>
             <div className="row mb-5"></div>
@@ -720,18 +721,10 @@ class Features extends React.Component {
               </div>
 
               <Tabs
-                defaultActiveKey="conservationPrediction"
+                defaultActiveKey="variationPrediction"
                 id="uncontrolled-tab-example"
                 className="mb-3"
               >
-                <Tab
-                  eventKey="conservationPrediction"
-                  title="Conservation Prediction"
-                >
-                  <Container style={{ textAlign: "center" }}>
-                    <ConservationPrediction data={this.state.features} />
-                  </Container>
-                </Tab>
 
                 <Tab
                   eventKey="variationPrediction"
