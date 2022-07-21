@@ -9,7 +9,7 @@ class Cite extends React.Component {
         <Accordion.Item eventKey="0">
           <Accordion.Header>Cite</Accordion.Header>
           <Accordion.Body>
-            <MDBTypography variant={"body2"}>
+            <MDBTypography variant={"body2"} as={"div"}>
               Coming soon...
             </MDBTypography>
           </Accordion.Body>

@@ -10,7 +10,7 @@ class VariationPredictionHelp extends React.Component {
                     <Accordion.Header>Find out more about variation prediction</Accordion.Header>
                     <Accordion.Body>
                         <br />
-                        <MDBTypography variant={"body2"}>
+                        <MDBTypography variant={"body2"} as={"div"}>
                             <h5>What is predicted?</h5>
                         </MDBTypography>
                         <br />
@@ -20,7 +20,7 @@ class VariationPredictionHelp extends React.Component {
                         </MDBTypography>
 
                         <br />
-                        <MDBTypography variant={"body2"}>
+                        <MDBTypography variant={"body2"} as={"div"}>
                             <h5>Cite</h5>
                         </MDBTypography>
                         <br />
@@ -30,7 +30,7 @@ class VariationPredictionHelp extends React.Component {
                                 <a
                                     href={"https://ieeexplore.ieee.org/document/9477085"}
                                     target={"_blank"}
-                                    ref={"author"}
+                                    // ref={"author"}
                                 >
                                     https://ieeexplore.ieee.org/document/9477085
                                 </a>
@@ -41,7 +41,7 @@ class VariationPredictionHelp extends React.Component {
                                     <a
                                         href={"https://doi.org/10.1007/s00439-021-02411-y"}
                                         target={"_blank"}
-                                        ref={"author"}
+                                        // ref={"author"}
                                     >
                                         https://doi.org/10.1007/s00439-021-02411-y
                                     </a>

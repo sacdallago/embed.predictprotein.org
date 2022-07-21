@@ -10,7 +10,7 @@ export default class SubcellularLocalizationHelp extends React.Component {
                     <Accordion.Header>Help</Accordion.Header>
                     <Accordion.Body>
                         <br/>
-                        <MDBTypography variant={"body2"}>
+                        <MDBTypography variant={"body2"} as={"div"}>
                             <h5>What is predicted?</h5>
                         </MDBTypography>
                         <br/>
@@ -33,7 +33,7 @@ export default class SubcellularLocalizationHelp extends React.Component {
                         </MDBTypography>
 
                         <br/>
-                        <MDBTypography variant={"body2"}>
+                        <MDBTypography variant={"body2"} as={"div"}>
                             <h5>Cite</h5>
                         </MDBTypography>
                         <br/>
@@ -45,7 +45,7 @@ export default class SubcellularLocalizationHelp extends React.Component {
                                         "https://academic.oup.com/bioinformaticsadvances/article/1/1/vbab035/6432029"
                                     }
                                     target={"_blank"}
-                                    ref={"author"}
+                                    // ref={"author"}
                                 >
                                     https://academic.oup.com/bioinformaticsadvances/article/1/1/vbab035/6432029
                                 </a>

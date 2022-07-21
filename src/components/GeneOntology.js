@@ -22,7 +22,7 @@ export default function GeneOntology(props) {
                     <tbody>
                     {features.predictedBPO.map((value, index) => {
                         return (
-                            <tr>
+                            <tr key={"" + index}>
                                 <td>
                                     <a
                                         href={
@@ -82,7 +82,7 @@ export default function GeneOntology(props) {
                     <tbody>
                     {features.predictedMFO.map((value, index) => {
                         return (
-                            <tr>
+                            <tr key={"" + index}>
                                 <td>
                                     <a
                                         href={
@@ -144,7 +144,7 @@ export default function GeneOntology(props) {
                     <tbody>
                     {features.predictedCCO.map((value, index) => {
                         return (
-                            <tr>
+                            <tr key={"" + index}>
                                 <td>
                                     <a
                                         href={

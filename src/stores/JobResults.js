@@ -9,15 +9,18 @@ const placeholder = {
     sequence: "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",
     predictedSubcellularLocalizations: " ",
     predictedMembrane: " ",
-    predictedBPO:{},
+    predictedBPO: [],
     predictedBPOGraphDataString: "",
-    predictedCCO:{},
+    predictedCCO: [],
     predictedCCOGraphDataString: "",
-    predictedMFO:{},
+    predictedMFO: [],
     predictedMFOGraphDataString: "",
     predictedDSSP3: " ",
     predictedDSSP8: " ",
     predictedDisorder: " ",
+    predictedBindingMetal: " ",
+    predictedBindingNucleicAcids: " ",
+    predictedBindingSmallMolecules: " ",
     status: status.NULL
 };
 

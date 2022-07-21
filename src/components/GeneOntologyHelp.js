@@ -10,7 +10,7 @@ export default class GeneOntologyHelp extends React.Component {
                     <Accordion.Header>Help</Accordion.Header>
                     <Accordion.Body>
                         <br />
-                        <MDBTypography variant={"body2"}>
+                        <MDBTypography variant={"body2"} as={"div"}>
                             <h5>What is predicted?</h5>
                         </MDBTypography>
                         <br />
@@ -37,7 +37,7 @@ export default class GeneOntologyHelp extends React.Component {
                             (predicted: yellow boxes, inferred: white boxes).
                         </MDBTypography>
                         <br />
-                        <MDBTypography variant={"body2"}>
+                        <MDBTypography variant={"body2"} as={"div"}>
                             <h5>
                                 What can you expect from GO term predictions?
                             </h5>
@@ -62,7 +62,7 @@ export default class GeneOntologyHelp extends React.Component {
                         </MDBTypography>
 
                         <br />
-                        <MDBTypography variant={"body2"}>
+                        <MDBTypography variant={"body2"} as={"div"}>
                             <h5>Computational details</h5>
                         </MDBTypography>
                         <br />
@@ -81,7 +81,7 @@ export default class GeneOntologyHelp extends React.Component {
                         </MDBTypography>
 
                         <br />
-                        <MDBTypography variant={"body2"}>
+                        <MDBTypography variant={"body2"} as={"div"}>
                             <h5>Cite</h5>
                         </MDBTypography>
                         <br />
@@ -93,7 +93,7 @@ export default class GeneOntologyHelp extends React.Component {
                                         "https://www.nature.com/articles/s41598-020-80786-0"
                                     }
                                     target={"_blank"}
-                                    ref={"author"}
+                                    // ref={"author"}
                                 >
                                     https://www.nature.com/articles/s41598-020-80786-0
                                 </a>

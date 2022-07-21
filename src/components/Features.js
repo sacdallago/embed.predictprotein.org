@@ -257,27 +257,6 @@ class Features extends React.Component {
             )
           }
           {/*PROTEIN LEVEL FEATURES START*/}
-          {this.state.loading !== null &&
-          this.state.proteinStatus !== proteinStatus.INVALID && this.state.proteinStatus !== proteinStatus.LOADING &&
-          "predictedBPOGraphDataString" in features && (
-              <div>
-                <Container style={{ textAlign: "center" }}>
-                  <Card>
-                    <Card.Body>
-                    <span>
-                      <h5>Getting the results...</h5>
-                    </span>
-                      <Spinner
-                          animation="border"
-                          variant="primary"
-                          role="status"
-                      ></Spinner>
-                    </Card.Body>
-                  </Card>
-                  <div className="row mb-5"></div>
-                </Container>
-              </div>
-          )}
           {
             this.state.loading !== null &&
             this.state.proteinStatus !== proteinStatus.INVALID &&
