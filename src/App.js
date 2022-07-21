@@ -2,15 +2,10 @@ import "./App.css";
 import { Container } from "react-bootstrap";
 import React from "react";
 import SequenceInput from "./components/SequenceInput";
-import { Nav, Navbar, NavLink } from "react-bootstrap";
 import Cite from "./components/Cite";
 import PropTypes from "prop-types";
 import Features from "./components/Features";
 import SequenceStatus from "./components/SequenceStatus";
-import { BrowserRouter as Router, Routes, Route}
-    from 'react-router-dom';
-import PrintPage from "./components/PrintPage";
-import {Navigation} from 'react-minimal-side-navigation';
 
 
 const uniprotRegex =
