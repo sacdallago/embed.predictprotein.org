@@ -34,6 +34,10 @@ class FeatureViewerLegend extends React.Component {
             <p>
                 <b>Conservation</b>: residue conservation from 0 (highly variable) to 8 (highly conserved) using the ProtT5cons method.
             </p>
+            <p>
+                <b>μ variation</b>: pooled single amino acid variant effect from 0 (mutations unlikely affect function) to 100 (mutations likely affect function) using the VESPAi method. {""}
+                Note that pooled values may not give as clear of a picture as per-substitution scores, which can be found in the next visualization.
+            </p>
         </>
     }
 }

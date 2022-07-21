@@ -107,8 +107,6 @@ class FeatureViewer extends React.Component {
           }),
         ];
 
-        console.log(data)
-
         this.ft.addFeature({
           data: data,
           name: "Topology",
@@ -208,11 +206,26 @@ class FeatureViewer extends React.Component {
               y: y}
           }),
           name: "Conservation",
-          className: "test5",
           color: "#008B8D",
           type: "line",
-          filter: "type2",
-          height: 10,
+          height: 5,
+        });
+      }
+
+      if(newProps.data.predictedVariation && newProps.data.predictedVariation.values){
+        let transposedVariation = newProps.data.predictedVariation.values[0].map((_, colIndex) => newProps.data.predictedVariation.values.map(row => row[colIndex]));
+        let averageVariation = transposedVariation.map(e => e.reduce((e, acc) => e+acc, 0)/e.length)
+
+        this.ft.addFeature({
+          data: averageVariation.map((y, i) => {
+            return {
+              x: i,
+              y: y}
+          }),
+          name: "μ variation",
+          color: "#000000",
+          type: "line",
+          height: 5,
         });
       }
     }
