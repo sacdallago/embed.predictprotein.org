@@ -5,7 +5,7 @@ class VariationPrediction extends React.Component {
   componentWillReceiveProps(newProps) {
     var receivedData = newProps;
 
-    if(receivedData.data.predictedVariation != undefined) {
+    if(receivedData.data.predictedVariation !== undefined) {
 
       let data = receivedData.data.predictedVariation
 
@@ -111,7 +111,6 @@ class VariationPrediction extends React.Component {
 }
 
 VariationPrediction.propTypes = {
-  classes: PropTypes.object.isRequired,
   data: PropTypes.object,
 };
 
