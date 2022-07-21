@@ -31,6 +31,10 @@ class FeatureViewer extends React.Component {
   };
 
   findRanges = (array) => {
+    if(array.length < 1){
+      return []
+    }
+
     array.sort((e, i) => e - i);
 
     let ranges = [{ x: array[0], y: array[0] }];
@@ -68,7 +72,6 @@ class FeatureViewer extends React.Component {
         console.log(d.detail.end);
       });
 
-
       if(newProps.data.predictedTransmembrane) {
         let toplogy = this.findIndexes(
             newProps.data.predictedTransmembrane,
@@ -79,34 +82,31 @@ class FeatureViewer extends React.Component {
           ...this.findRanges(toplogy["H"]).map(e => {
             e['description'] = "Helix - outwards";
             e['color'] = "#828c44";
-            e['level'] = 0;
             return e
           }),
           ...this.findRanges(toplogy["h"]).map(e => {
             e['description'] = "Helix - inwards";
             e['color'] = "#ccd96a";
-            e['level'] = 0;
             return e
           }),
           ...this.findRanges(toplogy["B"]).map(e => {
             e['description'] = "Sheet - outwards";
             e['color'] = "#8c3970";
-            e['level'] = 1;
             return e
           }),
           ...this.findRanges(toplogy["b"]).map(e => {
             e['description'] = "Sheet - inwards";
             e['color'] = "#d958aa";
-            e['level'] = 1;
             return e
           }),
           ...this.findRanges(toplogy["S"]).map(e => {
             e['description'] = "Signal peptide";
             e['color'] = "#9ed94c";
-            e['level'] = 2;
             return e
           }),
         ];
+
+        console.log(data)
 
         this.ft.addFeature({
           data: data,
@@ -171,7 +171,6 @@ class FeatureViewer extends React.Component {
         bindingMetal = this.findRanges(bindingMetal["M"]).map(e => {
           e['description'] = "Metal";
           e['color'] = "#4940e6";
-          e['level'] = 0;
           return e
         });
 
@@ -179,7 +178,6 @@ class FeatureViewer extends React.Component {
         bindingNucleicAcids = this.findRanges(bindingNucleicAcids["N"]).map(e => {
           e['description'] = "Nucleic Acids";
           e['color'] = "#d44515";
-          e['level'] = 1;
           return e
         });
 
@@ -187,7 +185,6 @@ class FeatureViewer extends React.Component {
         bindingSmallMolecules = this.findRanges(bindingSmallMolecules["S"]).map(e => {
           e['description'] = "Small molecule";
           e['color'] = "#389428";
-          e['level'] = 2;
           return e
         });
 
