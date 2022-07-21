@@ -3,21 +3,13 @@ import {
   Form,
   Col,
   Row,
-  Tooltip,
-  OverlayTrigger,
+  Container,
 } from "react-bootstrap";
 import PropTypes from 'prop-types';
 import { Protein, autodetect, validInput, parsers } from "protein-parser";
 import { proteinStatus } from "../stores/JobParameters";
 import storeComponentWrapper from '../stores/jobDispatcher';
 import delay from "../utils/ActionDelayer";
-
-const renderTooltip = (props) => (
-  <Tooltip id="button-tooltip" {...props}>
-    Sequence can be in FASTA format, a UniProt Accession number or UniProt
-    Protein Name, or AA sequence.
-  </Tooltip>
-);
 
 class SequenceInput extends React.Component {
   constructor(props) {
@@ -61,38 +53,9 @@ class SequenceInput extends React.Component {
     // if valid sequence passed
     if (retrievingFunction !== undefined) {
       retrievingFunction(textInput)
-        .then(([proteins, _]) => {
-          // check what kind of input is given - Fasta, just a sequence, uniprot id, etc
-          if (proteins.length > 1 && proteins[0] !== undefined) {
-            if (proteins[0].uniprotData !== undefined) {
-              this.props.action({
-                type: this.jobParametersAction,
-                payload: {
-                  protein: proteins[0],
-                  proteinStatus: proteinStatus.UNIPROT,
-                },
-              });
-            } else {
-              this.props.action({
-                type: this.jobParametersAction,
-                payload: {
-                  protein: proteins[0],
-                  proteinStatus: proteinStatus.MULTIPLESEQUENCES,
-                },
-              });
-            }
-          } else if (proteins[0] !== undefined) {
-            let parser = validInput(textInput);
-
-            if (parser === parsers.accession) {
-              this.props.action({
-                type: this.jobParametersAction,
-                payload: {
-                  protein: proteins[0],
-                  proteinStatus: proteinStatus.UNIPROT,
-                },
-              });
-            } else if (parser === parsers.fasta) {
+          .then(([proteins, _]) => {
+            // check what kind of input is given - Fasta, just a sequence, uniprot id, etc
+            if (proteins.length > 1 && proteins[0] !== undefined) {
               if (proteins[0].uniprotData !== undefined) {
                 this.props.action({
                   type: this.jobParametersAction,
@@ -106,56 +69,85 @@ class SequenceInput extends React.Component {
                   type: this.jobParametersAction,
                   payload: {
                     protein: proteins[0],
-                    proteinStatus: proteinStatus.FASTA,
+                    proteinStatus: proteinStatus.MULTIPLESEQUENCES,
                   },
                 });
               }
-            } else if (parser === parsers.protein_name) {
-              this.props.action({
-                type: this.jobParametersAction,
-                payload: {
-                  protein: proteins[0],
-                  proteinStatus: proteinStatus.UNIPROT,
-                },
-              });
-            } else if (parser === parsers.aa) {
-              this.props.action({
-                type: this.jobParametersAction,
-                payload: {
-                  protein: proteins[0],
-                  proteinStatus: proteinStatus.AA,
-                },
-              });
+            } else if (proteins[0] !== undefined) {
+              let parser = validInput(textInput);
+
+              if (parser === parsers.accession) {
+                this.props.action({
+                  type: this.jobParametersAction,
+                  payload: {
+                    protein: proteins[0],
+                    proteinStatus: proteinStatus.UNIPROT,
+                  },
+                });
+              } else if (parser === parsers.fasta) {
+                if (proteins[0].uniprotData !== undefined) {
+                  this.props.action({
+                    type: this.jobParametersAction,
+                    payload: {
+                      protein: proteins[0],
+                      proteinStatus: proteinStatus.UNIPROT,
+                    },
+                  });
+                } else {
+                  this.props.action({
+                    type: this.jobParametersAction,
+                    payload: {
+                      protein: proteins[0],
+                      proteinStatus: proteinStatus.FASTA,
+                    },
+                  });
+                }
+              } else if (parser === parsers.protein_name) {
+                this.props.action({
+                  type: this.jobParametersAction,
+                  payload: {
+                    protein: proteins[0],
+                    proteinStatus: proteinStatus.UNIPROT,
+                  },
+                });
+              } else if (parser === parsers.aa) {
+                this.props.action({
+                  type: this.jobParametersAction,
+                  payload: {
+                    protein: proteins[0],
+                    proteinStatus: proteinStatus.AA,
+                  },
+                });
+              } else {
+                console.error(
+                    "Unexpected error when validating protein retrieving function"
+                );
+                this.props.action({
+                  type: "SET_PROTEIN_STATUS",
+                  payload: {
+                    proteinStatus: proteinStatus.INVALID,
+                  },
+                });
+              }
             } else {
-              console.error(
-                "Unexpected error when validating protein retrieving function"
-              );
               this.props.action({
-                type: "SET_PROTEIN_STATUS",
+                type: this.jobParametersAction,
                 payload: {
                   proteinStatus: proteinStatus.INVALID,
                 },
               });
             }
-          } else {
+          })
+          .catch((e) => {
+            console.error(e);
+
             this.props.action({
               type: this.jobParametersAction,
               payload: {
                 proteinStatus: proteinStatus.INVALID,
               },
             });
-          }
-        })
-        .catch((e) => {
-          console.error(e);
-
-          this.props.action({
-            type: this.jobParametersAction,
-            payload: {
-              proteinStatus: proteinStatus.INVALID,
-            },
           });
-        });
     } else {
       this.props.action({
         type: this.jobParametersAction,
@@ -168,7 +160,7 @@ class SequenceInput extends React.Component {
 
   handleChangeExample = event => {
     console.log(event.target.value)
-    
+
     this.loadSequence(event.target.value);
     console.log('after loading')
   };
@@ -177,7 +169,7 @@ class SequenceInput extends React.Component {
   loadSequence = type => {
     console.log(type)
     let fillerProtein = new Protein(
-      "MALLHSARVLSGVASAFHPGLAAAASARASSWWAHVEMGPPDPILGVTEAYKRDTNSKKMNLGVGAYRDDNGKPYVLPSVRKAEAQIAAKGLDKEYLPIGGLAEFCRASAELALGENSEVVKSGRFVTVQTISGTGALRIGASFLQRFFKFSRDVFLPKPSWGNHTPIFRDAGMQLQSYRYYDPKTCGFDFTGALEDISKIPEQSVLLLHACAHNPTGVDPRPEQWKEIATVVKKRNLFAFFDMAYQGFASGDGDKDAWAVRHFIEQGINVCLCQSYAKNMGLYGERVGAFTVICKDADEAKRVESQLKILIRPMYSNPPIHGARIASTILTSPDLRKQWLQEVKGMADRIIGMRTQLVSNLKKEGSTHSWQHITDQIGMFCFTGLKPEQVERLTKEFSIYMTKDGRISVAGVTSGNVGYLAHAIHQVTK"
+        "MALLHSARVLSGVASAFHPGLAAAASARASSWWAHVEMGPPDPILGVTEAYKRDTNSKKMNLGVGAYRDDNGKPYVLPSVRKAEAQIAAKGLDKEYLPIGGLAEFCRASAELALGENSEVVKSGRFVTVQTISGTGALRIGASFLQRFFKFSRDVFLPKPSWGNHTPIFRDAGMQLQSYRYYDPKTCGFDFTGALEDISKIPEQSVLLLHACAHNPTGVDPRPEQWKEIATVVKKRNLFAFFDMAYQGFASGDGDKDAWAVRHFIEQGINVCLCQSYAKNMGLYGERVGAFTVICKDADEAKRVESQLKILIRPMYSNPPIHGARIASTILTSPDLRKQWLQEVKGMADRIIGMRTQLVSNLKKEGSTHSWQHITDQIGMFCFTGLKPEQVERLTKEFSIYMTKDGRISVAGVTSGNVGYLAHAIHQVTK"
     );
 
     fillerProtein.setUniprotData({
@@ -209,7 +201,7 @@ LAHAIHQVTK`,
       case "aa":
         this.setState({
           proteinSequenceInput:
-            "MALLHSARVLSGVASAFHPGLAAAASARASSWWAHVEMGPPDPILGVTEAYKRDTNSKKMNLGVGAYRDDNGKPYVLPSVRKAEAQIAAKGLDKEYLPIGGLAEFCRASAELALGENSEVVKSGRFVTVQTISGTGALRIGASFLQRFFKFSRDVFLPKPSWGNHTPIFRDAGMQLQSYRYYDPKTCGFDFTGALEDISKIPEQSVLLLHACAHNPTGVDPRPEQWKEIATVVKKRNLFAFFDMAYQGFASGDGDKDAWAVRHFIEQGINVCLCQSYAKNMGLYGERVGAFTVICKDADEAKRVESQLKILIRPMYSNPPIHGARIASTILTSPDLRKQWLQEVKGMADRIIGMRTQLVSNLKKEGSTHSWQHITDQIGMFCFTGLKPEQVERLTKEFSIYMTKDGRISVAGVTSGNVGYLAHAIHQVTK",
+              "MALLHSARVLSGVASAFHPGLAAAASARASSWWAHVEMGPPDPILGVTEAYKRDTNSKKMNLGVGAYRDDNGKPYVLPSVRKAEAQIAAKGLDKEYLPIGGLAEFCRASAELALGENSEVVKSGRFVTVQTISGTGALRIGASFLQRFFKFSRDVFLPKPSWGNHTPIFRDAGMQLQSYRYYDPKTCGFDFTGALEDISKIPEQSVLLLHACAHNPTGVDPRPEQWKEIATVVKKRNLFAFFDMAYQGFASGDGDKDAWAVRHFIEQGINVCLCQSYAKNMGLYGERVGAFTVICKDADEAKRVESQLKILIRPMYSNPPIHGARIASTILTSPDLRKQWLQEVKGMADRIIGMRTQLVSNLKKEGSTHSWQHITDQIGMFCFTGLKPEQVERLTKEFSIYMTKDGRISVAGVTSGNVGYLAHAIHQVTK",
         });
         this.props.action({
           type: this.jobParametersAction,
@@ -254,7 +246,7 @@ LAHAIHQVTK`,
     this.setState({
       proteinSequenceInput: event.target.value,
     });
-        
+
     // Check if there is currently a sequence being checked
     if (this.props.jobParameters.proteinStatus !== proteinStatus.LOADING) {
       this.props.action({
@@ -268,39 +260,28 @@ LAHAIHQVTK`,
   }
   render() {
     return (
-      <Form>
-        <div className="row mb-5"></div>
-
-        <div className="col-lg-12">
-          <Form.Group as={Row} className="mb-3" controlId="sequenceinput">
-        
-            <Col sm={12}>
-              <OverlayTrigger
-                placement="bottom"
-                delay={{ show: 250, hide: 400 }}
-                overlay={renderTooltip}
-              >
-                <Form.Control
-                  as="textarea"
-                  rows={5}
-                  value={this.state.proteinSequenceInput}
-                  onChange={this.deleyedKeyUp}
-                />
-              </OverlayTrigger>
-            </Col>
-            <div className="row mb-3"></div>
-            <Col sm={12}>
-              <Form.Select onChange={this.handleChangeExample}>
-                <option>Examples</option>
-                <option value="fasta">FASTA format</option>
-                <option value="accession">UniProt Accession Number</option>
-                <option value="protein_name">UniProt Protein Name</option>
-                <option value="aa">AA Sequence</option>
-              </Form.Select>
-            </Col>
-          </Form.Group>
-        </div>
-      </Form>
+        <Container>
+          <Form>
+            <Form.Group controlId="sequenceinput">
+              <Row>
+                <Col>
+                  <Form.Control
+                      as="textarea"
+                      rows={5}
+                      value={this.state.proteinSequenceInput}
+                      onChange={this.deleyedKeyUp}
+                  />
+                  <Form.Text muted={true}>
+                    Input a sequence in either <b><span onClick={()=>this.loadSequence("fasta")}>FASTA format</span></b>, a {""}
+                    <b><span onClick={()=>this.loadSequence("accession")}>UniProt Accession</span></b> number or {""}
+                    <b><span onClick={()=>this.loadSequence("protein_name")}>UniProt Protein Name</span></b>, or {""}
+                    <b><span onClick={()=>this.loadSequence("aa")}>AA sequence</span></b> (click the bolded text for examples).
+                  </Form.Text>
+                </Col>
+              </Row>
+            </Form.Group>
+          </Form>
+        </Container>
     );
   }
 }

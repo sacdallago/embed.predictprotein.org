@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import storeComponentWrapper from "../stores/jobDispatcher";
 import { proteinStatus } from "../stores/JobParameters";
-import { Spinner, Container, Alert, Card } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 
 
 class SequenceStatus extends React.Component {
@@ -29,7 +29,7 @@ class SequenceStatus extends React.Component {
     switch (this.state.proteinStatus) {
       case proteinStatus.UNIPROT:
         return (
-          <div className="col-lg-12">
+          <div>
             <Alert key="success" variant="success">
               Valid identifier passed. The sequence from{" "}
               <a
@@ -53,7 +53,7 @@ class SequenceStatus extends React.Component {
       case proteinStatus.AA:
       case proteinStatus.FASTA:
         return (
-          <div className="col-lg-12">
+          <div>
             <Alert key="success" variant="success">
               Valid sequence passed.
             </Alert>
@@ -61,39 +61,33 @@ class SequenceStatus extends React.Component {
         );
       case proteinStatus.INVALID:
         return (
-          <div className="col-lg-12">
+          <div>
             <Alert key="danger" variant="danger">
               Sorry, but it was not possible to identify your sequence or
-              identifier.
+              identifier. Click one of the bolded options to find out what inputs are accepted.
             </Alert>
           </div>
         );
       case proteinStatus.LOADING:
         return (
-          <div className="col-lg-12">
-            <Container style={{ textAlign: "center" }}>
+          <div>
             <Alert key="secondary" variant="secondary">
-                <Spinner
-                  animation="border"
-                  variant="primary"
-                  role="status"
-                />
+                One moment! Your input is being processed...
              </Alert>
-            </Container>
           </div>
         );
       case proteinStatus.MULTIPLESEQUENCES:
         return (
-          <div className="col-lg-12">
+          <div>
             <Alert key="warning" variant="warning">
-              You inputted valid sequences, but only the first sequence will be
+              You inputted a valid FASTA but with multiple entries. Only the first sequence will be
               considered.
             </Alert>
           </div>
         );
       default:
         return (
-          <div className="col-lg-12">
+          <div>
             <Alert key="secondary" variant="secondary">
               Input a sequence to start!
             </Alert>

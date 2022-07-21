@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-//import './featureViewer.scss';
 
 class FeatureViewer extends React.Component {
   componentDidMount() {
@@ -171,14 +170,11 @@ class FeatureViewer extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-
-    return <div className="use-bootstrap" id={"fv1"}></div>;
+    return <div className="use-bootstrap" id={"fv1"}/>;
   }
 }
 
 FeatureViewer.propTypes = {
-  classes: PropTypes.object.isRequired,
   data: PropTypes.object,
 };
 

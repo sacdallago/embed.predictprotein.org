@@ -1,14 +1,13 @@
 import "./App.css";
-import { Container } from "react-bootstrap";
+import {Container, Stack, Nav, Navbar, Row} from "react-bootstrap";
 import React from "react";
 import SequenceInput from "./components/SequenceInput";
 import Cite from "./components/Cite";
 import Features from "./components/Features";
 import SequenceStatus from "./components/SequenceStatus";
 
-
 const uniprotRegex =
-  /^[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}$/;
+    /^[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}$/;
 
 class App extends React.Component {
   state = {
@@ -57,24 +56,40 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="App">
-        
-        <Container>
-          <SequenceInput />
-          <SequenceStatus />
-        </Container>
-        <div className="row mb-5"></div>
+        <div className="App">
+          <Navbar bg="dark" variant="dark">
+            <Container>
+              <Navbar.Brand href="#">Embed Predict Protein (EMPP)</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav">
+                <Nav className="me-auto">
+                  <Nav.Link href="https://github.com/sacdallago/bio_embeddings" target="_blank" rel="noopener noreferrer">
+                    GitHub
+                  </Nav.Link>
+                  <Nav.Link href="https://rostlab.org" target="_blank" rel="noopener noreferrer">
+                    Rostlab Group
+                  </Nav.Link>
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
 
-        <Features />
-        
-        <div className="row mb-5"></div>
-
-        <div className="col-lg-12">
           <Container>
-            <Cite />
+            <Stack gap={3}>
+              <Row/>
+              <Row>
+                <SequenceInput />
+              </Row>
+              <Row>
+                <SequenceStatus />
+              </Row>
+              <Features />
+              <Row>
+                <Cite />
+              </Row>
+            </Stack>
           </Container>
         </div>
-      </div>
     );
   }
 }

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 class ConservationPrediction extends React.Component {
   componentWillReceiveProps(newProps) {
     var receivedData = newProps;
-    if(receivedData.data.predictedConservation != undefined) {
+    if(receivedData.data.predictedConservation !== undefined) {
 
       let data = receivedData.data.predictedConservation
 
