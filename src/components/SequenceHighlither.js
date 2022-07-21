@@ -29,7 +29,7 @@ class SequenceHighlighter extends React.Component {
             // Make upper case
             .toUpperCase()
             // Split in 10-emers composed by letters
-            .split(/([A-Z|\-|+]{10})/gm)
+            .split(/([A-Z0-9|\-\.|+]{10})/gm)
             // Filter only populated 10-emers
             .filter(Boolean)
             // Append number to every 10-emer

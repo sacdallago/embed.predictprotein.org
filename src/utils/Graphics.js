@@ -1,4 +1,50 @@
 export const proteinColorSchemes = {
+
+    predictedTransmembrane: {
+        primary : {
+            '.':'#ededed',
+            'B':'#ededed',
+            'b':'#ededed',
+            'H':'#ededed',
+            'h':'#ededed',
+            'S':'#ededed',
+        },
+        contrast : {
+            '.':'#ededed',
+            'B':'#8c3970',
+            'b':'#d958aa',
+            'H':'#828c44',
+            'h':'#ccd96a',
+            'S':'#9ed94c',
+        }
+    },
+
+    conservation: {
+        primary : {
+            '0':'#f6f6f6',
+            '1':'#e0e0e0',
+            '2':'#cbcbcb',
+            '3':'#bebebe',
+            '4':'#a5a5a5',
+            '5':'#838383',
+            '6':'#727272',
+            '7':'#5d5d5d',
+            '8':'#3b3b3b',
+            '9':'#000000',
+        },
+        contrast : {
+            '0':'#f6f6f6',
+            '1':'#e0e0e0',
+            '2':'#cbcbcb',
+            '3':'#bebebe',
+            '4':'#a5a5a5',
+            '5':'#838383',
+            '6':'#727272',
+            '7':'#5d5d5d',
+            '8':'#3b3b3b',
+            '9':'#000000',
+        }
+    },
     dssp8: {
         primary : {
             // placeholder

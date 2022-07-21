@@ -22,13 +22,16 @@ const PrintPage = (props) => {
   let sequence = location.pathname.split("/")[2];
   let features = location.state.features;
 
+  console.log(features.predictedDSSP3)
+  console.log(features.predictedConservation.map(e => e + "").join(""))
+
   return (
     <>
       <div className="row mb-5"></div>
       <Container>
         <div className="row mb-5">
           <div className="col-lg-12">
-            <MDBTypography tag="h4">Your Sequence</MDBTypography>
+            <MDBTypography tag="h4">Input Sequence</MDBTypography>
             <div>
               <SequenceHighlighter
                 string={sequence}
@@ -51,6 +54,11 @@ const PrintPage = (props) => {
                 proteinColorScheme={proteinColorSchemes["dssp8"]}
               />
             </div>
+            <br/>
+            Legend: {""}
+            <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["H"]}}>H</span>elix, {""}
+            <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["E"]}}>E</span>-Sheet, {""}
+            <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["C"]}}>C</span>-Other {""}
           </div>
         </div>
 
@@ -64,10 +72,58 @@ const PrintPage = (props) => {
                 string={features.predictedDSSP8}
                 proteinColorScheme={proteinColorSchemes["dssp8"]}
               />
+              <br/>
+              Legend: {""}
+              <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["H"]}}>H</span>- α-helix, {""}
+              <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["E"]}}>E</span>- Extended strand, participates in β ladder, {""}
+              <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["C"]}}>C</span>- Other, {""}
+
+              <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["I"]}}>I</span>- 5-helix, {""}
+              <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["B"]}}>B</span>- Residue in isolated β-bridge, {""}
+              <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["S"]}}>S</span>- Bend, {""}
+              <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["T"]}}>T</span>- Hydrogen bonded turn, {""}
+              <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["G"]}}>G</span>- 3-helix {""}
             </div>
           </div>
         </div>
-        <MDBTypography tag="h4">Disorder Prediction</MDBTypography>
+
+        <MDBTypography tag="h4">Residue conservation</MDBTypography>
+        <div className="row mb-5">
+          <div className="col-lg-12">
+            <div>
+              <SequenceHighlighter
+                  string={features.predictedConservation.map(e => e + "").join("")}
+                  proteinColorScheme={proteinColorSchemes["conservation"]}
+              />
+              <br/>
+              Legend: {""}
+              <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["0"]}}>0</span>- Highly variable, {""}
+              <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["5"]}}>5</span>- Neutral, {""}
+              <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["9"]}}>9</span>- Highly conserved {""}
+            </div>
+          </div>
+        </div>
+
+        <MDBTypography tag="h4">Toplogy (transmembrane regions)</MDBTypography>
+        <div className="row mb-5">
+          <div className="col-lg-12">
+            <div>
+              <SequenceHighlighter
+                  string={features.predictedTransmembrane}
+                  proteinColorScheme={proteinColorSchemes["predictedTransmembrane"]}
+              />
+              <br/>
+              Legend: {""}
+              <span style={{backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["B"]}}>B</span>- Transmembrane beta strand (IN --> OUT orientation), {""}
+              <span style={{backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["b"]}}>b</span>- Transmembrane beta strand (OUT --> IN orientation), {""}
+              <span style={{backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["H"]}}>H</span>- Transmembrane alpha helix (IN --> OUT orientation), {""}
+              <span style={{backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["h"]}}>h</span>- Transmembrane alpha helix (OUT --> IN orientation), {""}
+              <span style={{backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["S"]}}>S</span>- Signal peptide {""}
+            </div>
+          </div>
+        </div>
+
+        <MDBTypography tag="h4">Disordered residues</MDBTypography>
         <div className="row mb-5">
           <div className="col-lg-12">
             <div>
@@ -79,7 +135,7 @@ const PrintPage = (props) => {
           </div>
         </div>
 
-        <MDBTypography tag="h4">Metal</MDBTypography>
+        <MDBTypography tag="h4">Metal binding residues</MDBTypography>
         <div className="row mb-5">
           <div className="col-lg-12">
             <div>
@@ -91,7 +147,7 @@ const PrintPage = (props) => {
           </div>
         </div>
 
-        <MDBTypography tag="h4">Nucleic acids</MDBTypography>
+        <MDBTypography tag="h4">Nucleic acids binding residues</MDBTypography>
         <div className="row mb-5">
           <div className="col-lg-12">
             <div>
@@ -103,7 +159,7 @@ const PrintPage = (props) => {
           </div>
         </div>
 
-        <MDBTypography tag="h4">Small molecules</MDBTypography>
+        <MDBTypography tag="h4">Small molecule binding residues</MDBTypography>
         <div className="row mb-5">
           <div className="col-lg-12">
             <div>
@@ -114,6 +170,8 @@ const PrintPage = (props) => {
             </div>
           </div>
         </div>
+
+
 
       </Container>
     </>
