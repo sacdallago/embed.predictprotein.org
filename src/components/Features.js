@@ -737,23 +737,18 @@ class Features extends React.Component {
             this.state.proteinStatus !== proteinStatus.INVALID &&
             this.state.proteinStatus !== proteinStatus.LOADING &&
             (
-                <div className="col-lg-12">
-                  <Container style={{ textAlign: "center" }}>
-                    <Alert key="secondary" variant="secondary">
-                      <Link
-                          to={{
-                            pathname: `/printpage/${this.state.sequence}`,
-                            state: { foo: "bar" },
-                          }}
-                          reloadDocument={false}
-                          state={{ features: features }}
-                      >
-                        Visualize all the features and their legends in a print friendly page!
-                      </Link>
-                    </Alert>
-                  </Container>
-                  <div className="row mb-5"></div>
-                </div>
+                <Alert key="secondary" variant="secondary" style={{textAlign: "center"}}>
+                  <Link
+                      to={{
+                        pathname: `/printpage/${this.state.sequence}`,
+                        state: { foo: "bar" },
+                      }}
+                      reloadDocument={false}
+                      state={{ features: features }}
+                  >
+                    Visualize residue-features and associated legends in a print friendly page!
+                  </Link>
+                </Alert>
             )}
           {
             this.state.loading !== null &&

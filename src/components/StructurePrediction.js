@@ -26,12 +26,12 @@ class StructurePrediction extends React.Component {
 
     //Set options (Checkout available options list in the documentation)
     this.options = {
-      
+
       customData: {
         url: URL.createObjectURL(pdbBlob),
         format: "pdb",
       },
-      
+
       //moleculeId: '2nnu',
       hideControls: true,
       visualStyle: "cartoon",
@@ -71,12 +71,12 @@ class StructurePrediction extends React.Component {
 
     //Set options (Checkout available options list in the documentation)
     this.options = {
-      
+
       customData: {
         url: URL.createObjectURL(pdbBlob),
         format: "pdb",
       },
-      
+
       //moleculeId: '2nnu',
       hideControls: true,
       visualStyle: "cartoon",
@@ -98,12 +98,12 @@ class StructurePrediction extends React.Component {
 
   render() {
     return (
-     
-   
-      <div id="myViewer" style={{ textAlign: 'center', float: 'inherit',  width: '1296px', height: '700px', position: 'relative' }}> 
-      in structure viewer container
-      </div>
-      
+
+
+        <div id="myViewer" style={{ textAlign: 'center', float: 'inherit',  width: '1296px', height: '700px', position: 'relative' }}>
+          in structure viewer container
+        </div>
+
     );
   }
 }
