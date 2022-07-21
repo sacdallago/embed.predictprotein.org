@@ -144,7 +144,7 @@ class FeaturesGrabber extends React.Component {
                 return response.json()
             })
             .then(json => {
-                if(json.status == "OK") {
+                if(json.status === "OK") {
                     this.continueFetching = false;
                     this.props.action({
                         type: "SET_RESULT",
@@ -156,7 +156,6 @@ class FeaturesGrabber extends React.Component {
                             }
                         }
                     });
-                    console.log(this.props)
                 }
                 
 

@@ -52,10 +52,7 @@ const locations_mapping = {
 };
 
 const placeholder = {
-  sequence:
-      "+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++",
-  predictedSubcellularLocalizations: " ",
-  predictedMembrane: " ",
+  sequence: " ",
 
   predictedBPO: {},
   predictedBPOGraphDataString: "",
@@ -64,9 +61,42 @@ const placeholder = {
   predictedMFO: {},
   predictedMFOGraphDataString: "",
 
-  predictedDSSP3: " ",
-  predictedDSSP8: " ",
-  predictedDisorder: " ",
+
+  "predictedBindingMetal": " ",
+  "predictedBindingNucleicAcids": " ",
+  "predictedBindingSmallMolecules": " ",
+  "predictedMembrane": " ",
+  "predictedSubcellularLocalizations": " ",
+  "predictedDSSP3": " ",
+  "predictedDSSP8": " ",
+  "predictedDisorder": " ",
+  "predictedConservation": [],
+  "predictedVariation": {
+    "x_axis": [],
+    "y_axis": [
+      "A",
+      "L",
+      "G",
+      "V",
+      "S",
+      "R",
+      "E",
+      "D",
+      "T",
+      "I",
+      "P",
+      "K",
+      "F",
+      "Q",
+      "N",
+      "Y",
+      "M",
+      "H",
+      "W",
+      "C"
+    ],
+    "values": []
+  }
 };
 
 class Features extends React.Component {
@@ -91,7 +121,6 @@ class Features extends React.Component {
 
   setFeatures = (embedder, results) => {
     // Base off of ProtT5
-    console.log(results)
     let features = { ...results["prottrans_t5_xl_u50"], ...results["colabfold"]};
 
     if (features.sequence.length > 500) {
@@ -141,7 +170,6 @@ class Features extends React.Component {
   };
 
   executeScroll = (id) => {
-    console.log(id)
     if(id === '/protein-level-features/subcellular-location' ||
         id === '/protein-level-features/gene-ontology-terms') {
       this.proteinLevelFeaturesRef.current.scrollIntoView()
@@ -161,7 +189,7 @@ class Features extends React.Component {
         this.state.loading || this.state.features === null
             ? placeholder
             : this.state.features;
-    console.log(features)
+
     return (
         <div>
           {this.state.loading !== null &&

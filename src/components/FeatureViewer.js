@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 class FeatureViewer extends React.Component {
   componentDidMount() {
-    console.log("comp did mount");
+
     if (this.props.data !== null) {
       this.ft = new window.FeatureViewer(this.props.data.sequence, "#fv1", {
         showAxis: true,
@@ -68,6 +68,91 @@ class FeatureViewer extends React.Component {
         console.log(d.detail.end);
       });
 
+
+      if(newProps.data.predictedTransmembrane) {
+        let toplogy = this.findIndexes(
+            newProps.data.predictedTransmembrane,
+            ["B", "b", "H", "h", "S"]
+        );
+
+        let data = [
+          ...this.findRanges(toplogy["H"]).map(e => {
+            e['description'] = "Helix - outwards";
+            e['color'] = "#828c44";
+            e['level'] = 0;
+            return e
+          }),
+          ...this.findRanges(toplogy["h"]).map(e => {
+            e['description'] = "Helix - inwards";
+            e['color'] = "#ccd96a";
+            e['level'] = 0;
+            return e
+          }),
+          ...this.findRanges(toplogy["B"]).map(e => {
+            e['description'] = "Sheet - outwards";
+            e['color'] = "#8c3970";
+            e['level'] = 1;
+            return e
+          }),
+          ...this.findRanges(toplogy["b"]).map(e => {
+            e['description'] = "Sheet - inwards";
+            e['color'] = "#d958aa";
+            e['level'] = 1;
+            return e
+          }),
+          ...this.findRanges(toplogy["S"]).map(e => {
+            e['description'] = "Signal peptide";
+            e['color'] = "#9ed94c";
+            e['level'] = 2;
+            return e
+          }),
+        ];
+
+        this.ft.addFeature({
+          data: data,
+          name: "Topology",
+          color: "#989898",
+          type: "rect",
+          height: 20,
+        });
+      }
+
+      if (newProps.data.predictedDSSP3) {
+        let secondaryStructure3 = this.findIndexes(
+            newProps.data.predictedDSSP3,
+            ["H", "E", "C"]
+        );
+
+        let data = [
+          ...this.findRanges(secondaryStructure3["H"]).map(e => {
+            e['description'] = "Helix";
+            e['color'] = "#ccd96a";
+            e['level'] = 0;
+            return e
+          }),
+          ...this.findRanges(secondaryStructure3["E"]).map(e => {
+            e['description'] = "Sheet";
+            e['color'] = "#d958aa";
+            e['level'] = 1;
+            return e
+          }),
+          ...this.findRanges(secondaryStructure3["C"]).map(e => {
+            e['description'] = "Other";
+            e['color'] = "#4cd9c2";
+            e['level'] = 2;
+            return e
+          }),
+        ];
+
+        this.ft.addFeature({
+          data: data,
+          name: "Structure",
+          color: "#989898",
+          type: "rect",
+          height: 20,
+        });
+      }
+
       if (newProps.data.predictedDisorder) {
         let disorder = this.findIndexes(newProps.data.predictedDisorder, ["X"]);
 
@@ -80,86 +165,50 @@ class FeatureViewer extends React.Component {
         });
       }
 
-      if (newProps.data.predictedBindingMetal) {
+      if (newProps.data.predictedBindingMetal && newProps.data.predictedBindingNucleicAcids && newProps.data.predictedBindingSmallMolecules) {
+
         let bindingMetal = this.findIndexes(newProps.data.predictedBindingMetal, ["M"]);
-
-        this.ft.addFeature({
-          data: this.findRanges(bindingMetal["M"]),
-          name: "Metal",
-          color: "#4940e6",
-          type: "rect",
-          height: 20,
+        bindingMetal = this.findRanges(bindingMetal["M"]).map(e => {
+          e['description'] = "Metal";
+          e['color'] = "#4940e6";
+          e['level'] = 0;
+          return e
         });
-      }
-      
-      if (newProps.data.predictedBindingNucleicAcids) {
+
         let bindingNucleicAcids = this.findIndexes(newProps.data.predictedBindingNucleicAcids, ["N"]);
-
-        this.ft.addFeature({
-          data: this.findRanges(bindingNucleicAcids["N"]),
-          name: "Nucleic Acids",
-          color: "#d44515",
-          type: "rect",
-          height: 20,
+        bindingNucleicAcids = this.findRanges(bindingNucleicAcids["N"]).map(e => {
+          e['description'] = "Nucleic Acids";
+          e['color'] = "#d44515";
+          e['level'] = 1;
+          return e
         });
-      }
 
-      if (newProps.data.predictedBindingSmallMolecules) {
         let bindingSmallMolecules = this.findIndexes(newProps.data.predictedBindingSmallMolecules, ["S"]);
+        bindingSmallMolecules = this.findRanges(bindingSmallMolecules["S"]).map(e => {
+          e['description'] = "Small molecule";
+          e['color'] = "#389428";
+          e['level'] = 2;
+          return e
+        });
+
+        let data = [...bindingSmallMolecules, ...bindingNucleicAcids, ...bindingMetal]
 
         this.ft.addFeature({
-          data: this.findRanges(bindingSmallMolecules["S"]),
-          name: "Small Molecules",
-          color: "#389428",
+          data: data,
+          name: "Binding",
+          color: "#989898",
           type: "rect",
           height: 20,
         });
-      }
-
-      if (newProps.data.predictedDSSP3) {
-        let secondaryStructure3 = this.findIndexes(
-          newProps.data.predictedDSSP3,
-          ["H", "E", "C"]
-        );
-
-        this.ft.addFeature({
-          data: this.findRanges(secondaryStructure3["H"]),
-          name: "DSSP3-Helix",
-          color: "#ccd96a",
-          type: "rect",
-          height: 20,
-        });
-
-        this.ft.addFeature({
-          data: this.findRanges(secondaryStructure3["E"]),
-          name: "DSSP3-Sheet",
-          color: "#d958aa",
-          type: "rect",
-          height: 20,
-        });
-
-        this.ft.addFeature({
-          data: this.findRanges(secondaryStructure3["C"]),
-          name: "DSSP3-Other",
-          color: "#4cd9c2",
-          type: "rect",
-          height: 20,
-        });
-
       }
 
       if(newProps.data.predictedConservation) {
-
-        var conservation = []
-        newProps.data.predictedConservation.forEach((y, i) => {
-          conservation.push({
-            x: i,
-            y: y,
-          });
-        });
-        
         this.ft.addFeature({
-          data: conservation,
+          data: newProps.data.predictedConservation.map((y, i) => {
+            return {
+              x: i,
+              y: y}
+          }),
           name: "Conservation",
           className: "test5",
           color: "#008B8D",

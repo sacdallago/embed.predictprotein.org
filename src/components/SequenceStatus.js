@@ -13,7 +13,6 @@ class SequenceStatus extends React.Component {
       proteinStatus:
         this.props.jobParameters.proteinStatus || proteinStatus.NULL,
     };
-    console.log(this.state)
   }
 
   componentWillReceiveProps(nextProps) {
