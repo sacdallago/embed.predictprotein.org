@@ -15,7 +15,7 @@ export const proteinColorSchemes = {
             'b':'#d958aa',
             'H':'#828c44',
             'h':'#ccd96a',
-            'S':'#9ed94c',
+            'S':'#4cd9c2',
         }
     },
 

@@ -20,6 +20,7 @@ import {
   Alert,
 } from "react-bootstrap";
 import FeatureViewer from "./FeatureViewer";
+import FeatureViewerLegend from "./FeatureViewerLegend";
 
 // subcell location images
 import nucleus from "../assets/nucleus.PNG";
@@ -37,6 +38,7 @@ import { Container } from "react-bootstrap";
 import VariationPrediction from "./VariationPrediction";
 
 import { Link } from "react-router-dom";
+import {proteinColorSchemes} from "../utils/Graphics";
 
 const locations_mapping = {
   Cytoplasm: cytoplasm,
@@ -722,10 +724,12 @@ class Features extends React.Component {
             this.state.proteinStatus !== proteinStatus.LOADING &&
             (
                 <div>
-                  <Container style={{ textAlign: "justify" }}>
-                    <FeatureViewer data={this.state.features} />
-                    <div className="row mb-5"> </div>
-                  </Container>
+                  <p>
+                    The feature viewer is a compact representation of residue-level predicted features. We use a variety of prediction methods to produce the results below. {""}
+                    You can find details about the methods used, their performance and their utility in the manuscript linked in the "Cite" section at the bottom of the page.
+                  </p>
+                  <FeatureViewer data={this.state.features} />
+                  <FeatureViewerLegend/>
                 </div>
             )}
           {

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import {proteinColorSchemes} from "../utils/Graphics";
 
 class FeatureViewer extends React.Component {
   componentDidMount() {
@@ -81,27 +82,27 @@ class FeatureViewer extends React.Component {
         let data = [
           ...this.findRanges(toplogy["H"]).map(e => {
             e['description'] = "Helix - outwards";
-            e['color'] = "#828c44";
+            e['color'] = proteinColorSchemes["dssp8"].contrast["H"];
             return e
           }),
           ...this.findRanges(toplogy["h"]).map(e => {
             e['description'] = "Helix - inwards";
-            e['color'] = "#ccd96a";
+            e['color'] = proteinColorSchemes["dssp8"].contrast["h"];
             return e
           }),
           ...this.findRanges(toplogy["B"]).map(e => {
             e['description'] = "Sheet - outwards";
-            e['color'] = "#8c3970";
+            e['color'] = proteinColorSchemes["dssp8"].contrast["B"];
             return e
           }),
           ...this.findRanges(toplogy["b"]).map(e => {
             e['description'] = "Sheet - inwards";
-            e['color'] = "#d958aa";
+            e['color'] = proteinColorSchemes["dssp8"].contrast["b"];
             return e
           }),
           ...this.findRanges(toplogy["S"]).map(e => {
             e['description'] = "Signal peptide";
-            e['color'] = "#9ed94c";
+            e['color'] = proteinColorSchemes["dssp8"].contrast["S"];
             return e
           }),
         ];
@@ -126,19 +127,19 @@ class FeatureViewer extends React.Component {
         let data = [
           ...this.findRanges(secondaryStructure3["H"]).map(e => {
             e['description'] = "Helix";
-            e['color'] = "#ccd96a";
+            e['color'] = proteinColorSchemes["dssp8"].contrast["H"];
             e['level'] = 0;
             return e
           }),
           ...this.findRanges(secondaryStructure3["E"]).map(e => {
             e['description'] = "Sheet";
-            e['color'] = "#d958aa";
+            e['color'] = proteinColorSchemes["dssp8"].contrast["E"];
             e['level'] = 1;
             return e
           }),
           ...this.findRanges(secondaryStructure3["C"]).map(e => {
             e['description'] = "Other";
-            e['color'] = "#4cd9c2";
+            e['color'] = proteinColorSchemes["dssp8"].contrast["C"];
             e['level'] = 2;
             return e
           }),
@@ -170,21 +171,21 @@ class FeatureViewer extends React.Component {
         let bindingMetal = this.findIndexes(newProps.data.predictedBindingMetal, ["M"]);
         bindingMetal = this.findRanges(bindingMetal["M"]).map(e => {
           e['description'] = "Metal";
-          e['color'] = "#4940e6";
+          e['color'] = proteinColorSchemes["metal"].contrast["M"];
           return e
         });
 
         let bindingNucleicAcids = this.findIndexes(newProps.data.predictedBindingNucleicAcids, ["N"]);
         bindingNucleicAcids = this.findRanges(bindingNucleicAcids["N"]).map(e => {
           e['description'] = "Nucleic Acids";
-          e['color'] = "#d44515";
+          e['color'] = proteinColorSchemes["nucleicAcids"].contrast["N"];
           return e
         });
 
         let bindingSmallMolecules = this.findIndexes(newProps.data.predictedBindingSmallMolecules, ["S"]);
         bindingSmallMolecules = this.findRanges(bindingSmallMolecules["S"]).map(e => {
           e['description'] = "Small molecule";
-          e['color'] = "#389428";
+          e['color'] = proteinColorSchemes["smallMolecules"].contrast["S"];
           return e
         });
 
