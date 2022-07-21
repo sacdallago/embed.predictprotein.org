@@ -1,15 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { MDBTypography } from "mdb-react-ui-kit";
-import { proteinStatus } from "../stores/JobParameters";
-import { resultStatus } from "../stores/JobResults";
-import storeComponentWrapper from "../stores/jobDispatcher";
-import FeatureGrabber from "./FeatureGrabber";
-import { useNavigate } from "react-router-dom";
-import { Spinner, Card } from "react-bootstrap";
-import StructurePrediction from "./StructurePrediction";
+
+import { useNavigate, Link } from "react-router-dom";
 import { Navigation } from "react-minimal-side-navigation";
-import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
+
+import { MDBTypography } from "mdb-react-ui-kit";
 
 import {
   Tabs,
@@ -18,9 +13,24 @@ import {
   ListGroup,
   Accordion,
   Alert,
+  Container,
+  Spinner,
+  Card
 } from "react-bootstrap";
+
+import { proteinStatus } from "../stores/JobParameters";
+import { resultStatus } from "../stores/JobResults";
+
+import storeComponentWrapper from "../stores/jobDispatcher";
+
+import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
+
+import FeatureGrabber from "./FeatureGrabber";
+import VariationPrediction from "./VariationPrediction";
+import VariationPredictionHelp from "./VariationPredictionHelp";
 import FeatureViewer from "./FeatureViewer";
 import FeatureViewerLegend from "./FeatureViewerLegend";
+import StructurePrediction from "./StructurePrediction";
 
 // subcell location images
 import nucleus from "../assets/nucleus.PNG";
@@ -34,11 +44,6 @@ import peroxisome from "../assets/peroxisome.PNG";
 import plastid from "../assets/plastid.PNG";
 import secreted from "../assets/secreted.PNG";
 
-import { Container } from "react-bootstrap";
-import VariationPrediction from "./VariationPrediction";
-
-import { Link } from "react-router-dom";
-import {proteinColorSchemes} from "../utils/Graphics";
 
 const locations_mapping = {
   Cytoplasm: cytoplasm,
@@ -755,136 +760,10 @@ class Features extends React.Component {
             this.state.proteinStatus !== proteinStatus.INVALID &&
             this.state.proteinStatus !== proteinStatus.LOADING &&
             (
-                <Container ref={this.residueLandscapeFeaturesRef} style={{ textAlign: "justify" }}>
-                  <div className="row mb-5">
-                    <div className="col-lg-12">
-                      <div className="row mb-5"></div>
-                      <MDBTypography style={{ textAlign: "center" }} tag="h4">
-                        Residue-Landscape Features
-                      </MDBTypography>
-                    </div>
-
-                    <Tabs
-                        defaultActiveKey="variationPrediction"
-                        id="uncontrolled-tab-example"
-                        className="mb-3"
-                    >
-
-                      <Tab
-                          eventKey="variationPrediction"
-                          title="Variant Effect Prediction"
-                      >
-                        <Container style={{ textAlign: "center" }}>
-                          <VariationPrediction data={this.state.features} />
-                        </Container>
-                      </Tab>
-                    </Tabs>
-                    <Accordion>
-                      <Accordion.Item eventKey="0">
-                        <Accordion.Header>Help</Accordion.Header>
-                        <Accordion.Body>
-                          <br />
-                          <MDBTypography variant={"body2"}>
-                            <h5>What is predicted?</h5>
-                          </MDBTypography>
-                          <br />
-                          <MDBTypography>
-                            RePROF and ProtT5-sec predict secondary structure
-                            elements, i.e. Helix, Strand and Other (details in "How Do
-                            We Predict Secondary Structure?"). Furthermore, RePROF
-                            also predicts solvent accessibility of protein residues
-                            for 10 states of relative accessibility. These are grouped
-                            into two states: buried and exposed.
-                          </MDBTypography>
-
-                          <br />
-                          <MDBTypography variant={"body2"}>
-                            <h5>
-                              What Can You Expect From Secondary Structure Prediction?
-                            </h5>
-                          </MDBTypography>
-                          <br />
-                          <MDBTypography>
-                            The expected levels of accuracy (RePROF secondary
-                            structure = 72±11% (three state per-residue accuracy, Q3)
-                            and RePROF solvent accessibility = 75±7% (two-state
-                            per-residue accuracy)) are valid for typical globular,
-                            water-soluble proteins when the multiple sequence
-                            alignment (MSA) contains many and diverse sequences. High
-                            values for the reliability indices indicate more accurate
-                            predictions (although: for alignments with little
-                            variation in the sequences, the reliability indices adopt
-                            misleadingly high values). An expected accuracy of 70%
-                            does not imply that for your protein 70% of all residues
-                            are correctly predicted. Instead, this number is
-                            calculated as an average of many hard to predict proteins.
-                            An expected accuracy of 70±10% (one standard deviation)
-                            implies that, on average, for two thirds of all proteins
-                            between 60 and 80% of the residues will be predicted
-                            correctly (expected accuracy of PHDsec). Thus, prediction
-                            accuracy can be higher than 80% or lower than 60% for your
-                            protein. Few methods supply well tested indices for the
-                            reliability of predictions. Such indices can help to
-                            reduce or increase your trust in a particular prediction.
-                            Secondary structure predictions from RePROF (as well as
-                            other methods) focus on predicting hydrogen bonds.
-                            Consequently, occasionally strongly predicted (high
-                            reliability index) helices are observed as strands and
-                            vice versa. Secondary structure prediction of RePROF
-                            treats N- and C-terminal ends of proteins as solvent
-                            molecules. The size of the input window for predicting 1D
-                            structure is up to 17 residues. Thus, the first and the
-                            last 17 residues of your sequence will 'see solvent'.
-                            Especially for short fragments you did cut out from large
-                            proteins, this may result in false predictions. ProtT5-sec
-                            is a novel secondary structure prediction method which
-                            achieves a Q3 of 81-87% (CASP12=81%, TS115=87%) using a
-                            two-layer convolutional neural network. The advantage of
-                            this method is that it does not rely on the number or the
-                            diversity of sequences in the MSAs. Instead, the method
-                            learned the "language of protein sequences", and can be
-                            leveraged to create representations from single protein
-                            sequences, i.e. your query sequence. These representations
-                            can then be used to train machine learning devices to
-                            predict protein features, in this case: secondary
-                            structure.
-                          </MDBTypography>
-
-                          <br />
-                          <MDBTypography variant={"body2"}>
-                            <h5>Cite</h5>
-                          </MDBTypography>
-                          <br />
-                          <MDBTypography>
-                            ProtTrans:{" "}
-                            {
-                              <a
-                                  href={"https://ieeexplore.ieee.org/document/9477085"}
-                                  target={"_blank"}
-                                  ref={"author"}
-                              >
-                                https://ieeexplore.ieee.org/document/9477085
-                              </a>
-                            }
-                            <MDBTypography>
-                              VESPA:{" "}
-                              {
-                                <a
-                                    href={"https://doi.org/10.1007/s00439-021-02411-y"}
-                                    target={"_blank"}
-                                    ref={"author"}
-                                >
-                                  https://doi.org/10.1007/s00439-021-02411-y
-                                </a>
-                              }
-                            </MDBTypography>
-                          </MDBTypography>
-                        </Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
-                    <div className="row mb-5"> </div>
-                  </div>
-                </Container>
+                <div ref={this.residueLandscapeFeaturesRef} style={{ textAlign: "justify" }}>
+                  <VariationPrediction data={this.state.features} />
+                  <VariationPredictionHelp/>
+                </div>
             )}
           <FeatureGrabber />
         </div>
