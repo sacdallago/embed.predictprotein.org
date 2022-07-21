@@ -39,7 +39,7 @@ class VariationPrediction extends React.Component {
 
           zeroline: false,
           showline: true,
-          title: 'Wild type sequence/position',
+          title: 'Wild type position/residue',
 
         },
 
@@ -47,7 +47,7 @@ class VariationPrediction extends React.Component {
           tickmode: "linear",
           fixedrange: true,
           showline: true,
-          title: 'Amino acids'
+          title: 'Amino acid'
         },
 
         zaxis: {
