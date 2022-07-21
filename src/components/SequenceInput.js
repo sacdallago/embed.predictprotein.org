@@ -1,9 +1,6 @@
 import React from "react";
 import {
   Form,
-  Card,
-  Button,
-  Nav,
   Col,
   Row,
   Tooltip,
@@ -14,7 +11,6 @@ import { Protein, autodetect, validInput, parsers } from "protein-parser";
 import { proteinStatus } from "../stores/JobParameters";
 import storeComponentWrapper from '../stores/jobDispatcher';
 import delay from "../utils/ActionDelayer";
-import { event } from "react-ga";
 
 const renderTooltip = (props) => (
   <Tooltip id="button-tooltip" {...props}>
@@ -311,7 +307,6 @@ LAHAIHQVTK`,
 
 SequenceInput.propTypes = {
   action: PropTypes.func,
-  classes: PropTypes.object.isRequired,
   jobParameters: PropTypes.object
 };
 export default storeComponentWrapper(SequenceInput);

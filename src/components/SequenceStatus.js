@@ -26,8 +26,6 @@ class SequenceStatus extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
-
     switch (this.state.proteinStatus) {
       case proteinStatus.UNIPROT:
         return (
@@ -79,7 +77,7 @@ class SequenceStatus extends React.Component {
                   animation="border"
                   variant="primary"
                   role="status"
-                ></Spinner>
+                />
              </Alert>
             </Container>
           </div>
@@ -106,7 +104,6 @@ class SequenceStatus extends React.Component {
 }
 
 SequenceStatus.propTypes = {
-  classes: PropTypes.object.isRequired,
   jobParameters: PropTypes.object,
 };
 

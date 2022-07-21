@@ -3,11 +3,9 @@ import PropTypes from "prop-types";
 import { MDBTypography } from "mdb-react-ui-kit";
 import { proteinStatus } from "../stores/JobParameters";
 import { resultStatus } from "../stores/JobResults";
-import SequenceHighlighter from "./SequenceHighlither";
-import { proteinColorSchemes } from "../utils/Graphics";
 import storeComponentWrapper from "../stores/jobDispatcher";
 import FeatureGrabber from "./FeatureGrabber";
-import { useNavigate, useLocation, Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Spinner, Card } from "react-bootstrap";
 import StructurePrediction from "./StructurePrediction";
 import { Navigation } from "react-minimal-side-navigation";
@@ -856,7 +854,6 @@ class Features extends React.Component {
 }
 
 Features.propTypes = {
-  classes: PropTypes.object.isRequired,
   jobParameters: PropTypes.object,
   jobResults: PropTypes.object,
 };

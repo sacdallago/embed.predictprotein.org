@@ -3,7 +3,6 @@ import { Container } from "react-bootstrap";
 import React from "react";
 import SequenceInput from "./components/SequenceInput";
 import Cite from "./components/Cite";
-import PropTypes from "prop-types";
 import Features from "./components/Features";
 import SequenceStatus from "./components/SequenceStatus";
 
@@ -57,7 +56,6 @@ class App extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
     return (
       <div className="App">
         
@@ -80,7 +78,6 @@ class App extends React.Component {
     );
   }
 }
-App.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+
+
 export default App;
