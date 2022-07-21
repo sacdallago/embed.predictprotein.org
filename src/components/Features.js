@@ -744,7 +744,7 @@ class Features extends React.Component {
                           reloadDocument={false}
                           state={{ features: features }}
                       >
-                        Press here to get the printed output.
+                        Visualize all the features and their legends in a print friendly page!
                       </Link>
                     </Alert>
                   </Container>
