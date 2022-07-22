@@ -82,27 +82,27 @@ class FeatureViewer extends React.Component {
         let data = [
           ...this.findRanges(toplogy["H"]).map(e => {
             e['description'] = "Helix - outwards";
-            e['color'] = proteinColorSchemes["dssp8"].contrast["H"];
+            e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["H"];
             return e
           }),
           ...this.findRanges(toplogy["h"]).map(e => {
             e['description'] = "Helix - inwards";
-            e['color'] = proteinColorSchemes["dssp8"].contrast["h"];
+            e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["h"];
             return e
           }),
           ...this.findRanges(toplogy["B"]).map(e => {
             e['description'] = "Sheet - outwards";
-            e['color'] = proteinColorSchemes["dssp8"].contrast["B"];
+            e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["B"];
             return e
           }),
           ...this.findRanges(toplogy["b"]).map(e => {
             e['description'] = "Sheet - inwards";
-            e['color'] = proteinColorSchemes["dssp8"].contrast["b"];
+            e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["b"];
             return e
           }),
           ...this.findRanges(toplogy["S"]).map(e => {
             e['description'] = "Signal peptide";
-            e['color'] = proteinColorSchemes["dssp8"].contrast["S"];
+            e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["S"];
             return e
           }),
         ];
