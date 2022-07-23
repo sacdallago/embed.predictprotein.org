@@ -41,24 +41,18 @@ class StructurePrediction extends React.Component {
           format: "pdb",
         }
       });
-
-      this.data = this.props.data;
     } else {
       console.error("Could not instantiate structure component!")
     }
   }
 
   componentWillReceiveProps(newProps) {
-    if(this.data !== newProps.data && newProps.data !== null){
-      this.reDraw3D(newProps.data);
-    }
-
-    if(newProps.featureSelection.selectionStart !== null && newProps.featureSelection.selectionEnd !== null){
-      this.selectFeature(newProps.featureSelection.selectionStart, newProps.featureSelection.selectionEnd)
+    if(newProps.data !== null){
+      this.reDraw3D(newProps.data, newProps.featureSelection.selectionStart, newProps.featureSelection.selectionEnd);
     }
   }
 
-  reDraw3D(data) {
+  reDraw3D(data, start, end) {
     // Make sure data and data.structure and data.structure.pdb exist!
     let pdbBlob = new Blob([data], {
       type: "text/plain",
@@ -72,20 +66,20 @@ class StructurePrediction extends React.Component {
         format: "pdb",
       }
     });
-  }
 
-  selectFeature(start, end) {
-    console.log("attempting to select " + start + "-" + end);
-    this.viewerInstance.visual.select({
-      data: [{
-        entity_id: '1',
-        struct_asym_id: 'A',
-        start_residue_number: start,
-        end_residue_number: end,
-        focus: true
-      }]
-    })
-  };
+
+    if (start !== null && end !== null){
+      console.log(start,end)
+      setTimeout(() => this.viewerInstance.visual.select({
+        data: [{
+          start_residue_number: start,
+          end_residue_number: end,
+          focus: true
+        }]
+      }), 500)
+
+    }
+  }
 
   render() {
     return (
