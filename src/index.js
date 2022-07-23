@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import Interactive from "./Interactive";
 import "./index.css";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
@@ -24,6 +25,7 @@ ReactDOM.render(
             <HashRouter history={history}>
                 <Routes>
                     <Route path="/" element={<App />} />
+                    <Route path="/interactive/:sequence" element={<Interactive />} />
                     <Route
                         path="/printpage/:sequence"
                         element={<PrintPage/>}

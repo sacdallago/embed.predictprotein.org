@@ -268,6 +268,16 @@ class Features extends React.Component {
                   )}
 
                   {this.state?.structure?.pdb && <StructurePrediction data={this.state.structure.pdb} />}
+
+                  <Link
+                      to={{
+                        pathname: `/interactive/${this.state.sequence}`,
+                        state: {},
+                      }}
+                      reloadDocument={false}
+                  >
+                    Interactively explore the predicted features on the structure.
+                  </Link>
                 </div>
             )}
 
