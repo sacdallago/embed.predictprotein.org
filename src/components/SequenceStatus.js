@@ -27,7 +27,6 @@ class SequenceStatus extends React.Component {
     }
 
     render() {
-        console.log(this.state.jobResultsStatus)
         switch (this.state.proteinStatus) {
             case proteinStatus.UNIPROT:
                 if(this.state.jobResultsStatus === resultStatus.DONE){
