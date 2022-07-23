@@ -135,7 +135,6 @@ class FeaturesGrabber extends React.Component {
                 return response.json()
             })
             .then(json => {
-                console.log(json);
                 // Result is computed
                 if(json.status === "OK") {
                     this.props.action({
@@ -143,7 +142,7 @@ class FeaturesGrabber extends React.Component {
                         payload: {
                             predictor: 'colabfold',
                             result: {
-                                ...json,
+                                ...json.structure,
                                 status: resultStatus.DONE
                             }
                         }

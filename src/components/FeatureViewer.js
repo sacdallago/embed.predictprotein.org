@@ -4,7 +4,6 @@ import {proteinColorSchemes} from "../utils/Graphics";
 
 class FeatureViewer extends React.Component {
   componentDidMount() {
-
     if (this.props.data !== null) {
       this.ft = new window.FeatureViewer(this.props.data.sequence, "#fv1", {
         showAxis: true,

@@ -249,15 +249,25 @@ class Features extends React.Component {
                   <MDBTypography tag="h3">3D Structure</MDBTypography>
 
                   <p>
-                    Apologies! Our server can currently only handle structure prediction for sequences shorter than {""}
-                    500 amino acids. Your sequence is {this.state.sequence.length} amino acids.
+                    The protein structure is predicted via ColabFold. While predicting the annotations above only requires a few seconds, the first time you submit a sequence which our server has not yet processed {""}
+                    predicting its structure can take several minutes. {""}
+                    The prediction is started in the background for you and the visualization below will automatically display the structure once it is available (no need to refresh the page).
                   </p>
 
-                  <p>
-                    The structure prediction can take a while. Please reload the page with the same input whithin a couple of minutes.
-                  </p>
+                  {this.state.sequence?.length > 500 && (
+                      <p>
+                        <b>Apologies!</b> Our server can currently only handle structure prediction for sequences shorter than {""}
+                        500 amino acids. The sequence you submitted is {this.state.sequence?.length} amino acids. {""}
+                      </p>
+                  )}
 
-                  {/*<StructurePrediction data={this.state?.features?.structure?.pdb} />*/}
+                  {this.state.sequence?.length <= 500 && this.state.structure?.status !== resultStatus.DONE && (
+                      <p>
+                        ⏱ We are predicting the structure of your protein.
+                      </p>
+                  )}
+
+                  {this.state?.structure?.pdb && <StructurePrediction data={this.state.structure.pdb} />}
                 </div>
             )}
 
