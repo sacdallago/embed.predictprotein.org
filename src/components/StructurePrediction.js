@@ -1,4 +1,5 @@
 import React from "react";
+import featureComponentWrapper from '../stores/featureDispatcher';
 
 class StructurePrediction extends React.Component {
 
@@ -40,15 +41,21 @@ class StructurePrediction extends React.Component {
           format: "pdb",
         }
       });
+
+      this.data = this.props.data;
     } else {
       console.error("Could not instantiate structure component!")
     }
   }
 
   componentWillReceiveProps(newProps) {
-    let data = newProps.data;
+    if(this.data !== newProps.data && newProps.data !== null){
+      this.reDraw3D(newProps.data);
+    }
 
-    data && this.reDraw3D(data);
+    if(newProps.featureSelection.selectionStart !== null && newProps.featureSelection.selectionEnd !== null){
+      this.selectFeature(newProps.featureSelection.selectionStart, newProps.featureSelection.selectionEnd)
+    }
   }
 
   reDraw3D(data) {
@@ -67,10 +74,17 @@ class StructurePrediction extends React.Component {
     });
   }
 
-  selectFeature(viewerInstance) {
-    console.log('in select feat')
-    console.log(viewerInstance)
-    viewerInstance.visual.select({ data: [{ struct_asym_id: 'B', start_residue_number: 1, end_residue_number: 2, color:{r:255,g:255,b:0}, focus: true }]})
+  selectFeature(start, end) {
+    console.log("attempting to select " + start + "-" + end);
+    this.viewerInstance.visual.select({
+      data: [{
+        entity_id: '1',
+        struct_asym_id: 'A',
+        start_residue_number: start,
+        end_residue_number: end,
+        focus: true
+      }]
+    })
   };
 
   render() {
@@ -82,4 +96,4 @@ class StructurePrediction extends React.Component {
   }
 }
 
-export default StructurePrediction;
+export default featureComponentWrapper(StructurePrediction);

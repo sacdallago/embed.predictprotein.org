@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {proteinColorSchemes} from "../utils/Graphics";
+import featureComponentWrapper from '../stores/featureDispatcher';
+
 
 class FeatureViewer extends React.Component {
   componentDidMount() {
@@ -13,6 +15,8 @@ class FeatureViewer extends React.Component {
         bubbleHelp: true,
         zoomMax: 50, //define the maximum range of the zoom
       });
+
+      this.data = this.props.data;
     }
   }
 
@@ -52,10 +56,16 @@ class FeatureViewer extends React.Component {
   };
 
   componentWillReceiveProps(newProps) {
-    if (newProps.data !== null) {
+
+
+
+    if (this.data !== newProps.data && newProps.data !== null) {
+      // Update and clear
+      this.data = newProps.data;
       this.ft && this.ft.clearInstance();
       delete this.ft;
       document.getElementById("fv1").innerHTML = "";
+
       this.ft = new window.FeatureViewer(newProps.data.sequence, "#fv1", {
         showAxis: true,
         showSequence: true,
@@ -66,10 +76,13 @@ class FeatureViewer extends React.Component {
       });
 
       this.ft.onFeatureSelected(function (d) {
-        console.log("start");
-        console.log(d.detail.start);
-        console.log("end");
-        console.log(d.detail.end);
+        newProps.action({
+          type: "SET_REGION",
+          payload: {
+            selectionStart: d.detail.start,
+            selectionEnd: d.detail.end
+          }
+        });
       });
 
       if(newProps.data.predictedTransmembrane) {
@@ -239,4 +252,4 @@ FeatureViewer.propTypes = {
   data: PropTypes.object,
 };
 
-export default FeatureViewer;
+export default featureComponentWrapper(FeatureViewer);

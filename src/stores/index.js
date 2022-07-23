@@ -4,6 +4,7 @@ import {analyticsPageMiddleware} from './analyticsApgeMiddleware'
 
 import JobParameters from './JobParameters';
 import JobResults from "./JobResults";
+import FeatureSelection from "./FeatureSelection";
 
 function trackEventInGoogleAnalytics({ getState }) {
     return next => action => {
@@ -20,7 +21,8 @@ function trackEventInGoogleAnalytics({ getState }) {
 
 const reducer = combineReducers({
     jobParameters: JobParameters,
-    jobResults: JobResults
+    jobResults: JobResults,
+    featureSelection: FeatureSelection
 });
 
 const store  = createStore(reducer, applyMiddleware(trackEventInGoogleAnalytics, analyticsPageMiddleware));
