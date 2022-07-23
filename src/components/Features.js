@@ -10,13 +10,11 @@ import {
   Tabs,
   Tab,
   Alert,
-  Container,
-  Spinner,
-  Card, Stack
+  Stack
 } from "react-bootstrap";
 
 import { proteinStatus } from "../stores/JobParameters";
-import { resultStatus } from "../stores/JobResults";
+import { annotationsPlaceholder, resultStatus } from "../stores/JobResults";
 
 import storeComponentWrapper from "../stores/jobDispatcher";
 
@@ -34,66 +32,27 @@ import SubcellularLocalization from "./SubcellularLocation";
 import SubcellularLocalizationHelp from "./SubcellularLocalizationHelp";
 
 
-const placeholder = {
-  sequence: " ",
-
-  predictedBPO: [],
-  predictedBPOGraphDataString: "",
-  predictedCCO: [],
-  predictedCCOGraphDataString: "",
-  predictedMFO: [],
-  predictedMFOGraphDataString: "",
-
-
-  "predictedBindingMetal": " ",
-  "predictedBindingNucleicAcids": " ",
-  "predictedBindingSmallMolecules": " ",
-  "predictedMembrane": " ",
-  "predictedSubcellularLocalizations": " ",
-  "predictedDSSP3": " ",
-  "predictedDSSP8": " ",
-  "predictedDisorder": " ",
-  "predictedConservation": [],
-  "predictedVariation": {
-    "x_axis": [],
-    "y_axis": [
-      "A",
-      "L",
-      "G",
-      "V",
-      "S",
-      "R",
-      "E",
-      "D",
-      "T",
-      "I",
-      "P",
-      "K",
-      "F",
-      "Q",
-      "N",
-      "Y",
-      "M",
-      "H",
-      "W",
-      "C"
-    ],
-    "values": []
-  }
-};
-
 class Features extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      structureStatus: 0,
-      proteinStatus:
-          this.props.jobParameters.proteinStatus || proteinStatus.NULL,
+      proteinStatus: this.props.jobParameters.proteinStatus || proteinStatus.NULL,
+
+      // The job parameters (aka which embedder for the linear/feature/annotations predictions and the "predictor" for structure prediction)
       embedder: this.props.jobParameters.embedder || "prottrans_t5_xl_u50",
+      predictor: this.props.jobParameters.predictor || "colabfold",
+
+      // The sequence being used
       sequence: null,
+
+      // The predicted features (features = linear annotations; structure = output from the structur endpoint)
       features: null,
-      loading: null,
+      structure: null,
+
+      // The status of the structure and annotations requests
+      loadingAnnotations: null,
+      loadingStructure: null,
     };
 
     this.proteinLevelFeaturesRef = React.createRef();
@@ -103,32 +62,6 @@ class Features extends React.Component {
 
   }
 
-  setFeatures = (embedder, results) => {
-    // Base off of ProtT5
-    let features = { ...results["prottrans_t5_xl_u50"], ...results["colabfold"]};
-
-    if (features.sequence.length > 500) {
-      return this.setState({
-        structureStatus: -1,
-        loading: results["prottrans_t5_xl_u50"].status !== resultStatus.DONE,
-        features: features,
-      });
-    }
-    else if (!("pdb" in results["colabfold"].structure)) {
-      console.log('setting to 0')
-      return this.setState({
-        structureStatus: 0,
-        loading: results["prottrans_t5_xl_u50"].status !== resultStatus.DONE,
-        features: features,
-      });
-    }
-    return this.setState({
-      structureStatus: 1,
-      loading: results["prottrans_t5_xl_u50"].status !== resultStatus.DONE,
-      features: features,
-    });
-  };
-
   componentWillReceiveProps(nextProps) {
     let jobParameters = nextProps.jobParameters;
     let jobResults = nextProps.jobResults;
@@ -137,12 +70,19 @@ class Features extends React.Component {
       this.setState(
           {
             proteinStatus: jobParameters.proteinStatus,
-            sequence: jobParameters.protein && jobParameters.protein.sequence,
+            sequence: jobParameters.protein?.sequence,
+
+            // jobParams
             embedder: jobParameters.embedder,
-            loading: true,
-          },
-          () => {
-            this.setFeatures(jobParameters.embedder, jobResults);
+            predictor: jobParameters.predictor,
+
+            // Status result
+            loadingAnnotations: jobResults["prottrans_t5_xl_u50"].status !== resultStatus.DONE,
+            loadingStructure: jobResults["colabfold"].status !== resultStatus.DONE,
+
+            // Results
+            features: jobResults["prottrans_t5_xl_u50"],
+            structure: jobResults["colabfold"],
           }
       );
     }
@@ -174,7 +114,7 @@ class Features extends React.Component {
     }
   };
 
-  checkJobStatus() {
+  isValidIdentifierOrSequence() {
     return (
         this.state.proteinStatus !== proteinStatus.INVALID &&
         this.state.proteinStatus !== proteinStatus.NULL &&
@@ -184,14 +124,14 @@ class Features extends React.Component {
 
   render() {
     let features =
-        this.state.loading || this.state.features === null
-            ? placeholder
+        this.state.loadingAnnotations || this.state.features === null
+            ? annotationsPlaceholder
             : this.state.features;
 
     return (
         <div>
           {
-            this.checkJobStatus() &&
+            this.isValidIdentifierOrSequence() &&
             (
                 <div>
                   <h3>Predicted features</h3>
@@ -228,7 +168,7 @@ class Features extends React.Component {
             )
           }
           {
-            this.checkJobStatus() &&
+            this.isValidIdentifierOrSequence() &&
             (
                 <div ref={this.residueLevelFeaturesRef}>
                   <MDBTypography tag="h3">Residue features</MDBTypography>
@@ -242,7 +182,7 @@ class Features extends React.Component {
             )
           }
           {
-            this.checkJobStatus() &&
+            this.isValidIdentifierOrSequence() &&
             (
                 <Alert key="secondary" variant="secondary" style={{textAlign: "center"}}>
                   <Link
@@ -260,7 +200,7 @@ class Features extends React.Component {
           }
           {/*PROTEIN LEVEL FEATURES START*/}
           {
-            this.checkJobStatus() &&
+            this.isValidIdentifierOrSequence() &&
             (
                 <div ref={this.proteinLevelFeaturesRef}>
                   <MDBTypography tag="h3">Protein features</MDBTypography>
@@ -283,10 +223,10 @@ class Features extends React.Component {
             )
           }
           {
-            this.checkJobStatus() &&
+            this.isValidIdentifierOrSequence() &&
             (
                 <div ref={this.residueLandscapeFeaturesRef} style={{ textAlign: "justify" }}>
-                  <h3>Single Amino acid Variant (SAV) effect</h3>
+                  <MDBTypography tag="h3">Single Amino acid Variant (SAV) effect</MDBTypography>
                   <p>
                     The following visualization displays the effect of substituting the residue at position X on the x-axis with amino acid Y on the y-axis. {""}
                     Darker color / higher value translates to a high effect in execution said substitution, while a lighter color / lower value {""}
@@ -303,55 +243,25 @@ class Features extends React.Component {
           }
           {/*STRUCTURE START*/}
           {
-            this.checkJobStatus() &&
-            this.state.structureStatus === -1 && (
-                <Container ref={this.sequenceStructureRef}>
-                  <div className="col-lg-12">
-                    <MDBTypography style={{ textAlign: "center" }} tag="h4">
-                      3D Structure
-                    </MDBTypography>
-                  </div>
-                  <div className="row mb-5"></div>
-                  <div className="col-lg-12">
-                    <MDBTypography style={{ textAlign: "center" }} tag="h5">
-                      There is no 3D structure prediction for proteins longer than 500 AA!
-                    </MDBTypography>
-                  </div>
-                  <div className="row mb-5"></div>
-                </Container>
-            )}
-          {console.log(this.state?.features?.structure?.pdb)}
-          { this.checkJobStatus() && this.state?.features?.structure?.pdb !== undefined && (
-              <Container ref={this.sequenceStructureRef}>
-                <div className="col-lg-12">
-                  <MDBTypography style={{ textAlign: "center" }} tag="h4">
-                    3D Structure
-                  </MDBTypography>
-                </div>
-                <div className="row mb-5"></div>
-                <div>
-                  <StructurePrediction data={this.state?.features?.structure?.pdb} />
-                </div>
-                <div className="row mb-5"></div>
-              </Container>
-          )}
-          { this.checkJobStatus() && this.state.structureStatus === 0 && (
-              <div className="col-lg-12">
+            this.isValidIdentifierOrSequence() &&
+            (
+                <div ref={this.sequenceStructureRef}>
+                  <MDBTypography tag="h3">3D Structure</MDBTypography>
 
-                <Container ref={this.sequenceStructureRef} style={{ textAlign: "center" }}>
-                  <div className="col-lg-12">
-                    <MDBTypography style={{ textAlign: "center" }} tag="h4">
-                      3D Structure
-                    </MDBTypography>
-                  </div>
-                  <div className="row mb-5"></div>
-                  <MDBTypography style={{ textAlign: "center" }} tag="h6">
+                  <p>
+                    Apologies! Our server can currently only handle structure prediction for sequences shorter than {""}
+                    500 amino acids. Your sequence is {this.state.sequence.length} amino acids.
+                  </p>
+
+                  <p>
                     The structure prediction can take a while. Please reload the page with the same input whithin a couple of minutes.
-                  </MDBTypography>
-                </Container>
-                <div className="row mb-5"></div>
-              </div>
-          )}
+                  </p>
+
+                  {/*<StructurePrediction data={this.state?.features?.structure?.pdb} />*/}
+                </div>
+            )}
+
+
           {/*STRUCTURE END*/}
           <FeatureGrabber />
         </div>

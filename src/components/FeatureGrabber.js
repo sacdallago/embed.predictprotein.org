@@ -11,7 +11,6 @@ class FeaturesGrabber extends React.Component {
         super(props);
 
         this.protein = props.jobParameters.protein;
-        this.continueFetching = true;
     }
 
     processGoPredSimResults = (json) => {
@@ -87,10 +86,9 @@ class FeaturesGrabber extends React.Component {
         })
             .then(response => response.json())
             .then(json => {
-                
-                // TODO trigger new result
+
                 this.props.action({
-                    type: "SET_RESULT",
+                    type: "SET_ANNOTATIONS",
                     payload: {
                         embedder: embedder,
                         result: {
@@ -104,7 +102,7 @@ class FeaturesGrabber extends React.Component {
                 console.error(e);
 
                 this.props.action({
-                    type: "SET_RESULT",
+                    type: "SET_ANNOTATIONS",
                     payload: {
                         embedder: embedder,
                         result: {
@@ -116,38 +114,32 @@ class FeaturesGrabber extends React.Component {
         ;
     };
 
-    wait(ms = 90000) { // One and a half minute
-        return new Promise(resolve => {
-          setTimeout(resolve, ms);
-        });
-      }
-    
+    getStructure = (sequence) => {
 
-    getSequenceStructure = (sequence) => {
-       
         fetch('https://api.bioembeddings.com/api/structure', {
             method: "POST",
-            mode: "cors", 
-            cache: "no-cache", 
-            credentials: "same-origin", 
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
             headers: {
                 "Content-Type": "application/json",
             },
-            redirect: "follow", 
-            referrer: "no-referrer", 
+            redirect: "follow",
+            referrer: "no-referrer",
             body: JSON.stringify({
                 "sequence": sequence,
                 "predictor": "colabfold",
-            }), 
+            }),
         })
             .then(response => {
                 return response.json()
             })
             .then(json => {
+                console.log(json);
+                // Result is computed
                 if(json.status === "OK") {
-                    this.continueFetching = false;
                     this.props.action({
-                        type: "SET_RESULT",
+                        type: "SET_STRUCTURE",
                         payload: {
                             predictor: 'colabfold',
                             result: {
@@ -156,15 +148,16 @@ class FeaturesGrabber extends React.Component {
                             }
                         }
                     });
+                } else {
+                    // The request has been created or is being computed!
+                    setTimeout(() => this.getStructure(sequence), 5000);
                 }
-                
-
             })
             .catch(e => {
                 console.error(e);
 
                 this.props.action({
-                    type: "SET_RESULT",
+                    type: "SET_STRUCTURE",
                     payload: {
                         predictor: 'colabfold',
                         result: {
@@ -178,10 +171,10 @@ class FeaturesGrabber extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         let jobParameters = nextProps.jobParameters;
-        let jobResults = nextProps.jobResults;
 
         switch (jobParameters.proteinStatus) {
             case proteinStatus.UNIPROT:
+                // TODO: if uniprot identifier, I can query the AlphaFold DB first!
             case proteinStatus.AA:
             case proteinStatus.FASTA:
             case proteinStatus.MULTIPLESEQUENCES:
@@ -191,21 +184,12 @@ class FeaturesGrabber extends React.Component {
                     this.props.action({
                         type: "RESET_RESULTS"
                     });
-                    
+
                     this.getFeatures(jobParameters.protein.sequence, 'prottrans_t5_xl_u50');
 
                     if(jobParameters.protein.sequence.length <= 500){
-                        this.getSequenceStructure(jobParameters.protein.sequence);
+                        this.getStructure(jobParameters.protein.sequence);
                     }
-                    
-                    /*
-                    while(this.continueFetching) {
-                        this.wait();
-                        console.log('fetching once...')
-                        this.getSequenceStructure(jobParameters.protein.sequence);
-                    }
-                    */
-
                 }
                 break;
             case proteinStatus.LOADING:
@@ -222,7 +206,6 @@ class FeaturesGrabber extends React.Component {
 
 FeaturesGrabber.propTypes = {
     jobParameters: PropTypes.object,
-    jobResults: PropTypes.object,
     action: PropTypes.func,
 };
 
