@@ -12,7 +12,8 @@ class SequenceStatus extends React.Component {
 
         this.state = {
             proteinStatus: this.props.jobParameters.proteinStatus || proteinStatus.NULL,
-            jobResultsStatus: this.props.jobResults.prottrans_t5_xl_u50?.status || resultStatus.NULL
+            jobResultsStatus: this.props.jobResults.prottrans_t5_xl_u50?.status || resultStatus.NULL,
+            protein: null
         };
     }
 
@@ -22,7 +23,8 @@ class SequenceStatus extends React.Component {
 
         this.setState({
             proteinStatus: jobParameters.proteinStatus,
-            jobResultsStatus: jobResults.prottrans_t5_xl_u50?.status
+            jobResultsStatus: jobResults.prottrans_t5_xl_u50?.status,
+            protein: jobParameters.protein
         });
     }
 
@@ -39,12 +41,12 @@ class SequenceStatus extends React.Component {
                                     rel="noopener noreferrer"
                                     href={
                                         "https://uniprot.org/uniprot/" +
-                                        (this.state.protein && this.state.protein.uniprotData
+                                        (this.state.protein?.uniprotData
                                             ? this.state.protein.uniprotData.accession
                                             : "P12345")
                                     }
                                 >
-                                    {this.state.protein && this.state.protein.uniprotData
+                                    {this.state.protein?.uniprotData
                                         ? this.state.protein.uniprotData.accession
                                         : "P12345"}
                                 </a>{" "}
