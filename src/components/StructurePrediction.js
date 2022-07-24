@@ -1,5 +1,6 @@
 import React from "react";
 import featureComponentWrapper from '../stores/featureDispatcher';
+import {proteinColorSchemes} from "../utils/Graphics";
 
 class StructurePrediction extends React.Component {
 
@@ -17,6 +18,8 @@ class StructurePrediction extends React.Component {
         r: 255,
       },
     };
+
+    this.annotations = this.props.annotations;
   }
 
   componentDidMount() {
@@ -46,9 +49,143 @@ class StructurePrediction extends React.Component {
     }
   }
 
+  findIndexes = (string, letters) => {
+    let result = {};
+
+    for (let j = 0; j < letters.length; j++) {
+      let indices = [];
+      for (let i = 0; i < string.length; i++) {
+        if (string[i] === letters[j]) indices.push(i + 1);
+      }
+      result[letters[j]] = indices;
+    }
+
+    return result;
+  };
+
+  findRanges = (array) => {
+    if(array.length < 1){
+      return []
+    }
+
+    array.sort((e, i) => e - i);
+
+    let ranges = [{ start_residue_number: array[0], end_residue_number: array[0] }];
+
+    for (let i = 1; i < array.length; i++) {
+      let currentRange = ranges[ranges.length - 1];
+
+      if (array[i] <= currentRange.end_residue_number + 1) {
+        currentRange.end_residue_number = array[i];
+      } else {
+        ranges.push({ start_residue_number: array[i], end_residue_number: array[i] });
+      }
+    }
+    return ranges;
+  };
+
   componentWillReceiveProps(newProps) {
     if(newProps.data !== null){
       this.reDraw3D(newProps.data, newProps.featureSelection.selectionStart, newProps.featureSelection.selectionEnd);
+    }
+
+    if (this.annotations !== newProps.annotations && newProps.annotations !== null) {
+      this.annotations = newProps.annotations;
+
+      this.addAnnotations();
+    }
+  }
+
+  addAnnotations(){
+    if(this.annotations.predictedTransmembrane) {
+      let toplogy = this.findIndexes(
+          this.annotations.predictedTransmembrane,
+          ["B", "b", "H", "h", "S", "."]
+      );
+
+      this.annotations.predictedTransmembrane = [
+        ...this.findRanges(toplogy["."]).map(e => {
+          e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["."];
+          return e
+        }),
+        ...this.findRanges(toplogy["H"]).map(e => {
+          e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["H"];
+          return e
+        }),
+        ...this.findRanges(toplogy["h"]).map(e => {
+          e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["h"];
+          return e
+        }),
+        ...this.findRanges(toplogy["B"]).map(e => {
+          e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["B"];
+          return e
+        }),
+        ...this.findRanges(toplogy["b"]).map(e => {
+          e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["b"];
+          return e
+        }),
+        ...this.findRanges(toplogy["S"]).map(e => {
+          e['color'] = proteinColorSchemes["predictedTransmembrane"].contrast["S"];
+          return e
+        }),
+      ];
+    }
+
+    if (this.annotations.predictedDSSP3) {
+      let secondaryStructure3 = this.findIndexes(
+          this.annotations.predictedDSSP3,
+          ["H", "E", "C"]
+      );
+
+      this.annotations.predictedDSSP3 = [
+        ...this.findRanges(secondaryStructure3["H"]).map(e => {
+          e['color'] = proteinColorSchemes["dssp8"].contrast["H"];
+          return e
+        }),
+        ...this.findRanges(secondaryStructure3["E"]).map(e => {
+          e['color'] = proteinColorSchemes["dssp8"].contrast["E"];
+          return e
+        }),
+        ...this.findRanges(secondaryStructure3["C"]).map(e => {
+          e['color'] = proteinColorSchemes["dssp8"].contrast["C"];
+          return e
+        }),
+      ];
+    }
+
+    if (this.annotations.predictedDisorder) {
+      let disorder = this.findIndexes(this.annotations.predictedDisorder, ["X", "-"]);
+
+      this.annotations.predictedDisorder = [
+        ...this.findRanges(disorder["X"]).map(e => {
+          e['color'] = proteinColorSchemes["disorder"].contrast["X"];
+          return e
+        }),
+        ...this.findRanges(disorder["-"]).map(e => {
+          e['color'] = proteinColorSchemes["disorder"].contrast["-"];
+          return e
+        }),
+      ];
+    }
+  }
+
+  overlayAnnotations(annotationName){
+    switch (annotationName) {
+      case "secondary_structure":
+        this.viewerInstance.visual.select({
+          data: this.annotations.predictedDSSP3
+        })
+        break;
+      case "disorder":
+        this.viewerInstance.visual.select({
+          data: this.annotations.predictedDisorder
+        })
+        break;
+      case "topology":
+        this.viewerInstance.visual.select({
+          data: this.annotations.predictedTransmembrane
+        })
+        break;
     }
   }
 
@@ -69,7 +206,6 @@ class StructurePrediction extends React.Component {
 
 
     if (start !== null && end !== null){
-      console.log(start,end)
       setTimeout(() => this.viewerInstance.visual.select({
         data: [{
           start_residue_number: start,
@@ -83,9 +219,23 @@ class StructurePrediction extends React.Component {
 
   render() {
     return (
-        <div id="structureViewer" style={{float: 'inherit',  width: 'inherit', height: '700px', position: 'relative', backgroundColor: "#d9d9d9"}}>
-          <p style={{fontSize: "5em", textAlign: "center"}}>:(</p>
-        </div>
+        <>
+          <div id="structureViewer" style={{float: 'inherit',  width: 'inherit', height: '700px', position: 'relative', backgroundColor: "#d9d9d9"}}>
+            <p style={{fontSize: "5em", textAlign: "center"}}>:(</p>
+          </div>
+          {(this.annotations?.predictedDisorder !== undefined || this.annotations?.predictedDSSP3 !== undefined || this.annotations?.predictedTransmembrane !== undefined) && (
+              <div>
+                <p>
+                  <strong>Click one of the following to overlay:</strong> {""}
+                  <ul>
+                    {this.annotations?.predictedDisorder && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("disorder")}>Predicted disorder </li>} {" "}
+                    {this.annotations?.predictedDSSP3 && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("secondary_structure")}>Predicted secondary structure {""}</li>} {" "}
+                    {this.annotations?.predictedTransmembrane && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("topology")}>Predicted topology </li>} {""}
+                  </ul>
+                </p>
+              </div>
+          )}
+        </>
     );
   }
 }

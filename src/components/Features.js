@@ -267,7 +267,7 @@ class Features extends React.Component {
                       </p>
                   )}
 
-                  {this.state?.structure?.pdb && <StructurePrediction data={this.state.structure.pdb} />}
+                  {this.state?.structure?.pdb && <StructurePrediction data={this.state.structure.pdb} annotations={this.state.features} />}
 
                   <Link
                       to={{

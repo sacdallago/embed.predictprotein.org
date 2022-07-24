@@ -56,9 +56,6 @@ class FeatureViewer extends React.Component {
   };
 
   componentWillReceiveProps(newProps) {
-
-
-
     if (this.data !== newProps.data && newProps.data !== null) {
       // Update and clear
       this.data = newProps.data;
@@ -170,7 +167,7 @@ class FeatureViewer extends React.Component {
         this.ft.addFeature({
           data: this.findRanges(disorder["X"]),
           name: "Disorder",
-          color: "#0F8292",
+          color: proteinColorSchemes["disorder"].contrast["X"],
           type: "rect",
           height: 20,
         });

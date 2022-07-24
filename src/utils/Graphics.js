@@ -79,14 +79,14 @@ export const proteinColorSchemes = {
             '+':'#ededed',
 
             '-':'#ededed',
-            'X':'#505050',
+            'X':'#0F8292',
         },
         contrast : {
             // placeholder
             '+':'#ededed',
 
             '-':'#ededed',
-            'X':'#505050',
+            'X':'#0F8292',
         }
     },
     metal: {
