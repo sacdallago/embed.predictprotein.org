@@ -114,10 +114,12 @@ class Interactive extends React.Component {
             <Stack gap={3}>
               <Row/>
               <Row>
+                {this.state.features === annotationsPlaceholder && <p>⏱ Loading predicted annotations</p>}
                 <FeatureViewer data={this.state.features} />
               </Row>
               <Row style={{width: "100%"}}>
-                <StructurePrediction data={this.state.structure.pdb}/>
+                {this.state.structure === structurePlaceholder && <p>⏱ Loading structure prediction</p>}
+                <StructurePrediction data={this.state.structure.pdb} annotations={this.state.features}/>
               </Row>
               <Row/>
             </Stack>
