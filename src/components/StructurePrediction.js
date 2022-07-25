@@ -167,6 +167,50 @@ class StructurePrediction extends React.Component {
         }),
       ];
     }
+
+    if(this.annotations.predictedConservation) {
+      let conservation = this.findIndexes(this.annotations.predictedConservation.map(e => e + "").join(""), ["0", "1", "2", "3", "4", "5", "6", "7", "8"]);
+
+      this.annotations.predictedConservation = [
+        ...this.findRanges(conservation["0"]).map(e => {
+          e['color'] = proteinColorSchemes["conservation"].contrast["0"];
+          return e
+        }),
+        ...this.findRanges(conservation["1"]).map(e => {
+          e['color'] = proteinColorSchemes["conservation"].contrast["1"];
+          return e
+        }),
+        ...this.findRanges(conservation["2"]).map(e => {
+          e['color'] = proteinColorSchemes["conservation"].contrast["2"];
+          return e
+        }),
+        ...this.findRanges(conservation["3"]).map(e => {
+          e['color'] = proteinColorSchemes["conservation"].contrast["3"];
+          return e
+        }),
+        ...this.findRanges(conservation["4"]).map(e => {
+          e['color'] = proteinColorSchemes["conservation"].contrast["4"];
+          return e
+        }),
+        ...this.findRanges(conservation["5"]).map(e => {
+          e['color'] = proteinColorSchemes["conservation"].contrast["5"];
+          return e
+        }),
+        ...this.findRanges(conservation["6"]).map(e => {
+          e['color'] = proteinColorSchemes["conservation"].contrast["6"];
+          return e
+        }),
+        ...this.findRanges(conservation["7"]).map(e => {
+          e['color'] = proteinColorSchemes["conservation"].contrast["7"];
+          return e
+        }),
+        ...this.findRanges(conservation["8"]).map(e => {
+          e['color'] = proteinColorSchemes["conservation"].contrast["8"];
+          return e
+        }),
+
+      ];
+    }
   }
 
   overlayAnnotations(annotationName){
@@ -184,6 +228,11 @@ class StructurePrediction extends React.Component {
       case "topology":
         this.viewerInstance.visual.select({
           data: this.annotations.predictedTransmembrane
+        })
+        break;
+      case "conservation":
+        this.viewerInstance.visual.select({
+          data: this.annotations.predictedConservation
         })
         break;
     }
@@ -231,6 +280,7 @@ class StructurePrediction extends React.Component {
                     {this.annotations?.predictedDisorder && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("disorder")}>Predicted disorder </li>} {" "}
                     {this.annotations?.predictedDSSP3 && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("secondary_structure")}>Predicted secondary structure {""}</li>} {" "}
                     {this.annotations?.predictedTransmembrane && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("topology")}>Predicted topology </li>} {""}
+                    {this.annotations?.predictedConservation && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("conservation")}>Predicted conservation </li>} {""}
                   </ul>
                 </p>
               </div>

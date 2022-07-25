@@ -9,7 +9,7 @@ class FeatureViewerLegend extends React.Component {
                 <b>Sequence</b>: the input sequence. You may need to zoom into a region to render a visualization of the sequence which is otherwise hidden for longer sequences.
             </p>
             <p>
-                <b>Topology</b>: the predicted topology using TMBed. For instance, transmembrane regions or signal peptides. There are five possible predictions{""}:
+                <b>Topology</b>: the predicted topology using TMbed. For instance, transmembrane regions or signal peptides. There are five possible predictions{""}:
                 beta strand (<span style={{color: "white", backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["B"]}}>IN → OUT</span> or {""}
                 <span style={{color: "white", backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["b"]}}>IN ← OUT</span> orientation), {""}
                 alpha helix (<span style={{color: "white", backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["H"]}}>IN → OUT</span> or {""}
@@ -32,7 +32,16 @@ class FeatureViewerLegend extends React.Component {
                 <span style={{color: "white", backgroundColor:proteinColorSchemes["nucleicAcids"].contrast["N"]}}>nucleic acids</span> using the BindEmbedDL method.
             </p>
             <p>
-                <b>Conservation</b>: residue conservation from 0 (highly variable) to 8 (highly conserved) using the ProtT5cons method.
+                <b>Conservation</b>: residue conservation from <span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["0"]}}>0</span> (highly variable) , {""}
+                <span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["1"]}}>1</span>, {""}
+                <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["2"]}}>2</span>, {""}
+                <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["3"]}}>3</span>, {""}
+                <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["4"]}}>4</span>, {""}
+                <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["5"]}}>5</span>, {""}
+                <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["6"]}}>6</span>, {""}
+                <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["7"]}}>7</span>, {""}
+                <span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["8"]}}>8</span> {""}
+                (highly conserved) using the ProtT5cons method.
             </p>
             <p>
                 <b>μ variation</b>: pooled single amino acid variant effect from 0 (mutations unlikely affect function) to 100 (mutations likely affect function) using the VESPAi method. {""}

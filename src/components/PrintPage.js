@@ -22,9 +22,6 @@ const PrintPage = (props) => {
   let sequence = location.pathname.split("/")[2];
   let features = location.state.features;
 
-  console.log(features.predictedDSSP3)
-  console.log(features.predictedConservation.map(e => e + "").join(""))
-
   return (
     <>
       <div className="row mb-5"></div>
@@ -97,9 +94,15 @@ const PrintPage = (props) => {
               />
               <br/>
               Legend: {""}
-              <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["0"]}}>0</span>- Highly variable, {""}
+              <span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["0"]}}>0</span>- Highly variable, {""}
+              <span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["1"]}}>1</span>, {""}
+              <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["2"]}}>2</span>, {""}
+              <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["3"]}}>3</span>, {""}
+              <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["4"]}}>4</span>, {""}
               <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["5"]}}>5</span>- Neutral, {""}
-              <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["9"]}}>9</span>- Highly conserved {""}
+              <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["6"]}}>6</span>, {""}
+              <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["7"]}}>7</span>, {""}
+              <span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["8"]}}>8</span>- Highly conserved {""}
             </div>
           </div>
         </div>
