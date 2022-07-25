@@ -1,6 +1,6 @@
 import React from "react";
 
-import {Container, Stack, Nav, Navbar, Row} from "react-bootstrap";
+import {Container, Stack, Nav, Navbar, Row, Col} from "react-bootstrap";
 
 import FeatureViewer from "./components/FeatureViewer";
 import StructurePrediction from "./components/StructurePrediction";
@@ -115,15 +115,19 @@ class Interactive extends React.Component {
             <Stack gap={3}>
               <Row/>
               <Row>
-                {this.state.features === annotationsPlaceholder && <p>⏱ Loading predicted annotations</p>}
-                <FeatureViewer data={this.state.features} />
-              </Row>
-              <Row style={{width: "100%"}}>
-                {this.state.structure === structurePlaceholder && <p>⏱ Loading structure prediction</p>}
-                <StructurePrediction data={this.state.structure.pdb} annotations={this.state.features}/>
+                <FeatureViewerLegend />
               </Row>
               <Row>
-                <FeatureViewerLegend />
+                <Col>
+                  {this.state.features === annotationsPlaceholder && <p>⏱ Loading predicted annotations</p>}
+                  <FeatureViewer data={this.state.features} />
+                </Col>
+              </Row>
+              <Row style={{width: "100%"}}>
+                <Col>
+                  {this.state.structure === structurePlaceholder && <p>⏱ Loading structure prediction</p>}
+                  <StructurePrediction data={this.state.structure.pdb} annotations={this.state.features}/>
+                </Col>
               </Row>
               <Row/>
             </Stack>
