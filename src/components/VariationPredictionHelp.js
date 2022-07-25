@@ -15,7 +15,7 @@ class VariationPredictionHelp extends React.Component {
                         </MDBTypography>
                         <br />
                         <MDBTypography>
-                            VESPAi predicts the effect of single amino acid variants across a protein's residue landscape. In other words: {""}
+                            VESPAl predicts the effect of single amino acid variants across a protein's residue landscape. In other words: {""}
                             what's the likelihood that substituting residue X at position Y with amino acid Z will result in a non-functional sequence?
                         </MDBTypography>
 
@@ -36,7 +36,7 @@ class VariationPredictionHelp extends React.Component {
                                 </a>
                             }
                             <MDBTypography>
-                                VESPA:{" "}
+                                VESPAl:{" "}
                                 {
                                     <a
                                         href={"https://doi.org/10.1007/s00439-021-02411-y"}

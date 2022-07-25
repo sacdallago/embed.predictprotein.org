@@ -167,6 +167,7 @@ class Features extends React.Component {
                 </div>
             )
           }
+          
           {
             this.isValidIdentifierOrSequence() &&
             (
@@ -198,6 +199,7 @@ class Features extends React.Component {
                 </Alert>
             )
           }
+         
           {/*PROTEIN LEVEL FEATURES START*/}
           {
             this.isValidIdentifierOrSequence() &&
@@ -241,8 +243,8 @@ class Features extends React.Component {
                 </div>
             )
           }
-          {/*STRUCTURE START*/}
-          {
+           {/*STRUCTURE START*/}
+           {
             this.isValidIdentifierOrSequence() &&
             (
                 <div ref={this.sequenceStructureRef}>
@@ -268,6 +270,7 @@ class Features extends React.Component {
                   )}
 
                   {this.state?.structure?.pdb && <StructurePrediction data={this.state.structure.pdb} annotations={this.state.features} />}
+                  <Alert key="secondary" variant="secondary" style={{textAlign: "center"}}>
 
                   <Link
                       to={{
@@ -276,8 +279,9 @@ class Features extends React.Component {
                       }}
                       reloadDocument={false}
                   >
-                    Interactively explore the predicted features on the structure.
+                    Interactively explore the predicted features on the structure!
                   </Link>
+                  </Alert>
                 </div>
             )}
 

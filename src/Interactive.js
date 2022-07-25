@@ -119,13 +119,13 @@ class Interactive extends React.Component {
               </Row>
               <Row>
                 <Col>
-                  {this.state.features === annotationsPlaceholder && <p>⏱ Loading predicted annotations</p>}
+                  {this.state.features === annotationsPlaceholder && <p>⏱ Loading predicted annotations...</p>}
                   <FeatureViewer data={this.state.features} />
                 </Col>
               </Row>
               <Row style={{width: "100%"}}>
                 <Col>
-                  {this.state.structure === structurePlaceholder && <p>⏱ Loading structure prediction</p>}
+                  {this.state.structure === structurePlaceholder && <p>⏱ Loading structure prediction...</p>}
                   <StructurePrediction data={this.state.structure.pdb} annotations={this.state.features}/>
                 </Col>
               </Row>
