@@ -7,6 +7,7 @@ import StructurePrediction from "./components/StructurePrediction";
 
 import "./App.css";
 import {annotationsPlaceholder, structurePlaceholder} from "./stores/JobResults";
+import FeatureViewerLegend from "./components/FeatureViewerLegend";
 
 const ULR = "https://api.bioembeddings.com/api/annotations";
 
@@ -120,6 +121,9 @@ class Interactive extends React.Component {
               <Row style={{width: "100%"}}>
                 {this.state.structure === structurePlaceholder && <p>⏱ Loading structure prediction</p>}
                 <StructurePrediction data={this.state.structure.pdb} annotations={this.state.features}/>
+              </Row>
+              <Row>
+                <FeatureViewerLegend />
               </Row>
               <Row/>
             </Stack>
