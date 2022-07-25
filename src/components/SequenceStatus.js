@@ -32,28 +32,38 @@ class SequenceStatus extends React.Component {
         switch (this.state.proteinStatus) {
             case proteinStatus.UNIPROT:
                 if(this.state.jobResultsStatus === resultStatus.DONE){
-                    return (
-                        <div>
-                            <Alert key="success" variant="success">
-                                Done! The sequence from {" "}
-                                <a
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    href={
-                                        "https://uniprot.org/uniprot/" +
-                                        (this.state.protein?.uniprotData
+                    if(this.state.protein?.sequence?.length > 2000){
+                        return (
+                            <div>
+                                <Alert key="danger" variant="danger">
+                                    Sorry, the sequence you passed is too long ({this.state.protein?.sequence?.length} residues)! The server can currently handle sequences up to 2000 residues.
+                                </Alert>
+                            </div>)
+                    } else {
+                        return (
+                            <div>
+                                <Alert key="success" variant="success">
+                                    Done! The sequence from {" "}
+                                    <a
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        href={
+                                            "https://uniprot.org/uniprot/" +
+                                            (this.state.protein?.uniprotData
+                                                ? this.state.protein.uniprotData.accession
+                                                : "P12345")
+                                        }
+                                    >
+                                        {this.state.protein?.uniprotData
                                             ? this.state.protein.uniprotData.accession
-                                            : "P12345")
-                                    }
-                                >
-                                    {this.state.protein?.uniprotData
-                                        ? this.state.protein.uniprotData.accession
-                                        : "P12345"}
-                                </a>{" "}
-                                was used to compute the predictions below.
-                            </Alert>
-                        </div>
-                    );
+                                            : "P12345"}
+                                    </a>{" "}
+                                    was used to compute the predictions below.
+                                </Alert>
+                            </div>
+                        );
+                    }
+
                 } else {
                     return (
                         <div>
@@ -66,13 +76,22 @@ class SequenceStatus extends React.Component {
             case proteinStatus.AA:
             case proteinStatus.FASTA:
                 if(this.state.jobResultsStatus === resultStatus.DONE){
-                    return (
-                        <div>
-                            <Alert key="success" variant="success">
-                                Valid sequence passed.
-                            </Alert>
-                        </div>
-                    );
+                    if(this.state.protein?.sequence?.length > 2000){
+                        return (
+                            <div>
+                                <Alert key="danger" variant="danger">
+                                    Sorry, the sequence you passed is too long ({this.state.protein?.sequence?.length} residues)! The server can currently handle sequences up to 2000 residues.
+                                </Alert>
+                            </div>)
+                    } else {
+                        return (
+                            <div>
+                                <Alert key="success" variant="success">
+                                    Valid sequence passed.
+                                </Alert>
+                            </div>
+                        );
+                    }
                 } else {
                     return (
                         <div>
@@ -100,14 +119,33 @@ class SequenceStatus extends React.Component {
                     </div>
                 );
             case proteinStatus.MULTIPLESEQUENCES:
-                return (
-                    <div>
-                        <Alert key="warning" variant="warning">
-                            You inputted a valid FASTA but with multiple entries. Only the first sequence will be
-                            considered.
-                        </Alert>
-                    </div>
-                );
+                if(this.state.jobResultsStatus === resultStatus.DONE){
+                    if(this.state.protein?.sequence?.length > 2000){
+                        return (
+                            <div>
+                                <Alert key="danger" variant="danger">
+                                    Sorry, the sequence you passed is too long ({this.state.protein?.sequence?.length} residues)! The server can currently handle sequences up to 2000 residues.
+                                </Alert>
+                            </div>)
+                    } else {
+                        return (
+                            <div>
+                                <Alert key="warning" variant="warning">
+                                    You inputted a valid FASTA but with multiple entries. Only the first sequence will be
+                                    considered.
+                                </Alert>
+                            </div>
+                        );
+                    }
+                } else {
+                    return (
+                        <div>
+                            <Alert key="warning" variant="warning">
+                                Valid sequence passed. We are beaming the results from our server to your computer...
+                            </Alert>
+                        </div>
+                    );
+                }
             default:
                 return (
                     <div>
