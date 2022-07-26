@@ -51,12 +51,12 @@ class SequenceStatus extends React.Component {
                                             "https://uniprot.org/uniprot/" +
                                             (this.state.protein?.uniprotData
                                                 ? this.state.protein.uniprotData.accession
-                                                : "P12345")
+                                                : "A0A654IBU3")
                                         }
                                     >
                                         {this.state.protein?.uniprotData
                                             ? this.state.protein.uniprotData.accession
-                                            : "P12345"}
+                                            : "A0A654IBU3"}
                                     </a>{" "}
                                     was used to compute the predictions below.
                                 </Alert>
