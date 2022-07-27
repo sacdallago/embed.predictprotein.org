@@ -25,17 +25,8 @@ ReactDOM.render(
             <HashRouter history={history}>
                 <Routes>
                     <Route path="/" element={<App />} />
-                    <Route path="/interactive/:sequence" element={<Interactive />} />
-                    <Route
-                        path="/printpage/:sequence"
-                        element={<PrintPage/>}
-                        render={(features) => (
-                            <PrintPage
-                                {...features}
-                            />
-                        )
-                        }
-                    />
+                    <Route path="/interactive/:sequence"element={<Interactive />} />
+                    <Route path="/printpage/:sequence" element={<PrintPage/>} />
                 </Routes>
             </HashRouter>
         </React.StrictMode>
