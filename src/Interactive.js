@@ -86,7 +86,10 @@ class Interactive extends React.Component {
           // Result is computed
           if(json.status === "OK") {
             this.setState({
-              structure: json.structure
+              structure: {
+                ...json.structure,
+                status: resultStatus.DONE
+              }
             })
           } else {
             // The request has been created or is being computed!
