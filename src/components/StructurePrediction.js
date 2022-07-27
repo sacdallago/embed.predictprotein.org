@@ -19,7 +19,7 @@ class StructurePrediction extends React.Component {
       },
     };
 
-    this.annotations = this.props.annotations;
+    this.annotations = {...this.props.annotations};
   }
 
   componentDidMount() {
@@ -90,7 +90,7 @@ class StructurePrediction extends React.Component {
     }
 
     if (this.annotations !== newProps.annotations && newProps.annotations !== null) {
-      this.annotations = newProps.annotations;
+      this.annotations = {...newProps.annotations};
 
       this.addAnnotations();
     }
