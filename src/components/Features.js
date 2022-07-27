@@ -30,6 +30,7 @@ import GeneOntology from "./GeneOntology";
 import GeneOntologyHelp from "./GeneOntologyHelp";
 import SubcellularLocalization from "./SubcellularLocation";
 import SubcellularLocalizationHelp from "./SubcellularLocalizationHelp";
+import StructureStatus from "./StructureStatus";
 
 
 class Features extends React.Component {
@@ -256,18 +257,7 @@ class Features extends React.Component {
                     The prediction is started in the background for you and the visualization below will automatically display the structure once it is available (no need to refresh the page).
                   </p>
 
-                  {this.state.sequence?.length > 500 && (
-                      <p>
-                        <b>Apologies!</b> Our server can currently only handle structure prediction for sequences shorter than {""}
-                        500 amino acids. The sequence you submitted is {this.state.sequence?.length} amino acids. {""}
-                      </p>
-                  )}
-
-                  {this.state.sequence?.length <= 500 && this.state.structure?.status !== resultStatus.DONE && (
-                      <p>
-                        ⏱ We are predicting the structure of your protein.
-                      </p>
-                  )}
+                  <StructureStatus sequence={this.state.sequence} structure={this.state.structure} />
 
                   {this.state?.structure?.pdb && <StructurePrediction data={this.state.structure.pdb} annotations={this.state.features} />}
                   <Alert key="secondary" variant="secondary" style={{textAlign: "center"}}>
