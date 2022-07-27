@@ -6,8 +6,10 @@ import FeatureViewer from "./components/FeatureViewer";
 import StructurePrediction from "./components/StructurePrediction";
 
 import "./App.css";
-import {annotationsPlaceholder, structurePlaceholder} from "./stores/JobResults";
+import {annotationsPlaceholder, structurePlaceholder, resultStatus} from "./stores/JobResults";
 import FeatureViewerLegend from "./components/FeatureViewerLegend";
+import StructureStatus from "./components/StructureStatus";
+import AnnotationsStatus from "./components/AnnotationsStatus";
 
 const ULR = "https://api.bioembeddings.com/api/annotations";
 
@@ -15,15 +17,18 @@ class Interactive extends React.Component {
   constructor(props) {
     super(props);
 
+    let sequence = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+
     this.state = {
+      sequence: sequence,
       features: annotationsPlaceholder,
       structure: structurePlaceholder,
     };
 
-    let sequence = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
-
-    this.getFeatures(sequence, "prottrans_t5_xl_u50");
-    this.getStructure(sequence);
+    if(sequence.length <= 2000){
+      this.getFeatures(sequence, "prottrans_t5_xl_u50");
+      this.getStructure(sequence);
+    }
   }
 
   getFeatures = (sequence, embedder) => {
@@ -46,7 +51,10 @@ class Interactive extends React.Component {
         .then(response => response.json())
         .then(json => {
           this.setState({
-            features: json
+            features: {
+              ...json,
+              status: resultStatus.DONE
+            }
           })
         })
         .catch(e => {
@@ -119,13 +127,13 @@ class Interactive extends React.Component {
               </Row>
               <Row>
                 <Col>
-                  {this.state.features === annotationsPlaceholder && <p>⏱ Loading predicted annotations...</p>}
+                  <AnnotationsStatus sequence={this.state.sequence} features={this.state.features} />
                   <FeatureViewer data={this.state.features} />
                 </Col>
               </Row>
               <Row style={{width: "100%"}}>
                 <Col>
-                  {this.state.structure === structurePlaceholder && <p>⏱ Loading structure prediction...</p>}
+                  <StructureStatus structure={this.state.structure} sequence={this.state.sequence} />
                   <StructurePrediction data={this.state.structure.pdb} annotations={this.state.features}/>
                 </Col>
               </Row>
