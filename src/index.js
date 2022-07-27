@@ -27,6 +27,7 @@ ReactDOM.render(
                     <Route path="/" element={<App />} />
                     <Route path="/interactive/:sequence"element={<Interactive />} />
                     <Route path="/printpage/:sequence" element={<PrintPage/>} />
+                    <Route path="/:sequence" element={<App />} />
                 </Routes>
             </HashRouter>
         </React.StrictMode>

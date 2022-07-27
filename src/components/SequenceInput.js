@@ -26,6 +26,27 @@ class SequenceInput extends React.Component {
     this.deleyedKeyUp = this.deleyedKeyUp.bind(this);
   }
 
+  componentDidMount() {
+    let sequence = window.location.href.substring(window.location.href.lastIndexOf('/') + 1);
+
+    if(sequence && sequence !== "#"){
+      this.setState({
+        proteinSequenceInput: sequence,
+      });
+
+      // Check if there is currently a sequence being checked
+      if (this.props.jobParameters.proteinStatus !== proteinStatus.LOADING) {
+        this.props.action({
+          type: this.proteinStatusAction,
+          payload: {
+            proteinStatus: proteinStatus.LOADING,
+          },
+        });
+      }
+      delay("SEQUENCE_INPUT_CHANGE", this.handleChange, 1000);
+    }
+  }
+
   componentWillUnmount() {
     this.props.action({
       type: "RESET_JOB_SUBMISSION",
@@ -252,6 +273,7 @@ QRPSSRASSRASSRPRPDDLEI`,
     }
     delay("SEQUENCE_INPUT_CHANGE", this.handleChange, 1000);
   }
+
   render() {
     return (
         <Container>
