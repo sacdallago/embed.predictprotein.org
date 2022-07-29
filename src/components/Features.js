@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Navigation } from "react-minimal-side-navigation";
 
 import { MDBTypography } from "mdb-react-ui-kit";
@@ -10,7 +10,8 @@ import {
   Tabs,
   Tab,
   Alert,
-  Stack
+  Stack,
+  Button
 } from "react-bootstrap";
 
 import { proteinStatus } from "../stores/JobParameters";
@@ -133,18 +134,31 @@ class Features extends React.Component {
 
     return (
         <div>
+
           {
             this.isValidIdentifierOrSequence() &&
             (
                 <div>
-                  <h3>Predicted features</h3>
+                  <h3>Prediction results</h3>
+                  <p style={{textAlign:"left"}}>
+                    <span style={{marginRight: "1em"}}>
+                      Open alternative display of results:
+                    </span>
+                    <a
+                        href={"/#/interactive/" + (this.state.protein?.uniprotData ? this.state.protein.uniprotData.accession : this.state.sequence )}
+                        target={"_blank"}
+                    >
+                      <Button variant="outline-success">
+                        💡 Interactive page (3D structure and residue features)
+                      </Button>
+                    </a>
+                  </p>
+
                   <p>
-                    Use the following navigation to quickly jump to your preferred features.
+                    Navigate to desired features:
                   </p>
                   <Navigation
                       className=""
-                      // you can use your own router's api to get pathname
-                      //activeItemId="/protein-level-features"
                       onSelect={({ itemId }) => {
                         this.executeScroll(itemId);
                       }}
@@ -170,7 +184,7 @@ class Features extends React.Component {
                 </div>
             )
           }
-          
+
           {
             this.isValidIdentifierOrSequence() &&
             (
@@ -202,7 +216,7 @@ class Features extends React.Component {
                 </Alert>
             )
           }
-         
+
           {/*PROTEIN LEVEL FEATURES START*/}
           {
             this.isValidIdentifierOrSequence() &&
@@ -246,8 +260,8 @@ class Features extends React.Component {
                 </div>
             )
           }
-           {/*STRUCTURE START*/}
-           {
+          {/*STRUCTURE START*/}
+          {
             this.isValidIdentifierOrSequence() &&
             (
                 <div ref={this.sequenceStructureRef}>
@@ -264,12 +278,12 @@ class Features extends React.Component {
                   {this.state?.structure?.pdb && <StructurePrediction link={this.state.structure.link} data={this.state.structure.pdb} annotations={this.state.features} />}
                   <Alert key="secondary" variant="secondary" style={{textAlign: "center"}}>
 
-                  <a
-                      href={"/#/interactive/" + (this.state.protein?.uniprotData ? this.state.protein.uniprotData.accession : this.state.sequence )}
-                      target={"_blank"}
-                  >
-                    Interactively explore the predicted features on the structure!
-                  </a>
+                    <a
+                        href={"/#/interactive/" + (this.state.protein?.uniprotData ? this.state.protein.uniprotData.accession : this.state.sequence )}
+                        target={"_blank"}
+                    >
+                      Interactively explore the predicted features on the structure!
+                    </a>
                   </Alert>
                 </div>
             )}
