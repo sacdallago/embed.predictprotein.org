@@ -6,21 +6,21 @@ const status = {
 };
 
 export const annotationsPlaceholder = {
-    sequence: "+++",
+    sequence: " ",
     predictedSubcellularLocalizations: " ",
-    predictedMembrane: " ",
+    // predictedMembrane: " ",
     predictedBPO: [],
     predictedBPOGraphDataString: "",
     predictedCCO: [],
     predictedCCOGraphDataString: "",
     predictedMFO: [],
     predictedMFOGraphDataString: "",
-    predictedDSSP3: " ",
-    predictedDSSP8: " ",
-    predictedDisorder: " ",
-    predictedBindingMetal: " ",
-    predictedBindingNucleicAcids: " ",
-    predictedBindingSmallMolecules: " ",
+    // predictedDSSP3: " ",
+    // predictedDSSP8: " ",
+    // predictedDisorder: " ",
+    // predictedBindingMetal: " ",
+    // predictedBindingNucleicAcids: " ",
+    // predictedBindingSmallMolecules: " ",
     status: status.NULL
 };
 

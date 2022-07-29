@@ -18,7 +18,7 @@ class FeatureViewerLegend extends React.Component {
             </p>
             <p>
                 <b>Structure</b>: secondary structure predicted in three states (<span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["H"]}}>alpha helix</span>, {""}
-                <span style={{color: "white", backgroundColor:proteinColorSchemes["dssp8"].contrast["E"]}}>beta sheet</span>, and {""}
+                <span style={{color: "white", backgroundColor:proteinColorSchemes["dssp8"].contrast["E"]}}>beta strand</span>, and {""}
                 <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["C"]}}>other</span>
                 ) using the ProtT5Sec method.
             </p>
@@ -29,7 +29,7 @@ class FeatureViewerLegend extends React.Component {
                 <b>Binding</b>: prediction of residues' ability to bind {""}
                 <span style={{color: "white", backgroundColor:proteinColorSchemes["metal"].contrast["M"]}}>metal</span> or {""}
                 <span style={{color: "white", backgroundColor:proteinColorSchemes["smallMolecules"].contrast["S"]}}>small</span> molecules, or {""}
-                <span style={{color: "white", backgroundColor:proteinColorSchemes["nucleicAcids"].contrast["N"]}}>nucleic acids</span> using the BindEmbedDL method.
+                <span style={{color: "white", backgroundColor:proteinColorSchemes["nucleicAcids"].contrast["N"]}}>nucleic</span> acids using the BindEmbedDL method.
             </p>
             <p>
                 <b>Conservation</b>: residue conservation from <span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["0"]}}>0</span> (highly variable) , {""}
