@@ -208,18 +208,18 @@ class Features extends React.Component {
                 <div ref={this.proteinLevelFeaturesRef}>
                   <MDBTypography tag="h3">Protein features</MDBTypography>
 
-                  <Tabs defaultActiveKey="GO">
-                    <Tab eventKey="GO" title="Gene Ontology Terms">
-                      <br/>
-                      <GeneOntology features={features}/>
-                      <GeneOntologyHelp/>
-                    </Tab>
+                  <Tabs defaultActiveKey="subcell_loc">
                     <Tab eventKey="subcell_loc" title="Subcellular Location">
                       <br/>
                       <Stack gap={3}>
                         <SubcellularLocalization features={features}/>
                         <SubcellularLocalizationHelp />
                       </Stack>
+                    </Tab>
+                    <Tab eventKey="GO" title="Gene Ontology Terms">
+                      <br/>
+                      <GeneOntology features={features}/>
+                      <GeneOntologyHelp/>
                     </Tab>
                   </Tabs>
                 </div>
