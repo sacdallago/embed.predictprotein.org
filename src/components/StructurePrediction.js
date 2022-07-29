@@ -89,6 +89,10 @@ class StructurePrediction extends React.Component {
       this.reDraw3D(newProps.data, newProps.featureSelection.selectionStart, newProps.featureSelection.selectionEnd);
     }
 
+    if(newProps.link !== null){
+      this.reDrawFromAFDB(newProps.link, newProps.featureSelection.selectionStart, newProps.featureSelection.selectionEnd)
+    }
+
     if (this.annotations !== newProps.annotations && newProps.annotations !== null) {
       this.annotations = {...newProps.annotations};
 
@@ -235,6 +239,29 @@ class StructurePrediction extends React.Component {
           data: this.annotations.predictedConservation
         })
         break;
+    }
+  }
+
+  reDrawFromAFDB(link, start, end) {
+
+    //Call render method to display the 3D view
+    this.viewerInstance.visual.update({
+      ...this.options,
+      customData: {
+        url: link,
+        format: "cif",
+      }
+    });
+
+
+    if (start !== null && end !== null){
+      setTimeout(() => this.viewerInstance.visual.select({
+        data: [{
+          start_residue_number: start,
+          end_residue_number: end,
+          focus: true
+        }]
+      }), 500)
     }
   }
 

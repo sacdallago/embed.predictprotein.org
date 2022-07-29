@@ -259,7 +259,7 @@ class Features extends React.Component {
 
                   <StructureStatus sequence={this.state.sequence} structure={this.state.structure} />
 
-                  {this.state?.structure?.pdb && <StructurePrediction data={this.state.structure.pdb} annotations={this.state.features} />}
+                  {this.state?.structure?.pdb && <StructurePrediction link={this.state.structure.link} data={this.state.structure.pdb} annotations={this.state.features} />}
                   <Alert key="secondary" variant="secondary" style={{textAlign: "center"}}>
 
                   <Link

@@ -115,7 +115,6 @@ class FeaturesGrabber extends React.Component {
     };
 
     getStructure = (sequence) => {
-
         fetch('https://api.bioembeddings.com/api/structure', {
             method: "POST",
             mode: "cors",
@@ -168,12 +167,58 @@ class FeaturesGrabber extends React.Component {
         ;
     };
 
+    structureFromAFDB = (accession, sequence) => {
+        fetch('https://www.alphafold.ebi.ac.uk/api/prediction/' + accession, {
+            method: "GET",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrer: "no-referrer",
+        })
+            .then(response => {
+                return response.json()
+            })
+            .then(json => {
+                this.props.action({
+                    type: "SET_STRUCTURE",
+                    payload: {
+                        predictor: 'colabfold',
+                        result: {
+                            link: json[0]['cifUrl'],
+                            status: resultStatus.DONE
+                        }
+                    }
+                });
+            })
+            .catch(e => {
+                console.error(e);
+                if(sequence.length <= 500){
+                    this.getStructure(sequence);
+                }
+            });
+
+    }
+
     componentWillReceiveProps(nextProps) {
         let jobParameters = nextProps.jobParameters;
 
         switch (jobParameters.proteinStatus) {
             case proteinStatus.UNIPROT:
-                // TODO: if uniprot identifier, I can query the AlphaFold DB first!
+                if(this.protein !== jobParameters.protein) {
+                    this.protein = jobParameters.protein;
+
+                    this.props.action({
+                        type: "RESET_RESULTS"
+                    });
+
+                    this.getFeatures(jobParameters.protein.sequence, 'prottrans_t5_xl_u50');
+                    this.structureFromAFDB(jobParameters.protein?.uniprotData?.accession, jobParameters.protein.sequence);
+                }
+                break;
             case proteinStatus.AA:
             case proteinStatus.FASTA:
             case proteinStatus.MULTIPLESEQUENCES:
