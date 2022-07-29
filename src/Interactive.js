@@ -8,7 +8,6 @@ import SequenceInput from "./components/SequenceInput";
 
 import "./App.css";
 import {annotationsPlaceholder, structurePlaceholder, resultStatus} from "./stores/JobResults";
-import FeatureViewerLegend from "./components/FeatureViewerLegend";
 import StructureStatus from "./components/StructureStatus";
 import AnnotationsStatus from "./components/AnnotationsStatus";
 import storeComponentWrapper from "./stores/jobDispatcher";
@@ -88,9 +87,6 @@ class Interactive extends React.Component {
                 <Container>
                     <Stack gap={3}>
                         <Row/>
-                        <Row>
-                            <FeatureViewerLegend />
-                        </Row>
                         <Row>
                             <Col>
                                 <AnnotationsStatus sequence={this.state.sequence} features={this.state.features} />

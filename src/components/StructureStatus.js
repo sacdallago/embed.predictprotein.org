@@ -18,11 +18,11 @@ class StructureStatus extends React.Component {
                 </Alert>
             )}
 
-            {this.props.structure?.link !== undefined && (
-                <Alert key="success" variant="success">
-                    We are displaying a pre-computed structure from the <a href={"https://alphafold.ebi.ac.uk"} target={"_blank"}>AlphaFold Database</a>.
-                </Alert>
-            )}
+            {/*{this.props.structure?.link !== undefined && (*/}
+            {/*    <Alert key="success" variant="success">*/}
+            {/*        We are displaying a pre-computed structure from the <a href={"https://alphafold.ebi.ac.uk"} target={"_blank"}>AlphaFold Database</a>.*/}
+            {/*    </Alert>*/}
+            {/*)}*/}
         </>
     }
 }

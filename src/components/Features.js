@@ -276,8 +276,8 @@ class Features extends React.Component {
 
                   <p>
                     The 3D protein structure is either fetched from the AlphaFold Database (only available when inputting a UniProt Accession, e.g. P12004) or predicted via ColabFold. The first time you submit a sequence which our server has not yet processed {""}
-                    predicting its structure can take several minutes. {""}
-                    The prediction is started in the background and the visualization below will automatically display the structure once it is available (no need to refresh the page).
+                    predicting its structure may take several minutes. {""}
+                    The prediction is started in the background and the visualization below will automatically update once results are available (no need to refresh the page).
                   </p>
 
                   <StructureStatus sequence={this.state.sequence} structure={this.state.structure} />
