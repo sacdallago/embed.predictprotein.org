@@ -41,11 +41,11 @@ class FeatureViewerLegend extends React.Component {
                 <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["6"]}}>6</span>, {""}
                 <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["7"]}}>7</span>, {""}
                 <span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["8"]}}>8</span> {""}
-                (highly conserved) using the ProtT5cons method.
+                (highly conserved) using the ProtT5cons method. The color scheme applies to the overlay on the 3D structure below.
             </p>
             <p>
                 <b>μ variation</b>: pooled single amino acid variant effect from 0 (mutations unlikely affect function) to 100 (mutations likely affect function) using the VESPAi method. {""}
-                Note that pooled values may not give as clear of a picture as per-substitution scores, which can be found below.
+                Note that pooled values may not give as clear of a picture as per-substitution scores, which can be found in the "Single amino acid variant effect" section in the main page.
             </p>
         </>
     }

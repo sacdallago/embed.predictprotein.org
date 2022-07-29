@@ -16,14 +16,10 @@ import {
 
 import { proteinStatus } from "../stores/JobParameters";
 import { annotationsPlaceholder, resultStatus } from "../stores/JobResults";
-
 import storeComponentWrapper from "../stores/jobDispatcher";
-
-import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
 
 import FeatureGrabber from "./FeatureGrabber";
 import VariationPrediction from "./VariationPrediction";
-import VariationPredictionHelp from "./VariationPredictionHelp";
 import FeatureViewer from "./FeatureViewer";
 import FeatureViewerLegend from "./FeatureViewerLegend";
 import StructurePrediction from "./StructurePrediction";
@@ -32,6 +28,9 @@ import GeneOntologyHelp from "./GeneOntologyHelp";
 import SubcellularLocalization from "./SubcellularLocation";
 import SubcellularLocalizationHelp from "./SubcellularLocalizationHelp";
 import StructureStatus from "./StructureStatus";
+import Glossary from "./Glossary";
+
+import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
 
 
 class Features extends React.Component {
@@ -67,6 +66,7 @@ class Features extends React.Component {
     this.sequenceStructureRef = React.createRef();
     this.residueLandscapeFeaturesRef = React.createRef();
     this.residueLevelFeaturesRef = React.createRef();
+    this.glossaryRef = React.createRef();
 
   }
 
@@ -114,6 +114,9 @@ class Features extends React.Component {
         break;
       case '/residue-level-features':
         this.residueLevelFeaturesRef.current.scrollIntoView()
+        break;
+      case '/glossary':
+        this.glossaryRef.current.scrollIntoView()
         break;
     }
   };
@@ -179,6 +182,10 @@ class Features extends React.Component {
                           title: "3D Structure",
                           itemId: "/sequence-structure",
                         },
+                        {
+                          title: "Glossary",
+                          itemId: "/glossary",
+                        },
                       ]}
                   />
                 </div>
@@ -191,8 +198,8 @@ class Features extends React.Component {
                 <div ref={this.residueLevelFeaturesRef}>
                   <MDBTypography tag="h3">Residue features</MDBTypography>
                   <p>
-                    The following feature viewer is a compact representation of residue-level predicted features. We use a variety of prediction methods to produce the results below. {""}
-                    You can find details about the methods used, their performance and their utility in the manuscript linked in the "Cite" section at the bottom of the page.
+                    The following feature viewer is a compact representation of residue-level predicted features. {""}
+                    You can find details about the methods mentioned in the Glossary section.
                   </p>
                   <FeatureViewer data={this.state.features} />
                   <FeatureViewerLegend/>
@@ -248,15 +255,15 @@ class Features extends React.Component {
                   <MDBTypography tag="h3">Single Amino acid Variant (SAV) effect</MDBTypography>
                   <p>
                     The following visualization displays the effect of substituting the residue at position X on the x-axis with amino acid Y on the y-axis. {""}
-                    Darker color / higher value translates to a high effect in execution said substitution, while a lighter color / lower value {""}
-                    translates to a more tolerable substitution. The orange dotted marks indicate the wild-type residue at the given position, for which the substitution effect {""}
-                    score is null.
+                    Darker color / higher value indicates more significant effect in performing said substitution, while a lighter color / lower value {""}
+                    indicates a more tolerable substitution. The orange dotted marks indicate the wild-type residue at the given position, for which the substitution effect {""}
+                    score is null. SAV effect was computed using the VESPAi method.
                   </p>
                   <VariationPrediction data={this.state.features} />
                   <p>
-                    You may click and pan the visualization to move along the y-axis of the sequence.
+                    You may click and pan the visualization to move along the x-axis.
                   </p>
-                  <VariationPredictionHelp/>
+                  {/*<VariationPredictionHelp/>*/}
                 </div>
             )
           }
@@ -268,9 +275,9 @@ class Features extends React.Component {
                   <MDBTypography tag="h3">3D Structure</MDBTypography>
 
                   <p>
-                    The protein structure is predicted via ColabFold. While predicting the annotations above only requires a few seconds, the first time you submit a sequence which our server has not yet processed {""}
+                    The 3D protein structure is either fetched from the AlphaFold Database (only available when inputting a UniProt Accession, e.g. P12004) or predicted via ColabFold. The first time you submit a sequence which our server has not yet processed {""}
                     predicting its structure can take several minutes. {""}
-                    The prediction is started in the background for you and the visualization below will automatically display the structure once it is available (no need to refresh the page).
+                    The prediction is started in the background and the visualization below will automatically display the structure once it is available (no need to refresh the page).
                   </p>
 
                   <StructureStatus sequence={this.state.sequence} structure={this.state.structure} />
@@ -287,6 +294,10 @@ class Features extends React.Component {
                   </Alert>
                 </div>
             )}
+
+          {
+            this.isValidIdentifierOrSequence() && <div ref={this.glossaryRef}><Glossary /></div>
+          }
 
 
           {/*STRUCTURE END*/}

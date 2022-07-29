@@ -55,7 +55,7 @@ export default class GeneOntologyHelp extends React.Component {
                             results from CAFA4 support those results. For each
                             prediction a reliability score is provided which is
                             derived based on the distance of the query protein
-                            and the closest annotated protein in SeqVec
+                            and the closest annotated protein in ProtT5
                             embedding space. If this score is {">"}0.5 we expect
                             a precision and recall of ~50% for BPO and MFO and
                             ~60% for CCO.
@@ -68,7 +68,7 @@ export default class GeneOntologyHelp extends React.Component {
                         <br />
                         <MDBTypography>
                             Our method consists of three steps: first, the
-                            language model SeqVec is used to represent the query
+                            language model ProtT5 is used to represent the query
                             protein as vectors (embeddings). That is used to
                             compute the pairwise Euclidean distance to each
                             embedding of a set of annotated proteins (this
