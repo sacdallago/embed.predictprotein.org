@@ -54,6 +54,12 @@ class Features extends React.Component {
       // The status of the structure and annotations requests
       loadingAnnotations: null,
       loadingStructure: null,
+
+      protein: {
+        uniprotData: {
+          accession: "P12345"
+        }
+      },
     };
 
     this.proteinLevelFeaturesRef = React.createRef();
@@ -77,6 +83,8 @@ class Features extends React.Component {
             embedder: jobParameters.embedder,
             predictor: jobParameters.predictor,
 
+            protein: jobParameters.protein,
+
             // Status result
             loadingAnnotations: jobResults["prottrans_t5_xl_u50"].status !== resultStatus.DONE,
             loadingStructure: jobResults["colabfold"].status !== resultStatus.DONE,
@@ -88,12 +96,6 @@ class Features extends React.Component {
       );
     }
   }
-
-  redirectFunction = () => {
-    console.log("redirecting");
-    const navigate = useNavigate();
-    navigate("/printpage", { state: { name: "Xyz" } });
-  };
 
   executeScroll = (id) => {
     switch (id){
@@ -262,15 +264,12 @@ class Features extends React.Component {
                   {this.state?.structure?.pdb && <StructurePrediction link={this.state.structure.link} data={this.state.structure.pdb} annotations={this.state.features} />}
                   <Alert key="secondary" variant="secondary" style={{textAlign: "center"}}>
 
-                  <Link
-                      to={{
-                        pathname: `/interactive/${this.state.sequence}`,
-                        state: {},
-                      }}
-                      reloadDocument={false}
+                  <a
+                      href={"/#/interactive/" + (this.state.protein?.uniprotData ? this.state.protein.uniprotData.accession : this.state.sequence )}
+                      target={"_blank"}
                   >
                     Interactively explore the predicted features on the structure!
-                  </Link>
+                  </a>
                   </Alert>
                 </div>
             )}
