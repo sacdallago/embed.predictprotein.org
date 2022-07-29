@@ -20,7 +20,7 @@ class StructureStatus extends React.Component {
 
             {this.props.structure?.link !== undefined && (
                 <Alert key="success" variant="success">
-                    We are displaying a pre-computed structure from the <a href={"alphafold.ebi.ac.uk"} target={"_blank"}>AlphaFold Database</a>.
+                    We are displaying a pre-computed structure from the <a href={"https://alphafold.ebi.ac.uk"} target={"_blank"}>AlphaFold Database</a>.
                 </Alert>
             )}
         </>
