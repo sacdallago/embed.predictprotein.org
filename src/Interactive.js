@@ -13,6 +13,7 @@ import AnnotationsStatus from "./components/AnnotationsStatus";
 import storeComponentWrapper from "./stores/jobDispatcher";
 import {proteinStatus} from "./stores/JobParameters";
 import FeatureGrabber from "./components/FeatureGrabber";
+import StructureDownload from "./components/StructureDownload";
 
 class Interactive extends React.Component {
     constructor(props) {
@@ -80,6 +81,7 @@ class Interactive extends React.Component {
                         <Row/>
                         <Row>
                             <Col>
+                                {/*<StructureDownload structure={this.state.structure} sequence={this.state.sequence} />*/}
                                 <AnnotationsStatus sequence={this.state.sequence} features={this.state.features} />
                                 <FeatureViewer data={this.state.features} />
                             </Col>

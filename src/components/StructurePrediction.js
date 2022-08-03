@@ -19,6 +19,12 @@ class StructurePrediction extends React.Component {
       },
     };
 
+    this.state = {
+      annotations: {...this.props.annotations},
+      data: this.props.data,
+      link: this.props.link
+    }
+
     this.annotations = {...this.props.annotations};
   }
 
@@ -85,6 +91,13 @@ class StructurePrediction extends React.Component {
   };
 
   componentWillReceiveProps(newProps) {
+
+    this.setState({
+      annotaitons: newProps.annotations,
+      data: newProps.data,
+      link: newProps.link
+    })
+
     if(newProps.data !== null){
       this.reDraw3D(newProps.data, newProps.featureSelection.selectionStart, newProps.featureSelection.selectionEnd);
     }
@@ -259,8 +272,6 @@ class StructurePrediction extends React.Component {
         }),
       ];
     }
-
-
   }
 
   overlayAnnotations(annotationName){
@@ -341,7 +352,6 @@ class StructurePrediction extends React.Component {
       }
     });
 
-
     if (start !== null && end !== null){
       setTimeout(() => this.viewerInstance.visual.select({
         data: [{
@@ -389,8 +399,6 @@ class StructurePrediction extends React.Component {
                       <span style={{backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["h"]}}>UT→in</span>, {""}
                       <span style={{backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["S"]}}>signal peptide</span>).
                     </li>} {" "}
-
-
                     {this.annotations?.predictedBindingSmallMolecules && <li style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => this.overlayAnnotations("small")}><span style={{color: "white", backgroundColor:proteinColorSchemes["smallMolecules"].contrast["S"]}}>Small</span> molecule binding </li>} {" "}
                     {this.annotations?.predictedBindingNucleicAcids && <li style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => this.overlayAnnotations("nucleic")}><span style={{color: "white", backgroundColor:proteinColorSchemes["nucleicAcids"].contrast["N"]}}>Nucleic</span> acid binding </li>} {" "}
                     {this.annotations?.predictedBindingMetal && <li style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => this.overlayAnnotations("metal")}><span style={{color: "white", backgroundColor:proteinColorSchemes["metal"].contrast["M"]}}>Metal</span> binding </li>} {" "}

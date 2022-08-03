@@ -31,6 +31,7 @@ import StructureStatus from "./StructureStatus";
 import Glossary from "./Glossary";
 
 import "react-minimal-side-navigation/lib/ReactMinimalSideNavigation.css";
+import StructureDownload from "./StructureDownload";
 
 
 class Features extends React.Component {
@@ -281,6 +282,7 @@ class Features extends React.Component {
                   </p>
 
                   <StructureStatus sequence={this.state.sequence} structure={this.state.structure} />
+                  <StructureDownload sequence={this.state.sequence} structure={this.state.structure} />
 
                   {this.state?.structure?.pdb && <StructurePrediction link={this.state.structure.link} data={this.state.structure.pdb} annotations={this.state.features} />}
                   <Alert key="secondary" variant="secondary" style={{textAlign: "center"}}>
@@ -289,7 +291,7 @@ class Features extends React.Component {
                         href={"/#/interactive/" + (this.state.protein?.uniprotData ? this.state.protein.uniprotData.accession : this.state.sequence )}
                         target={"_blank"}
                     >
-                      Interactively explore the predicted features on the structure!
+                      💡 Interactively explore the predicted features on the structure!
                     </a>
                   </Alert>
                 </div>

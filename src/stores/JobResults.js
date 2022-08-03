@@ -34,6 +34,7 @@ export const structurePlaceholder = {
         "pdb": "ColabFold, https://www.nature.com/articles/s41592-022-01488-1",
         "json": "ColabFold:, https://www.nature.com/articles/s41592-022-01488-1"
     },
+    link: null,
     status: status.NULL
 };
 

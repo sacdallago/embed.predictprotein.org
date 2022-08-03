@@ -142,6 +142,7 @@ class FeaturesGrabber extends React.Component {
                             predictor: 'colabfold',
                             result: {
                                 ...json.structure,
+                                link: null,
                                 status: resultStatus.DONE
                             }
                         }
