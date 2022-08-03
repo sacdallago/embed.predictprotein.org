@@ -6,7 +6,7 @@ class Cite extends React.Component {
         <div>
           <h3>Cite</h3>
 
-          <p>The EMPP citation will appear shortly.</p>
+          <p>The 𝞴𝗣𝗣 citation will appear shortly.</p>
         </div>
     );
   }

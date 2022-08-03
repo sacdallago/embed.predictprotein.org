@@ -64,18 +64,9 @@ class Interactive extends React.Component {
             <div className="App">
                 <Navbar bg="dark" variant="dark">
                     <Container>
-                        <Navbar.Brand href={"/#/" + (this.state.protein?.uniprotData ? this.state.protein.uniprotData.accession : this.state.sequence )} target={"_blank"}>Embed Predict Protein (EMPP)</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                        <Navbar.Collapse id="basic-navbar-nav">
-                            <Nav className="me-auto">
-                                <Nav.Link href="https://github.com/sacdallago/bio_embeddings" target="_blank" rel="noopener noreferrer">
-                                    GitHub
-                                </Nav.Link>
-                                <Nav.Link href="https://rostlab.org" target="_blank" rel="noopener noreferrer">
-                                    Rostlab Group
-                                </Nav.Link>
-                            </Nav>
-                        </Navbar.Collapse>
+                        <Navbar.Brand href={"/#/" + (this.state.protein?.uniprotData ? this.state.protein.uniprotData.accession : this.state.sequence )} target={"_blank"}>
+                            ← Go back to main page
+                        </Navbar.Brand>
                     </Container>
                 </Navbar>
 

@@ -13,7 +13,7 @@ class App extends React.Component {
         <div className="App">
           <Navbar bg="dark" variant="dark">
             <Container>
-              <Navbar.Brand href="#">Embed Predict Protein (EMPP)</Navbar.Brand>
+              <Navbar.Brand>𝗟amdba 𝗣redict 𝗣rotein (𝞴𝗣𝗣)</Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">

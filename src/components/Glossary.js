@@ -27,10 +27,10 @@ class Glossary extends React.Component {
             <strong>TMbed:</strong> predicts signal peptides and transmembrane regions. <a href="https://doi.org/10.1101/2022.06.12.495804" target={"blank"}>10.1101/2022.06.12.495804</a>
           </p>
           <p>
-            <strong>GoPredSim:</strong> predictions Gene Ontology (GO) terms. <a href="https://doi.org/10.1101/2022.06.12.495804" target={"blank"}>10.1101/2022.06.12.495804</a>
+            <strong>GoPredSim:</strong> predictions of Gene Ontology (GO) terms. <a href="https://www.nature.com/articles/s41598-020-80786-0" target={"blank"}>10.1101/2022.06.12.495804</a>
           </p>
           <p>
-            <strong>BindEmbedDL:</strong> predictions of ligand binding residues in three classes. <a href="https://www.nature.com/articles/s41598-021-03431-4" target={"blank"}>10.1038/s41598-021-03431-4</a>
+            <strong>BindEmbedDL:</strong> predictions of ligand binding residues in three classes. <a href="https://www.nature.com/articles/s41598-021-03431-4" target={"blank"}>10.1038/s41598-020-80786-0</a>
           </p>
           <p>
             <strong>ColabFold:</strong> predicts protein 3D structure from an input sequence based on AlphaFold. <a href="https://www.nature.com/articles/s41592-022-01488-1" target={"blank"}>10.1038/s41592-022-01488-1</a>

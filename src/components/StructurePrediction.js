@@ -363,15 +363,15 @@ class StructurePrediction extends React.Component {
           {(this.annotations?.predictedDisorder !== undefined || this.annotations?.predictedDSSP3 !== undefined || this.annotations?.predictedTransmembrane !== undefined) && (
               <div>
                 <p>
-                  <strong>🌈 Click to color structure by predictions of:</strong> {" "}
+                  <h2>👇 Click to color structure by predictions of:</h2> {" "}
                   <ul>
-                    {this.annotations?.predictedDSSP3 && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("secondary_structure")}>Secondary structure
+                    {this.annotations?.predictedDSSP3 && <li style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => this.overlayAnnotations("secondary_structure")}>Secondary structure
                       (<span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["H"]}}>helix</span>
                       <span style={{color: "white", backgroundColor:proteinColorSchemes["dssp8"].contrast["E"]}}>strand</span>
                       <span style={{backgroundColor:proteinColorSchemes["dssp8"].contrast["C"]}}>other</span>
                       )
                       {""}</li>} {" "}
-                    {this.annotations?.predictedConservation && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("conservation")}>Conservation
+                    {this.annotations?.predictedConservation && <li style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => this.overlayAnnotations("conservation")}>Conservation
                       (<span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["0"]}}>variable</span>{""}
                       <span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["1"]}}>-</span>{""}
                       <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["2"]}}>-</span>{""}
@@ -382,7 +382,7 @@ class StructurePrediction extends React.Component {
                       <span style={{backgroundColor:proteinColorSchemes["conservation"].contrast["7"]}}>-</span>{""}
                       <span style={{color: "white", backgroundColor:proteinColorSchemes["conservation"].contrast["8"]}}>conserved</span>)
                     </li>} {" "}
-                    {this.annotations?.predictedTransmembrane && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("topology")}>Topology
+                    {this.annotations?.predictedTransmembrane && <li style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => this.overlayAnnotations("topology")}>Topology
                       (strand <span style={{color: "white", backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["B"]}}>in→OU</span>{""}
                       <span style={{color: "white", backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["b"]}}>T→in</span>, {""}
                       helix <span style={{color: "white", backgroundColor:proteinColorSchemes["predictedTransmembrane"].contrast["H"]}}>in→O</span>{""}
@@ -391,10 +391,10 @@ class StructurePrediction extends React.Component {
                     </li>} {" "}
 
 
-                    {this.annotations?.predictedBindingSmallMolecules && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("small")}><span style={{color: "white", backgroundColor:proteinColorSchemes["smallMolecules"].contrast["S"]}}>Small</span> molecule binding </li>} {" "}
-                    {this.annotations?.predictedBindingNucleicAcids && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("nucleic")}><span style={{color: "white", backgroundColor:proteinColorSchemes["nucleicAcids"].contrast["N"]}}>Nucleic</span> acid binding </li>} {" "}
-                    {this.annotations?.predictedBindingMetal && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("metal")}><span style={{color: "white", backgroundColor:proteinColorSchemes["metal"].contrast["M"]}}>Metal</span> binding </li>} {" "}
-                    {this.annotations?.predictedDisorder && <li style={{textDecoration: "underline"}} onClick={() => this.overlayAnnotations("disorder")}><span style={{color: "white", backgroundColor:proteinColorSchemes["disorder"].contrast["X"]}}>Disorder</span> </li>} {" "}
+                    {this.annotations?.predictedBindingSmallMolecules && <li style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => this.overlayAnnotations("small")}><span style={{color: "white", backgroundColor:proteinColorSchemes["smallMolecules"].contrast["S"]}}>Small</span> molecule binding </li>} {" "}
+                    {this.annotations?.predictedBindingNucleicAcids && <li style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => this.overlayAnnotations("nucleic")}><span style={{color: "white", backgroundColor:proteinColorSchemes["nucleicAcids"].contrast["N"]}}>Nucleic</span> acid binding </li>} {" "}
+                    {this.annotations?.predictedBindingMetal && <li style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => this.overlayAnnotations("metal")}><span style={{color: "white", backgroundColor:proteinColorSchemes["metal"].contrast["M"]}}>Metal</span> binding </li>} {" "}
+                    {this.annotations?.predictedDisorder && <li style={{textDecoration: "underline", cursor: "pointer"}} onClick={() => this.overlayAnnotations("disorder")}><span style={{color: "white", backgroundColor:proteinColorSchemes["disorder"].contrast["X"]}}>Disorder</span> </li>} {" "}
                   </ul>
                 </p>
               </div>
