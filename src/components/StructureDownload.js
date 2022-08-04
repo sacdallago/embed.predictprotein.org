@@ -21,7 +21,7 @@ class StructureDownload extends React.Component {
         return <div style={{width: "100%", textAlign: "right"}}>
             {this.props.sequence?.length <= 500 && this.props.structure?.status === resultStatus.DONE &&
             this.props.structure?.link === null && (
-                <Button variant="warning" onClick={() => this.download(this.state.data)}>
+                <Button variant="warning" onClick={() => this.download(this.props.structure?.pdb)}>
                     Download PDB file
                 </Button>
             )}
