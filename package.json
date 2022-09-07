@@ -1,6 +1,6 @@
 {
-  "name": "app",
-  "version": "0.1.0",
+  "name": "LambdaPP",
+  "version": "0.1.1",
   "homepage": "https://embed.predictprotein.org",
   "private": true,
   "dependencies": {

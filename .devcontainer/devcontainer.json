@@ -1,0 +1,15 @@
+{
+    "image": "mcr.microsoft.com/devcontainers/javascript-node",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode"
+            ]
+        }
+    },
+    "forwardPorts": [
+        3000
+    ],
+    "postStartCommand": "yarn install && yarn start"
+}
