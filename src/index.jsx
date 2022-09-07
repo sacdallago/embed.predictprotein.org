@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import Interactive from "./Interactive";
 import "./styles/index.css";
-import * as serviceWorker from "./serviceWorker";
+import * as serviceWorker from "./utils/serviceWorker";
 import { Provider } from "react-redux";
 import { store } from "./stores/index";
 import ReactGA from "react-ga";
