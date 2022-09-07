@@ -1,27 +1,34 @@
 .accordion-body {
-  text-align: justify
+    text-align: justify;
 }
 
 .card-body {
-  text-align: justify
+    text-align: justify;
 }
 
 .top-botton-margin {
-  margin: 10em 0 10em 0;
+    margin: 10em 0 10em 0;
 }
 
 .tooltip2 {
-  font-size: 1em !important;
+    font-size: 1em !important;
 }
 
 h3 {
-  margin-top: 3em !important;
+    margin-top: 3em !important;
 }
 
 .plot-container.plotly {
-  overflow-y: auto;
+    overflow-y: auto;
 }
 
 p {
-  text-align: justify;
+    text-align: justify;
+}
+
+.clickable-example {
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    cursor: pointer;
 }
