@@ -9,15 +9,17 @@
             "request": "launch",
             "name": "Launch Chrome",
             "url": "http://localhost:3000",
-            "webRoot": "${workspaceFolder}"
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "yarn:start"
         },
         {
-                "name": "Launch Firefox",
-                "type": "firefox",
-                "request": "launch",
-                "reAttach": true,
-                "url": "http://localhost:3000",
-                "webRoot": "${workspaceFolder}"
+            "name": "Launch Firefox",
+            "type": "firefox",
+            "request": "launch",
+            "reAttach": true,
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}",
+            "preLaunchTask": "yarn:start"
         }
     ]
 }
