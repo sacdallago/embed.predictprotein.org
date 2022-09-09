@@ -5,7 +5,10 @@
             "extensions": [
                 "dbaeumer.vscode-eslint",
                 "esbenp.prettier-vscode",
-                "firefox-devtools.vscode-firefox-debug"
+                "firefox-devtools.vscode-firefox-debug",
+                "planbcoding.vscode-react-refactor",
+                "formulahendry.auto-rename-tag",
+                "dsznajder.es7-react-js-snippets"
             ]
         }
     },
