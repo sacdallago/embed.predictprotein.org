@@ -6,18 +6,18 @@ import "./styles/index.css";
 import { Overview } from "./pages/Overview";
 import Interactive from "./pages/Interactive";
 import PrintPage from "./pages/PrintPage";
+import Imprint from "./pages/imprint";
 
 import * as serviceWorker from "./utils/serviceWorker";
 import { Provider } from "react-redux";
 import { store } from "./stores/index";
 import ReactGA from "react-ga";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { Route, Routes, HashRouter } from "react-router-dom";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { createBrowserHistory } from "history";
 
 // FIXME transition to React18 https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
 ReactGA.initialize(process.env.REACT_GA || "UA-137257046-2");
-const history = createBrowserHistory();
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -25,20 +25,15 @@ const root = createRoot(container);
 root.render(
     <Provider store={store}>
         <React.StrictMode>
-            <HashRouter history={history}>
+            <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<Overview />} />
-                    <Route
-                        path="/interactive/:sequence"
-                        element={<Interactive />}
-                    />
-                    <Route
-                        path="/printpage/:sequence"
-                        element={<PrintPage />}
-                    />
-                    <Route path="/:sequence" element={<Overview />} />
+                    <Route path="/imprint" element={<Imprint />} />
+                    <Route path="/i/:sequence" element={<Interactive />} />
+                    <Route path="/p/:sequence" element={<PrintPage />} />
+                    <Route path="/o/:sequence" element={<Overview />} />
                 </Routes>
-            </HashRouter>
+            </BrowserRouter>
         </React.StrictMode>
     </Provider>
 );
