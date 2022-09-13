@@ -16,6 +16,7 @@
     "react-bootstrap": "^2.4.0",
     "react-dom": "^18.1.0",
     "react-ga": "^3.3.0",
+    "react-icons": "^4.4.0",
     "react-minimal-side-navigation": "^1.9.2",
     "react-popper": "^2.3.0",
     "react-redux": "^8.0.2",

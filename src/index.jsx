@@ -14,6 +14,7 @@ import { store } from "./stores/index";
 import ReactGA from "react-ga";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
+import Footer from "./components/Footer";
 
 // FIXME transition to React18 https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
 ReactGA.initialize(process.env.REACT_GA || "UA-137257046-2");
@@ -32,6 +33,7 @@ root.render(
                     <Route path="/p/:sequence" element={<PrintPage />} />
                     <Route path="/o/:sequence" element={<Overview />} />
                 </Routes>
+                <Footer />
             </BrowserRouter>
         </React.StrictMode>
     </Provider>
