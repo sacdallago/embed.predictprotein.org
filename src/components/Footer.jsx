@@ -5,7 +5,7 @@ import { FaTwitter, FaYoutube, FaGithub, FaGlobe } from "react-icons/fa";
 
 const Footer = () => (
     <footer className="page-footer bg-light font-small pt-4 mt-md-5">
-        <div className="container-fluid text-start text-left">
+        <div className="container-fluid text-start">
             <div className="row justify-content-center">
                 <div className="col-md-2 col-12 mt-md-0 mt-3 me-md-5 mb-4 mb-md-0 text-center">
                     <a href="https://rostlab.org">
