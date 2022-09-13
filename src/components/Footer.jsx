@@ -5,13 +5,13 @@ import { FaTwitter, FaYoutube, FaGithub, FaGlobe } from "react-icons/fa";
 
 const Footer = () => (
     <footer className="page-footer bg-light font-small pt-4 mt-md-5">
-        <div className="container-fluid text-start text-md-left">
+        <div className="container-fluid text-start text-left">
             <div className="row justify-content-center">
-                <div className="col-md-2 mt-md-0 mt-3 justify-content-start me-5">
+                <div className="col-md-2 col-12 mt-md-0 mt-3 me-md-5 mb-4 mb-md-0 text-center">
                     <a href="https://rostlab.org">
                         <img
                             src={LogoSq}
-                            className="d-block mx-auto w-75"
+                            className="img-fluid w-75"
                             alt="Rostlab Logo"
                         />
                     </a>
@@ -43,7 +43,7 @@ const Footer = () => (
                     </ul>
                 </div>
 
-                <div className="col-md-2 mb-md-0 mb-3">
+                <div className="col-auto col-md-2 mb-md-0 mb-3 text-start">
                     <h5 className="text-uppercase">Services</h5>
                     <ul className="list-unstyled">
                         <li>
@@ -69,7 +69,7 @@ const Footer = () => (
                     </ul>
                 </div>
 
-                <div className="col-md-3 mb-md-0 mb-3 ">
+                <div className="col-auto col-md-3 mb-md-0 mb-3 ">
                     <h5 className="text-uppercase">Follow Us</h5>
 
                     <a href="https://twitter.com/rostlab" className="link-dark">
