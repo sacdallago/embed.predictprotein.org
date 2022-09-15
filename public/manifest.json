@@ -1,6 +1,6 @@
 {
-  "short_name": "EMPP",
-  "name": "Embed Protein Properties",
+  "short_name": "LambdaPP",
+  "name": "Lambda Predict Protein",
   "icons": [
     {
       "src": "favicon.ico",
