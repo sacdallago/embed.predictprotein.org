@@ -6,7 +6,7 @@ export const InputType = {
     invalid: Symbol("invalid"),
 };
 
-export const Alphabet = {
+export const InputAlphabet = {
     iupac: Symbol("iupac"),
     iupac_extended: Symbol("extended"),
     undefined: Symbol("undefined"),
@@ -24,14 +24,14 @@ const re_invalid_aminoAcid_extended = new RegExp("[^" + IUPAC_extended + "]");
 const re_fasta_header = new RegExp("^>.*$");
 
 function get_sequence_details(input) {
-    let alphabet = Alphabet.undefined;
+    let alphabet = InputAlphabet.undefined;
     let type = InputType.invalid;
 
     if (!re_invalid_aminoAcid.test(input)) {
-        alphabet = Alphabet.iupac;
+        alphabet = InputAlphabet.iupac;
         type = InputType.residue;
     } else if (!re_invalid_aminoAcid_extended.test(input)) {
-        alphabet = Alphabet.iupac_extended;
+        alphabet = InputAlphabet.iupac_extended;
         type = InputType.residue;
     }
     return [type, alphabet];
@@ -40,7 +40,7 @@ function get_sequence_details(input) {
 export function eval_input_type(input) {
     let test_str = input.toUpperCase();
     let type = InputType.invalid;
-    let alphabet = Alphabet.undefined;
+    let alphabet = InputAlphabet.undefined;
 
     if (re_uniprotName.test(test_str)) {
         type = InputType.uniprot_protein_name;
@@ -52,7 +52,8 @@ export function eval_input_type(input) {
             let lines = test_str.split(/\r?\n/);
             if (lines.length > 1 && re_fasta_header.test(lines[0])) {
                 [, alphabet] = get_sequence_details(lines.slice(1).join(""));
-                if (alphabet !== Alphabet.undefined) type = InputType.fasta;
+                if (alphabet !== InputAlphabet.undefined)
+                    type = InputType.fasta;
             }
         }
     }

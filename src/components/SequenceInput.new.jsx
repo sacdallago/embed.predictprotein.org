@@ -2,7 +2,7 @@ import React from "react";
 
 import { Form, Col, Row } from "react-bootstrap";
 
-import { eval_input_type, InputType } from "../utils/sequence";
+import { eval_input_type, InputType, InputAlphabet } from "../utils/sequence";
 
 const example_input = {
     [InputType.fasta]: `>My sequence
@@ -20,20 +20,31 @@ QRPSSRASSRASSRPRPDDLEI`,
 };
 
 export const SequenceInput = (props) => {
-    const [sequence, setSequence] = React.useState("");
+    const [input, setInput] = React.useState("");
+    const [inputType, setInputType] = React.useState(InputType.invalid);
+    const [inputAlphabet, setInputAlphabet] = React.useState(
+        InputAlphabet.undefined
+    );
+    const [isValidationPending, startValidation] = React.useTransition();
     const ref_input = React.createRef();
 
     if (props.sequence !== "") {
-        setSequence(props.sequence);
+        setInput(props.sequence);
     }
 
     const setExampleState = (type) => {
         let input = example_input[type];
-        setSequence(input);
+        setInput(input);
     };
 
     const validate_input = (input) => {
-        return eval_input_type(input) !== InputType.invalid;
+        startValidation(() => {
+            var [type, alphabet] = eval_input_type(input);
+            setInputType(type);
+            setInputAlphabet(alphabet);
+            console.log(type);
+            console.log(alphabet);
+        });
     };
 
     return (
@@ -46,13 +57,11 @@ export const SequenceInput = (props) => {
                             rows={5}
                             cols={100}
                             ref={ref_input}
-                            value={sequence}
+                            value={input}
                             placeholder="SEQWENCE..."
                             onChange={(event) => {
-                                setSequence(ref_input.current.value);
-                                var [seq_type, seq_alphabet] = eval_input_type(
-                                    ref_input.current.value
-                                );
+                                setInput(ref_input.current.value);
+                                validate_input(ref_input.current.value);
                             }}
                         />
                     </Col>
