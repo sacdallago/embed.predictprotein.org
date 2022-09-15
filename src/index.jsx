@@ -1,19 +1,20 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+
+import ReactGA from "react-ga";
+
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+
 import "./styles/index.css";
 
-import { Overview } from "./pages/Overview";
+import * as serviceWorker from "./utils/serviceWorker";
+
+import Overview from "./pages/Overview";
 import Interactive from "./pages/Interactive";
 import PrintPage from "./pages/PrintPage";
 import Imprint from "./pages/imprint";
-
-import * as serviceWorker from "./utils/serviceWorker";
-import { Provider } from "react-redux";
-import { store } from "./stores/index";
-import ReactGA from "react-ga";
-import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import { Route, Routes, BrowserRouter } from "react-router-dom";
 import Footer from "./components/Footer";
 
 // FIXME transition to React18 https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
@@ -23,20 +24,18 @@ const container = document.getElementById("root");
 const root = createRoot(container);
 
 root.render(
-    <Provider store={store}>
-        <React.StrictMode>
-            <BrowserRouter>
-                <Routes>
-                    <Route path="/" element={<Overview />} />
-                    <Route path="/imprint" element={<Imprint />} />
-                    <Route path="/i/:sequence" element={<Interactive />} />
-                    <Route path="/p/:sequence" element={<PrintPage />} />
-                    <Route path="/o/:sequence" element={<Overview />} />
-                </Routes>
-                <Footer />
-            </BrowserRouter>
-        </React.StrictMode>
-    </Provider>
+    <React.StrictMode>
+        <BrowserRouter>
+            <Routes>
+                <Route path="/" element={<Overview />} />
+                <Route path="/imprint" element={<Imprint />} />
+                <Route path="/i/:sequence" element={<Interactive />} />
+                <Route path="/p/:sequence" element={<PrintPage />} />
+                <Route path="/o/:sequence" element={<Overview />} />
+            </Routes>
+            <Footer />
+        </BrowserRouter>
+    </React.StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change
