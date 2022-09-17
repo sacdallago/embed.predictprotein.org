@@ -1,8 +1,17 @@
 import React from "react";
 
 import { Form, Col, Row } from "react-bootstrap";
+import styled from "styled-components";
 
 import { eval_input_type, InputType, InputAlphabet } from "../utils/sequence";
+import ValidationIndicator from "./ValidationIndicator";
+
+const ClickableSpan = styled.span`
+    font-weight: bold;
+    text-decoration: underline;
+    text-decoration-style: dashed;
+    cursor: pointer;
+`;
 
 const example_input = {
     [InputType.fasta]: `>My sequence
@@ -42,8 +51,6 @@ export const SequenceInput = (props) => {
             var [type, alphabet] = eval_input_type(input);
             setInputType(type);
             setInputAlphabet(alphabet);
-            console.log(type);
-            console.log(alphabet);
         });
     };
 
@@ -51,7 +58,7 @@ export const SequenceInput = (props) => {
         <Form className="d-flex justify-content-center mt-3">
             <Form.Group controlId="sequenceInput">
                 <Row>
-                    <Col md={10}>
+                    <Col md={10} className="position-relative">
                         <Form.Control
                             as="textarea"
                             rows={5}
@@ -64,30 +71,32 @@ export const SequenceInput = (props) => {
                                 validate_input(ref_input.current.value);
                             }}
                         />
+                        <ValidationIndicator
+                            isValidationPending={isValidationPending}
+                            inputType={inputType}
+                            inputAlphabet={inputAlphabet}
+                        />
                     </Col>
                 </Row>
                 <Row>
                     <Col md={10}>
                         <Form.Text muted={true}>
                             Input a sequence in either{" "}
-                            <span
-                                className="clickable-example"
+                            <ClickableSpan
                                 onClick={() => setExampleState(InputType.fasta)}
                             >
                                 FASTA format
-                            </span>
+                            </ClickableSpan>
                             , a {""}
-                            <span
-                                className="clickable-example"
+                            <ClickableSpan
                                 onClick={() =>
                                     setExampleState(InputType.uniprot_id)
                                 }
                             >
                                 UniProt Accession
-                            </span>{" "}
+                            </ClickableSpan>{" "}
                             number or {""}
-                            <span
-                                className="clickable-example"
+                            <ClickableSpan
                                 onClick={() =>
                                     setExampleState(
                                         InputType.uniprot_protein_name
@@ -95,16 +104,15 @@ export const SequenceInput = (props) => {
                                 }
                             >
                                 UniProt Protein Name
-                            </span>
+                            </ClickableSpan>
                             , or {""}
-                            <span
-                                className="clickable-example"
+                            <ClickableSpan
                                 onClick={() =>
                                     setExampleState(InputType.residue)
                                 }
                             >
                                 AA sequence
-                            </span>
+                            </ClickableSpan>
                             .
                         </Form.Text>
                     </Col>
