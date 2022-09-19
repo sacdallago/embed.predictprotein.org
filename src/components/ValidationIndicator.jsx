@@ -52,12 +52,11 @@ const SequencePopover = (props) => {
             break;
     }
     return (
+        // TODO Fix Popover props
         <Popover {...props}>
+            {/* zfix error in header display */}
             <Popover.Header as="h3">{header}</Popover.Header>
-            <Popover.Body>
-                And here's some <strong>amazing</strong> content. It's very
-                engaging. right?
-            </Popover.Body>
+            <Popover.Body>{/* TODO Add body */}</Popover.Body>
         </Popover>
     );
 };
@@ -81,7 +80,6 @@ const StyledValidationIndicator = styled(PopoverValidationIndicator)`
     right: 0%;
     top: -9%;
     background-color: white;
-    border: 2px solid black;
     margin-left: 0.5em;
 `;
 
