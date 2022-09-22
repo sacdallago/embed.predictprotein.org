@@ -17,6 +17,8 @@
             "type": "firefox",
             "request": "launch",
             "reAttach": true,
+            "keepProfileChanges": true,
+            "profile": "react-debug",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}",
             "preLaunchTask": "yarn:start"
