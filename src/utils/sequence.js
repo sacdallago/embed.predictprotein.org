@@ -19,8 +19,10 @@ const re_accessionNumber = new RegExp(
     "[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}$"
 );
 const re_uniprotName = new RegExp("[A-Z0-9]{3,20}_[A-Z0-9]{3,20}");
-const re_invalid_aminoAcid = new RegExp("[^" + IUPAC + "]");
-const re_invalid_aminoAcid_extended = new RegExp("[^" + IUPAC_extended + "]");
+const re_invalid_aminoAcid = new RegExp("^$|[^" + IUPAC + "]");
+const re_invalid_aminoAcid_extended = new RegExp(
+    "^$|[^" + IUPAC_extended + "]"
+);
 const re_fasta_header = new RegExp("^>.*$");
 
 function get_sequence_details(input) {
@@ -41,6 +43,7 @@ export function eval_input_type(input) {
     let test_str = input.toUpperCase();
     let type = InputType.invalid;
     let alphabet = InputAlphabet.undefined;
+    let inputValid = false;
 
     if (re_uniprotName.test(test_str)) {
         type = InputType.uniprot_protein_name;
@@ -57,6 +60,10 @@ export function eval_input_type(input) {
             }
         }
     }
+    inputValid = isValid(type);
+    return [type, alphabet, inputValid];
+}
 
-    return [type, alphabet];
+function isValid(type) {
+    return type !== InputType.invalid;
 }

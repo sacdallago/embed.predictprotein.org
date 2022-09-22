@@ -4,70 +4,94 @@ import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 import { Spinner } from "./Spinner";
 import { InputAlphabet, InputType } from "../utils/sequence";
-import { OverlayTrigger, Popover, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Popover } from "react-bootstrap";
 
-const FunctionalValidationIndicator = React.forwardRef((props, ref) => {
-    let component = null;
-    if (props.isValidationPending) {
-        component = <Spinner size="1.5em" />;
-    } else if (
-        props.inputType !== InputType.invalid &&
-        props.inputAlphabet === InputAlphabet.iupac_extended
-    ) {
-        component = <FaCheckCircle color="#ffd300" size="1.5em" />;
-    } else if (
-        props.inputType !== InputType.invalid &&
-        props.inputAlphabet !== InputAlphabet.iupac_extended
-    ) {
-        component = <FaCheckCircle color="green" size="1.5em" />;
-    } else {
-        component = <FaTimesCircle color="red" size="1.5em" />;
-    }
-
-    return (
-        <div className={props.className} ref={ref} {...props.eventHandler}>
-            {component}
-        </div>
-    );
-});
-
-const SequencePopover = (props) => {
+function getValidationOutput(inputState) {
     let header = "";
-    switch (props.inputType) {
+    let body = "";
+    if (inputState.isValidationPending) {
+        header = "Validating...";
+        body = "Validating input; Please wait.";
+        return [header, body];
+    }
+    switch (inputState.type) {
         case InputType.fasta:
-            header = "Valid Fasta input";
+            header = "Valid Input";
+            body = "Identified input as Fasta Sequence.";
             break;
         case InputType.uniprot_id:
-            header = "Valid Uniprot Identifier";
+            header = "Valid Input";
+            body = "Identified input as Uniprot Identifier.";
             break;
         case InputType.uniprot_protein_name:
-            header = "Valid Uniprot Protein Name";
+            header = "Valid Input";
+            body = "Identified input as Uniprot Protein Name.";
             break;
         case InputType.residue:
-            header = "Valid Amino Acid Sequence";
+            header = "Valid Input";
+            body = "Identified input as Amino Acid Sequence.";
             break;
         case InputType.invalid:
         default:
             header = "Invalid Input";
+            body =
+                "Could not parse input; Please specify a valid input sequence";
             break;
     }
-    return (
-        // TODO Fix Popover props
-        <Popover {...props}>
-            {/* zfix error in header display */}
-            <Popover.Header as="h3">{header}</Popover.Header>
-            <Popover.Body>{/* TODO Add body */}</Popover.Body>
-        </Popover>
-    );
-};
+    if (inputState.alphabet === InputAlphabet.iupac_extended) {
+        body = body +=
+            " Warning: Extended IUPAC symbols detected; will be mapped to X.";
+    }
 
-const PopoverValidationIndicator = (props) => {
+    return [header, body];
+}
+
+const FunctionalValidationIndicator = React.forwardRef(
+    ({ inputState, ...other }, ref) => {
+        let component = null;
+        if (inputState.isValidationPending) {
+            component = <Spinner size="1.5em" />;
+        } else if (
+            inputState.type !== InputType.invalid &&
+            inputState.alphabet === InputAlphabet.iupac_extended
+        ) {
+            component = <FaCheckCircle color="#ffd300" size="1.5em" />;
+        } else if (
+            inputState.type !== InputType.invalid &&
+            inputState.alphabet !== InputAlphabet.iupac_extended
+        ) {
+            component = <FaCheckCircle color="green" size="1.5em" />;
+        } else {
+            component = <FaTimesCircle color="red" size="1.5em" />;
+        }
+
+        return (
+            <div className={other.className} ref={ref} {...other.eventHandler}>
+                {component}
+            </div>
+        );
+    }
+);
+
+const PopoverValidationIndicator = ({ inputState, ...props }) => {
+    let [header, body] = getValidationOutput(inputState);
+
     return (
-        <OverlayTrigger placement="right" overlay={SequencePopover}>
+        <OverlayTrigger
+            overlay={
+                <Popover {...props} container="body" id="validation-popover">
+                    <Popover.Header as="h3">{header}</Popover.Header>
+                    <Popover.Body>{body}</Popover.Body>
+                </Popover>
+            }
+            placement="right"
+            {...props}
+        >
             {({ ref, ...triggerHandler }) => (
                 <FunctionalValidationIndicator
                     eventHandler={triggerHandler}
                     ref={ref}
+                    inputState={inputState}
                     {...props}
                 />
             )}
@@ -80,7 +104,6 @@ const StyledValidationIndicator = styled(PopoverValidationIndicator)`
     right: 0%;
     top: -9%;
     background-color: white;
-    margin-left: 0.5em;
 `;
 
 export default StyledValidationIndicator;

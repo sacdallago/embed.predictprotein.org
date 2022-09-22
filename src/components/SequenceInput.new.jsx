@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Form, Col, Row } from "react-bootstrap";
+import { Form, Col, Row, Button } from "react-bootstrap";
 import styled from "styled-components";
 
 import { eval_input_type, InputType, InputAlphabet } from "../utils/sequence";
@@ -34,6 +34,8 @@ export const SequenceInput = (props) => {
     const [inputAlphabet, setInputAlphabet] = React.useState(
         InputAlphabet.undefined
     );
+    // TODO Unify into one state as they are linked
+    const [inputValid, setInputValid] = React.useState(false);
     const [isValidationPending, startValidation] = React.useTransition();
     const ref_input = React.createRef();
 
@@ -44,13 +46,15 @@ export const SequenceInput = (props) => {
     const setExampleState = (type) => {
         let input = example_input[type];
         setInput(input);
+        validate_input(input);
     };
 
     const validate_input = (input) => {
         startValidation(() => {
-            var [type, alphabet] = eval_input_type(input);
+            var [type, alphabet, isValid] = eval_input_type(input);
             setInputType(type);
             setInputAlphabet(alphabet);
+            setInputValid(isValid);
         });
     };
 
@@ -65,17 +69,21 @@ export const SequenceInput = (props) => {
                             cols={100}
                             ref={ref_input}
                             value={input}
-                            placeholder="SEQWENCE..."
+                            placeholder="SEQWENCE... "
                             onChange={(event) => {
                                 setInput(ref_input.current.value);
                                 validate_input(ref_input.current.value);
                             }}
                         />
-                        <ValidationIndicator
-                            isValidationPending={isValidationPending}
-                            inputType={inputType}
-                            inputAlphabet={inputAlphabet}
-                        />
+                        {input !== "" && (
+                            <ValidationIndicator
+                                inputState={{
+                                    isValidationPending: isValidationPending,
+                                    type: inputType,
+                                    alphabet: inputAlphabet,
+                                }}
+                            />
+                        )}
                     </Col>
                 </Row>
                 <Row>
@@ -115,6 +123,14 @@ export const SequenceInput = (props) => {
                             </ClickableSpan>
                             .
                         </Form.Text>
+                    </Col>
+                </Row>
+                <Row className="mt-3">
+                    <Col md={8}></Col>
+                    <Col md={2}>
+                        <Button id="submit-protein" disabled={!inputValid}>
+                            PredictProperties
+                        </Button>
                     </Col>
                 </Row>
             </Form.Group>

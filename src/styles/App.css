@@ -14,10 +14,6 @@
     font-size: 1em !important;
 }
 
-h3 {
-    margin-top: 3em !important;
-}
-
 .plot-container.plotly {
     overflow-y: auto;
 }
