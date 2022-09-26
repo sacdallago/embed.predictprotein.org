@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 
 import { proteinColorSchemes } from "../utils/Graphics";
 import { useLocation, useParams } from "react-router-dom";
-import { MDBTypography } from "mdb-react-ui-kit";
 import { Container, Stack } from "react-bootstrap";
 
 const PrintPage = (props) => {
@@ -19,7 +18,7 @@ const PrintPage = (props) => {
                 <div />
 
                 <div>
-                    <MDBTypography tag="h4">Input Sequence</MDBTypography>
+                    <h4>Input Sequence</h4>
                     <div>
                         <SequenceHighlighter
                             string={sequence}
@@ -31,9 +30,7 @@ const PrintPage = (props) => {
                 <div />
 
                 <div>
-                    <MDBTypography tag="h4">
-                        Secondary structure in three states (DSSP3)
-                    </MDBTypography>
+                    <h4>Secondary structure in three states (DSSP3)</h4>
                     <div className="row mb-5">
                         <div className="col-lg-12">
                             <div>
@@ -84,9 +81,7 @@ const PrintPage = (props) => {
                 </div>
 
                 <div>
-                    <MDBTypography tag="h4">
-                        Secondary structure in eight states (DSSP8)
-                    </MDBTypography>
+                    <h4>Secondary structure in eight states (DSSP8)</h4>
                     <div className="row mb-5">
                         <div className="col-lg-12">
                             <div>
@@ -185,7 +180,7 @@ const PrintPage = (props) => {
                 </div>
 
                 <div>
-                    <MDBTypography tag="h4">Residue conservation</MDBTypography>
+                    <h4 tag="h4">Residue conservation</h4>
                     <div className="row mb-5">
                         <div className="col-lg-12">
                             <div>
@@ -298,9 +293,7 @@ const PrintPage = (props) => {
                 </div>
 
                 <div>
-                    <MDBTypography tag="h4">
-                        Toplogy (transmembrane regions)
-                    </MDBTypography>
+                    <h4>Toplogy (transmembrane regions)</h4>
                     <div className="row mb-5">
                         <div className="col-lg-12">
                             <div>
@@ -379,7 +372,7 @@ const PrintPage = (props) => {
                 </div>
 
                 <div>
-                    <MDBTypography tag="h4">Disordered residues</MDBTypography>
+                    <h4>Disordered residues</h4>
                     <div className="row mb-5">
                         <div className="col-lg-12">
                             <div>
@@ -395,9 +388,7 @@ const PrintPage = (props) => {
                 </div>
 
                 <div>
-                    <MDBTypography tag="h4">
-                        Metal binding residues
-                    </MDBTypography>
+                    <h4>Metal binding residues</h4>
                     <div className="row mb-5">
                         <div className="col-lg-12">
                             <div>
@@ -413,9 +404,7 @@ const PrintPage = (props) => {
                 </div>
 
                 <div>
-                    <MDBTypography tag="h4">
-                        Nucleic acids binding residues
-                    </MDBTypography>
+                    <h4>Nucleic acids binding residues</h4>
                     <div className="row mb-5">
                         <div className="col-lg-12">
                             <div>
@@ -433,9 +422,7 @@ const PrintPage = (props) => {
                 </div>
 
                 <div>
-                    <MDBTypography tag="h4">
-                        Small molecule binding residues
-                    </MDBTypography>
+                    <h4>Small molecule binding residues</h4>
                     <div className="row mb-5">
                         <div className="col-lg-12">
                             <div>
