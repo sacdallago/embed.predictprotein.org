@@ -8,39 +8,60 @@ import { OverlayTrigger, Popover } from "react-bootstrap";
 
 function getValidationOutput(inputState) {
     let header = "";
-    let body = "";
+    let body = [];
     if (inputState.isValidationPending) {
         header = "Validating...";
-        body = "Validating input; Please wait.";
+        body.push(<div key="1">Validating input; Please wait.</div>);
         return [header, body];
     }
+    header = "Valid Input";
     switch (inputState.type) {
         case InputType.fasta:
-            header = "Valid Input";
-            body = "Identified input as Fasta Sequence.";
+            body.push(
+                <div key="1">
+                    Identified input as <strong>Fasta Sequence</strong> (header
+                    ignored).
+                </div>
+            );
             break;
         case InputType.uniprot_id:
-            header = "Valid Input";
-            body = "Identified input as Uniprot Identifier.";
+            body.push(
+                <div key="1">
+                    Identified input as <strong>Uniprot Identifier</strong>.
+                </div>
+            );
             break;
         case InputType.uniprot_protein_name:
-            header = "Valid Input";
-            body = "Identified input as Uniprot Protein Name.";
+            body.push(
+                <div key="1">
+                    Identified input as <strong>Uniprot Protein Name</strong>.
+                </div>
+            );
             break;
         case InputType.residue:
-            header = "Valid Input";
-            body = "Identified input as Amino Acid Sequence.";
+            body.push(
+                <div key="1">
+                    Identified input as <strong>Amino Acid Sequence</strong>.
+                </div>
+            );
             break;
         case InputType.invalid:
         default:
             header = "Invalid Input";
-            body =
-                "Could not parse input; Please specify a valid input sequence";
+            body.push(
+                <div key="1">
+                    Could not parse input; Please specify a valid input sequence{" "}
+                </div>
+            );
             break;
     }
     if (inputState.alphabet === InputAlphabet.iupac_extended) {
-        body = body +=
-            " Warning: Extended IUPAC symbols detected; will be mapped to X.";
+        body.push(
+            <div key="2">
+                <br /> <strong>Warning:</strong> Extended IUPAC symbols
+                detected; will be mapped to X.
+            </div>
+        );
     }
 
     return [header, body];
