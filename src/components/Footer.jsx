@@ -1,7 +1,8 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { FaTwitter, FaYoutube, FaGithub, FaGlobe } from "react-icons/fa";
 
 import LogoSq from "../assets/logo_sq_light.svg";
-import { FaTwitter, FaYoutube, FaGithub, FaGlobe } from "react-icons/fa";
 
 const Footer = () => (
     <footer className="page-footer bg-light font-small pt-4 mt-md-5">
@@ -21,24 +22,29 @@ const Footer = () => (
                     <h5 className="text-uppercase">Links</h5>
                     <ul className="list-unstyled">
                         <li>
-                            <a href="#!" className="link-dark">
+                            <Link to="imprint" className="link-dark">
                                 Imprint
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#!" className="link-dark">
+                            <Link to="" className="link-dark">
                                 ToS & Privacy Policy
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#!" className="link-dark">
+                            <a
+                                href="https://github.com/sacdallago/embed.predictprotein.org"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="link-dark"
+                            >
                                 Contribute
                             </a>
                         </li>
                         <li>
-                            <a href="#!" className="link-dark">
+                            <Link to="cite" className="link-dark">
                                 Cite
-                            </a>
+                            </Link>
                         </li>
                     </ul>
                 </div>
