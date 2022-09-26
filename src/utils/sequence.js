@@ -45,6 +45,10 @@ export function eval_input_type(input) {
     let alphabet = InputAlphabet.undefined;
     let inputValid = false;
 
+    if (input.length <= 3) {
+        return [type, alphabet, inputValid];
+    }
+
     if (re_uniprotName.test(test_str)) {
         type = InputType.uniprot_protein_name;
     } else if (re_accessionNumber.test(test_str)) {
