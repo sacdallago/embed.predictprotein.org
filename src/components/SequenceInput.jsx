@@ -58,6 +58,13 @@ export const SequenceInput = (props) => {
         });
     };
 
+    const reset_input = () => {
+        setInput("");
+        setInputType(InputType.invalid);
+        setInputAlphabet(InputAlphabet.undefined);
+        setInputValid(false);
+    };
+
     return (
         <Form className="d-flex justify-content-center mt-3">
             <Form.Group controlId="sequenceInput">
@@ -126,7 +133,17 @@ export const SequenceInput = (props) => {
                     </Col>
                 </Row>
                 <Row className="mt-3">
-                    <Col md={8}></Col>
+                    <Col md={7}></Col>
+                    <Col md={1}>
+                        <Button
+                            id="clear-input"
+                            variant="danger"
+                            disabled={input === ""}
+                            onClick={() => reset_input()}
+                        >
+                            Clear
+                        </Button>
+                    </Col>
                     <Col md={2}>
                         <Button id="submit-protein" disabled={!inputValid}>
                             PredictProperties
