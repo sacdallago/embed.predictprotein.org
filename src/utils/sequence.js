@@ -43,10 +43,9 @@ export function eval_input_type(input) {
     let test_str = input.toUpperCase();
     let type = InputType.invalid;
     let alphabet = InputAlphabet.undefined;
-    let inputValid = false;
 
     if (input.length <= 3) {
-        return [type, alphabet, inputValid];
+        return [type, alphabet];
     }
 
     if (re_uniprotName.test(test_str)) {
@@ -64,10 +63,5 @@ export function eval_input_type(input) {
             }
         }
     }
-    inputValid = isValid(type);
-    return [type, alphabet, inputValid];
-}
-
-function isValid(type) {
-    return type !== InputType.invalid;
+    return [type, alphabet];
 }

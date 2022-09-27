@@ -50,7 +50,22 @@ function getValidationOutput(inputState) {
             header = "Invalid Input";
             body.push(
                 <div key="1">
-                    Could not parse input; Please specify a valid input sequence{" "}
+                    Could not parse input.
+                    <br />
+                    Please specify a valid protein sequence or identifier.
+                </div>
+            );
+            body.push(
+                <div key="2">
+                    A valid sequence must be {">"} 3 residues in{" "}
+                    <a
+                        href="https://www.bioinformatics.org/sms2/iupac"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        IUPAC
+                    </a>{" "}
+                    format.
                 </div>
             );
             break;
@@ -105,6 +120,7 @@ const PopoverValidationIndicator = ({ inputState, ...props }) => {
                     <Popover.Body>{body}</Popover.Body>
                 </Popover>
             }
+            delay={{ show: 250, hide: 800 }}
             placement="right"
             {...props}
         >

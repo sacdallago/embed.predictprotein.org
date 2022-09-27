@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import { eval_input_type, InputType, InputAlphabet } from "../utils/sequence";
 import ValidationIndicator from "./ValidationIndicator";
+import useInputStore from "../stores/inputStore";
 
 const ClickableSpan = styled.span`
     font-weight: bold;
@@ -29,13 +30,14 @@ QRPSSRASSRASSRPRPDDLEI`,
 };
 
 export const SequenceInput = (props) => {
-    const [input, setInput] = React.useState("");
-    const [inputType, setInputType] = React.useState(InputType.invalid);
-    const [inputAlphabet, setInputAlphabet] = React.useState(
-        InputAlphabet.undefined
-    );
+    const input = useInputStore((state) => state.input);
+    const setInput = useInputStore((state) => state.setInput);
+    const setValidation = useInputStore((state) => state.setValidation);
+    const inputValid = useInputStore((state) => state.isValid);
+    const inputType = useInputStore((state) => state.inputType);
+    const inputAlphabet = useInputStore((state) => state.inputAlphabet);
+
     // TODO Unify into one state as they are linked
-    const [inputValid, setInputValid] = React.useState(false);
     const [isValidationPending, startValidation] = React.useTransition();
     const ref_input = React.createRef();
 
@@ -51,18 +53,13 @@ export const SequenceInput = (props) => {
 
     const validate_input = (input) => {
         startValidation(() => {
-            var [type, alphabet, isValid] = eval_input_type(input);
-            setInputType(type);
-            setInputAlphabet(alphabet);
-            setInputValid(isValid);
+            setValidation(...eval_input_type(input));
         });
     };
 
     const reset_input = () => {
         setInput("");
-        setInputType(InputType.invalid);
-        setInputAlphabet(InputAlphabet.undefined);
-        setInputValid(false);
+        setValidation(InputType.invalid, InputAlphabet.undefined);
     };
 
     return (
