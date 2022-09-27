@@ -32,34 +32,24 @@ QRPSSRASSRASSRPRPDDLEI`,
 export const SequenceInput = (props) => {
     const input = useInputStore((state) => state.input);
     const setInput = useInputStore((state) => state.setInput);
-    const setValidation = useInputStore((state) => state.setValidation);
+    const validateInput = useInputStore((state) => state.validate);
     const inputValid = useInputStore((state) => state.isValid);
     const inputType = useInputStore((state) => state.inputType);
     const inputAlphabet = useInputStore((state) => state.inputAlphabet);
+    const reset_input = useInputStore((state) => state.reset);
 
     // TODO Unify into one state as they are linked
     const [isValidationPending, startValidation] = React.useTransition();
     const ref_input = React.createRef();
 
-    if (props.sequence !== "") {
-        setInput(props.sequence);
-    }
-
     const setExampleState = (type) => {
         let input = example_input[type];
         setInput(input);
-        validate_input(input);
+        validate_input();
     };
 
-    const validate_input = (input) => {
-        startValidation(() => {
-            setValidation(...eval_input_type(input));
-        });
-    };
-
-    const reset_input = () => {
-        setInput("");
-        setValidation(InputType.invalid, InputAlphabet.undefined);
+    const validate_input = () => {
+        startValidation(() => validateInput());
     };
 
     return (
@@ -76,7 +66,7 @@ export const SequenceInput = (props) => {
                             placeholder="SEQWENCE... "
                             onChange={(event) => {
                                 setInput(ref_input.current.value);
-                                validate_input(ref_input.current.value);
+                                validate_input();
                             }}
                         />
                         {input !== "" && (

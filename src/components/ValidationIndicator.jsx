@@ -52,7 +52,7 @@ function getValidationOutput(inputState) {
                 <div key="1">
                     Could not parse input.
                     <br />
-                    Please specify a valid protein sequence or identifier.
+                    Please specify one valid protein sequence or identifier.
                 </div>
             );
             body.push(
