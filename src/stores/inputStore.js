@@ -38,6 +38,7 @@ const useInputStore = create((set, get) => ({
         abortController = new AbortController();
         let type = get().type;
         let input = get().input;
+        if (!get().isValid()) return;
         let [seq, output] = await get_sequence_for_type(type, input);
         if (!abortController.signal.aborted) {
             abortController = null;
