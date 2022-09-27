@@ -17,6 +17,8 @@ import PrintPage from "./pages/PrintPage";
 import Imprint from "./pages/imprint";
 import Footer from "./components/Footer";
 import Cite from "./pages/Cite";
+import Input from "./pages/Input";
+import Glossary from "./pages/Glossary";
 
 // FIXME transition to React18 https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
 ReactGA.initialize(process.env.REACT_GA || "UA-137257046-2");
@@ -28,9 +30,10 @@ root.render(
     <React.StrictMode>
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Overview />} />
+                <Route path="/" element={<Input />} />
                 <Route path="/imprint" element={<Imprint />} />
                 <Route path="/cite" element={<Cite />} />
+                <Route path="/glossary" element={<Glossary />} />
                 <Route path="/i/:sequence" element={<Interactive />} />
                 <Route path="/p/:sequence" element={<PrintPage />} />
                 <Route path="/o/:sequence" element={<Overview />} />
