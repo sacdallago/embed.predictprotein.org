@@ -1,12 +1,17 @@
 import create from "zustand";
-import { InputAlphabet, InputType, eval_input_type } from "../utils/sequence";
+import {
+    InputAlphabet,
+    InputType,
+    eval_input_type,
+    get_sequence_for_type,
+} from "../utils/sequence";
 
-// define the store
+let abortController = null;
 
 const invalid = {
     sequence: undefined,
-    inputType: InputType.invalid,
-    inputAlphabet: InputAlphabet.undefined,
+    type: InputType.invalid,
+    alphabet: InputAlphabet.undefined,
     isValid: false,
 };
 
@@ -15,28 +20,42 @@ const initial = {
     ...invalid,
 };
 
-const useInputStore = create((set) => ({
+const useInputStore = create((set, get) => ({
     ...initial,
-    setInput: (new_input) =>
-        set((state) => {
-            state.invalidate();
-            return { input: new_input };
-        }),
-    validate: () =>
-        set((state) => {
-            let [type, alphabet] = eval_input_type(state.input);
-            return {
-                inputType: type,
-                inputAlphabet: alphabet,
-                isValid: type !== InputType.invalid,
-            };
-        }),
-    setSequence: (new_sequence) =>
-        set((state) => ({
-            sequence: new_sequence,
-        })),
-    reset: () => set(initial),
-    invalidate: () => set(invalid),
+    setInput: (new_input) => {
+        get().invalidate();
+        set({ input: new_input });
+    },
+    validate: () => {
+        let [new_type, new_alphabet] = eval_input_type(get().input);
+        set({
+            type: new_type,
+            alphabet: new_alphabet,
+            isValid: new_type !== InputType.invalid,
+        });
+    },
+    getSequence: async () => {
+        abortController = new AbortController();
+        let type = get().type;
+        let input = get().input;
+        let [seq, output] = await get_sequence_for_type(type, input);
+        if (!abortController.signal.aborted) {
+            abortController = null;
+            set({ sequence: seq });
+            console.log(seq);
+            return output;
+        } else {
+            abortController = null;
+        }
+    },
+    reset: () => {
+        if (abortController) abortController.abort();
+        set(initial);
+    },
+    invalidate: () => {
+        if (abortController) abortController.abort();
+        set(invalid);
+    },
 }));
 
 export default useInputStore;
