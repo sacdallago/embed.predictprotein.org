@@ -53,22 +53,37 @@ const Footer = () => (
                     <h5 className="text-uppercase">Services</h5>
                     <ul className="list-unstyled">
                         <li>
-                            <a href="#!" className="link-dark">
+                            <Link to="glossary" className="link-dark">
                                 Gloassary
-                            </a>
+                            </Link>
                         </li>
                         <li>
-                            <a href="#!" className="link-dark">
+                            <a
+                                href="https://github.com/sokrypton/ColabFold"
+                                target="_blank"
+                                className="link-dark"
+                                rel="noreferrer"
+                            >
                                 Colab Fold
                             </a>
                         </li>
                         <li>
-                            <a href="#!" className="link-dark">
+                            <a
+                                href="https://alphafold.ebi.ac.uk/"
+                                className="link-dark"
+                                rel="noreferrer"
+                                target="_blank"
+                            >
                                 AlphaFold2 DB
                             </a>
                         </li>
                         <li>
-                            <a href="#!" className="link-dark">
+                            <a
+                                href="https://www.uniprot.org/"
+                                rel="noreferrer"
+                                target="_blank"
+                                className="link-dark"
+                            >
                                 UniprotKB
                             </a>
                         </li>

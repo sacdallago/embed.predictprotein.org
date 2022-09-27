@@ -7,18 +7,16 @@ export default function Cite() {
         <Container>
             <Row className="justify-content-md-center">
                 <Col xs="12" md="6">
-                    <Stack gap={1.3}>
+                    <h1 className="mb-3">Citation</h1>
+                    <Stack gap={1.3} className="ms-3">
                         <div>
-                            <h1 className="mb-3">Citation</h1>
-                        </div>
-                        <div>
-                            <p className="ms-3">
+                            <p>
                                 If you use LambdaPP in your research, please
                                 cite us using:
                             </p>
                         </div>
 
-                        <div style={{ textAlign: "justify" }} className="ms-3">
+                        <div style={{ textAlign: "justify" }}>
                             <p>
                                 <strong>
                                     LambdaPP: Fast and accessible
@@ -33,7 +31,7 @@ export default function Cite() {
                                 Steinegger, Christian Dallago, Burkhard Rost.{" "}
                             </p>
                         </div>
-                        <div className="ms-3">
+                        <div>
                             bioRxiv 2022.08.04.502750; doi:{" "}
                             <a
                                 target={"_blank"}
