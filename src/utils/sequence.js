@@ -12,6 +12,9 @@ export const InputAlphabet = {
     undefined: Symbol("undefined"),
 };
 
+export const MIN_INPUT_LEN = 3;
+export const MAX_INPUT_LEN = 5000;
+
 const IUPAC = "ACDEFGHIKLMNPQRSTVWYX";
 const IUPAC_extended = IUPAC + "BZJUO";
 
@@ -24,6 +27,9 @@ const re_invalid_aminoAcid_extended = new RegExp(
     "^$|[^" + IUPAC_extended + "]"
 );
 const re_fasta_header = new RegExp("^>.*$");
+
+const NON_DESCRIPT_ERROR =
+    "An error fetching your sequence occured; please try again later";
 
 function get_sequence_details(input) {
     let alphabet = InputAlphabet.undefined;
@@ -44,7 +50,7 @@ export function eval_input_type(input) {
     let type = InputType.invalid;
     let alphabet = InputAlphabet.undefined;
 
-    if (input.length <= 3) {
+    if (input <= MIN_INPUT_LEN || MAX_INPUT_LEN < input) {
         return [type, alphabet];
     }
 
@@ -64,4 +70,50 @@ export function eval_input_type(input) {
         }
     }
     return [type, alphabet];
+}
+
+function get_seq_from_fasta(input) {
+    let lines = input.split("\n");
+    return lines.slice(1).join("");
+}
+
+async function get_seq_from_uniprot_id(input) {
+    let error = "";
+    let sequence = "";
+    input = input.trim();
+    let response = await fetch(
+        "https://rest.uniprot.org/uniprotkb/" +
+            input +
+            "?fields=accession,sequence"
+    ).catch((e) => {
+        error = NON_DESCRIPT_ERROR;
+        console.error(e);
+    });
+    if (response.status === 404) {
+        error = "Sequence could not be found.";
+    } else if (!response.ok) {
+        error = NON_DESCRIPT_ERROR;
+        console.error("Error ", response.status, ": ", response.statusText);
+    } else {
+        let body = await response.json();
+        sequence = body["sequence"]["value"];
+    }
+    return [sequence, error];
+}
+
+export async function get_sequence_for_type(input_type, input) {
+    let seq = "";
+    let error = undefined;
+    switch (input_type) {
+        case InputType.fasta:
+            seq = get_seq_from_fasta(input);
+            break;
+        case InputType.uniprot_id:
+            [seq, error] = await get_seq_from_uniprot_id(input);
+            break;
+        default:
+            error = true;
+    }
+    console.log(seq, error);
+    return [seq, error];
 }
