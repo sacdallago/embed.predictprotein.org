@@ -28,8 +28,9 @@ const re_invalid_aminoAcid_extended = new RegExp(
 );
 const re_fasta_header = new RegExp("^>.*$");
 
-const NON_DESCRIPT_ERROR =
-    "An error fetching your sequence occured; please try again later";
+const NON_DESCRIPT_ERROR = {
+    error: "An error fetching your sequence occured; please try again later",
+};
 
 function get_sequence_details(input) {
     let alphabet = InputAlphabet.undefined;
@@ -72,48 +73,84 @@ export function eval_input_type(input) {
     return [type, alphabet];
 }
 
+function get_seq_from_residue(input) {
+    input = input.trim();
+    return input.split("\n").join("");
+}
+
 function get_seq_from_fasta(input) {
+    input = input.trim();
     let lines = input.split("\n");
     return lines.slice(1).join("");
 }
 
 async function get_seq_from_uniprot_id(input) {
-    let error = "";
-    let sequence = "";
     input = input.trim();
-    let response = await fetch(
+
+    return await get_seq_from_uniprot(
         "https://rest.uniprot.org/uniprotkb/" +
             input +
-            "?fields=accession,sequence"
-    ).catch((e) => {
-        error = NON_DESCRIPT_ERROR;
+            "?fields=accession,sequence&format=json"
+    );
+}
+
+async function get_seq_from_uniprot_name(input) {
+    input = input.trim();
+
+    return await get_seq_from_uniprot(
+        "https://rest.uniprot.org/uniprotkb/search?query=id:" +
+            input +
+            "+OR+protein_name:" +
+            input +
+            "&fields=accession,sequence&format=json&size=1"
+    );
+}
+
+async function get_seq_from_uniprot(url) {
+    let output = {};
+    let sequence = "";
+    let response = await fetch(url).catch((e) => {
+        output = NON_DESCRIPT_ERROR;
         console.error(e);
     });
     if (response.status === 404) {
-        error = "Sequence could not be found.";
+        output = { error: "Sequence could not be found." };
     } else if (!response.ok) {
-        error = NON_DESCRIPT_ERROR;
+        output = NON_DESCRIPT_ERROR;
         console.error("Error ", response.status, ": ", response.statusText);
     } else {
         let body = await response.json();
+        if ("results" in body) {
+            body = body["results"][0];
+            output = {
+                info:
+                    "Selected sequence with accession: " +
+                    body["primaryAccession"],
+            };
+        }
         sequence = body["sequence"]["value"];
     }
-    return [sequence, error];
+    return [sequence, output];
 }
 
 export async function get_sequence_for_type(input_type, input) {
     let seq = "";
-    let error = undefined;
+    let output = {};
     switch (input_type) {
         case InputType.fasta:
             seq = get_seq_from_fasta(input);
             break;
         case InputType.uniprot_id:
-            [seq, error] = await get_seq_from_uniprot_id(input);
+            [seq, output] = await get_seq_from_uniprot_id(input);
+            break;
+        case InputType.uniprot_protein_name:
+            [seq, output] = await get_seq_from_uniprot_name(input);
+            break;
+        case InputType.residue:
+            seq = get_seq_from_residue(input);
             break;
         default:
-            error = true;
+            output = NON_DESCRIPT_ERROR;
     }
-    console.log(seq, error);
-    return [seq, error];
+    return [seq, output];
 }
