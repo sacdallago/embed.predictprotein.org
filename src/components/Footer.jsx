@@ -34,8 +34,6 @@ const Footer = () => (
                         <li>
                             <a
                                 href="https://github.com/sacdallago/embed.predictprotein.org"
-                                target="_blank"
-                                rel="noreferrer"
                                 className="link-dark"
                             >
                                 Contribute
@@ -60,9 +58,7 @@ const Footer = () => (
                         <li>
                             <a
                                 href="https://github.com/sokrypton/ColabFold"
-                                target="_blank"
                                 className="link-dark"
-                                rel="noreferrer"
                             >
                                 Colab Fold
                             </a>
@@ -71,8 +67,6 @@ const Footer = () => (
                             <a
                                 href="https://alphafold.ebi.ac.uk/"
                                 className="link-dark"
-                                rel="noreferrer"
-                                target="_blank"
                             >
                                 AlphaFold2 DB
                             </a>
@@ -80,8 +74,6 @@ const Footer = () => (
                         <li>
                             <a
                                 href="https://www.uniprot.org/"
-                                rel="noreferrer"
-                                target="_blank"
                                 className="link-dark"
                             >
                                 UniprotKB
