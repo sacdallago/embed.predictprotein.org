@@ -3,9 +3,11 @@ import React from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 import styled from "styled-components";
 
-import { eval_input_type, InputType, InputAlphabet } from "../utils/sequence";
+import { InputType } from "../utils/sequence";
 import ValidationIndicator from "./ValidationIndicator";
+import LoadingButton from "./LoadingButton";
 import useInputStore from "../stores/inputStore";
+import useSequence from "../hooks/useSequence";
 
 const ClickableSpan = styled.span`
     font-weight: bold;
@@ -34,9 +36,10 @@ export const SequenceInput = (props) => {
     const setInput = useInputStore((state) => state.setInput);
     const validateInput = useInputStore((state) => state.validate);
     const inputValid = useInputStore((state) => state.isValid);
-    const inputType = useInputStore((state) => state.inputType);
-    const inputAlphabet = useInputStore((state) => state.inputAlphabet);
+    const inputType = useInputStore((state) => state.type);
+    const inputAlphabet = useInputStore((state) => state.alphabet);
     const reset_input = useInputStore((state) => state.reset);
+    const [loading, output, loadSeqNow] = useSequence();
 
     // TODO Unify into one state as they are linked
     const [isValidationPending, startValidation] = React.useTransition();
@@ -131,10 +134,16 @@ export const SequenceInput = (props) => {
                             Clear
                         </Button>
                     </Col>
-                    <Col md={2}>
-                        <Button id="submit-protein" disabled={!inputValid}>
-                            PredictProperties
-                        </Button>
+                    <Col md={3}>
+                        <LoadingButton
+                            id="submit-protein"
+                            loading={loading}
+                            disabled={!inputValid}
+                            onClick={() => loadSeqNow()}
+                        >
+                            {!loading && <>PredictProperties</>}
+                            {loading && <>Loading Sequence...</>}
+                        </LoadingButton>
                     </Col>
                 </Row>
             </Form.Group>

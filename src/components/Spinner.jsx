@@ -12,19 +12,15 @@ const rotate = keyframes`
     transform: rotate(360deg);
   }
 `;
-function _Spinner(props) {
-    return (
-        <img
-            className={props.className}
-            src={Helix}
-            alt="spinning protein logo"
-        ></img>
-    );
+function Spinner(props) {
+    return <img {...props} src={Helix} alt="spinning protein logo"></img>;
 }
 
-export const Spinner = styled(_Spinner)`
+const StyledSpinner = styled(Spinner)`
     display: inline-block;
     animation: ${rotate} 2s linear infinite;
     with: ${(props) => props.size || "1em"};
     height: ${(props) => props.size || "1em"};
 `;
+
+export default StyledSpinner;

@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
-import { Spinner } from "./Spinner";
+import Spinner from "./Spinner";
 import { InputAlphabet, InputType } from "../utils/sequence";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 
