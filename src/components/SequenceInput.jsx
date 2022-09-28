@@ -8,6 +8,7 @@ import ValidationIndicator from "./ValidationIndicator";
 import LoadingButton from "./LoadingButton";
 import useInputStore from "../stores/inputStore";
 import useSequence from "../hooks/useSequence";
+import { useNotifcationStore } from "../stores/notificationStore";
 
 const ClickableSpan = styled.span`
     font-weight: bold;
@@ -32,14 +33,27 @@ QRPSSRASSRASSRPRPDDLEI`,
 };
 
 export const SequenceInput = (props) => {
-    const input = useInputStore((state) => state.input);
-    const setInput = useInputStore((state) => state.setInput);
-    const validateInput = useInputStore((state) => state.validate);
-    const inputValid = useInputStore((state) => state.isValid);
-    const inputType = useInputStore((state) => state.type);
-    const inputAlphabet = useInputStore((state) => state.alphabet);
-    const reset_input = useInputStore((state) => state.reset);
+    const [
+        input,
+        setInput,
+        validateInput,
+        inputValid,
+        inputType,
+        inputAlphabet,
+        reset_input,
+    ] = useInputStore((state) => [
+        state.input,
+        state.setInput,
+        state.validate,
+        state.isValid,
+        state.type,
+        state.alphabet,
+        state.reset,
+    ]);
     const [loading, output, loadSeqNow] = useSequence();
+    const pushNotification = useNotifcationStore(
+        (state) => state.pushNotification
+    );
 
     // TODO Unify into one state as they are linked
     const [isValidationPending, startValidation] = React.useTransition();
@@ -54,6 +68,14 @@ export const SequenceInput = (props) => {
     const validate_input = () => {
         startValidation(() => validateInput());
     };
+
+    const submit = () => {
+        loadSeqNow();
+        if (output !== {}){
+            pushNotification({type: output.type, })
+        }
+
+    }
 
     return (
         <Form className="d-flex justify-content-center mt-3">
@@ -139,7 +161,7 @@ export const SequenceInput = (props) => {
                             id="submit-protein"
                             loading={loading}
                             disabled={!inputValid}
-                            onClick={() => loadSeqNow()}
+                            onClick={() => {submit();}
                         >
                             {!loading && <>PredictProperties</>}
                             {loading && <>Loading Sequence...</>}

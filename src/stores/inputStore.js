@@ -1,4 +1,5 @@
 import create from "zustand";
+
 import {
     InputAlphabet,
     InputType,
@@ -38,12 +39,11 @@ const useInputStore = create((set, get) => ({
         abortController = new AbortController();
         let type = get().type;
         let input = get().input;
-        if (!get().isValid()) return;
+        if (!get().isValid && get().sequence === undefined) return;
         let [seq, output] = await get_sequence_for_type(type, input);
         if (!abortController.signal.aborted) {
             abortController = null;
             set({ sequence: seq });
-            console.log(seq);
             return output;
         } else {
             abortController = null;

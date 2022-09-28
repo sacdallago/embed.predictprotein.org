@@ -1,28 +1,32 @@
 import React from "react";
-import { resolvePath } from "react-router-dom";
 
 import useInputStore from "../stores/inputStore";
+import { useNotifcationStore } from "../stores/notificationStore";
 
 export default function useSequence() {
     const getSequence = useInputStore((state) => state.getSequence);
-    const [output, setOutput] = React.useState({});
+    const [error, setError] = React.useState(false);
     const [loading, setLoading] = React.useState(false);
     const seq = useInputStore((state) => state.sequence);
+    const pushNotification = useNotifcationStore(
+        (state) => state.pushNotification
+    );
 
     function loadSeqNow() {
         setLoading(true);
+        setError(false);
         getSequence()
-            .then((out) => setOutput(output))
             .then((out) => setLoading(false))
             .catch((err) => {
-                setOutput({
-                    error: "Something went wrong; Please try again later",
-                });
-                console.error(err);
+                setError(true);
+                if (err.message) pushNotification(err.message);
+                if (err.error) {
+                    console.log(err.error);
+                } else {
+                    console.log(err);
+                }
             });
     }
 
-    // React.useEffect(() => loadSeqNow(), []);
-
-    return [loading, output, loadSeqNow];
+    return [loading, error, loadSeqNow];
 }
