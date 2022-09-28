@@ -19,6 +19,7 @@ import Footer from "./components/Footer";
 import Cite from "./pages/Cite";
 import Input from "./pages/Input";
 import Glossary from "./pages/Glossary";
+import Notifications from "./components/Notifications";
 
 // FIXME transition to React18 https://reactjs.org/blog/2022/03/08/react-18-upgrade-guide.html
 ReactGA.initialize(process.env.REACT_GA || "UA-137257046-2");
@@ -29,6 +30,7 @@ const root = createRoot(container);
 root.render(
     <React.StrictMode>
         <BrowserRouter>
+            <Notifications />
             <Routes>
                 <Route path="/" element={<Input />} />
                 <Route path="/imprint" element={<Imprint />} />
