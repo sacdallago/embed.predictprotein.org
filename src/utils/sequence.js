@@ -13,7 +13,7 @@ export const InputAlphabet = {
 };
 
 export const MIN_INPUT_LEN = 3;
-export const MAX_INPUT_LEN = 5000;
+export const MAX_INPUT_LEN = 2000;
 
 const IUPAC = "ACDEFGHIKLMNPQRSTVWYX";
 const IUPAC_extended = IUPAC + "BZJUO";
@@ -36,14 +36,6 @@ export class SequenceException extends Error {
         super(message);
         this.name = this.constructor.name;
         this.error = error;
-    }
-}
-
-export class APIError extends Error {
-    constructor(message, code) {
-        super(message);
-        this.name = this.constructor.name;
-        this.return_code = code;
     }
 }
 
@@ -136,12 +128,12 @@ async function get_seq_from_uniprot(url) {
     if (response.status === 404) {
         throw new SequenceException(
             "Could not find a sequence with this identifier.",
-            new APIError(response.statusText, response.status)
+            null
         );
     } else if (!response.ok) {
         throw new SequenceException(
             "Oops... something went wrong at Uniprot; Please try again later",
-            new APIError(response.statusText, response.status)
+            null
         );
     } else {
         let body = await response.json();
@@ -149,7 +141,7 @@ async function get_seq_from_uniprot(url) {
             if (body.results.length === 0)
                 throw new SequenceException(
                     "Could not find a protein matching the criteria",
-                    new APIError("Could not find any result", 404)
+                    null
                 );
             body = body.results[0];
         }

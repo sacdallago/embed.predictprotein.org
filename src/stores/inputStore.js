@@ -45,7 +45,6 @@ const useInputStore = create((set, get) => ({
         if (!abortController.signal.aborted) {
             abortController = null;
             set({ sequence: seq, accession: acc });
-            console.log(seq, acc);
         } else {
             abortController = null;
         }

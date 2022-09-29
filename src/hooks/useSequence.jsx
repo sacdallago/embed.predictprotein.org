@@ -27,7 +27,7 @@ export default function useSequence() {
                         body: err.message,
                         header: "Error",
                     });
-                    console.error(err.error);
+                    if (err.error != null) console.error(err.error);
                 } else {
                     throw err;
                 }

@@ -3,7 +3,12 @@ import styled from "styled-components";
 import { FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
 import Spinner from "./Spinner";
-import { InputAlphabet, InputType } from "../utils/sequence";
+import {
+    InputAlphabet,
+    InputType,
+    MAX_INPUT_LEN,
+    MIN_INPUT_LEN,
+} from "../utils/sequence";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 
 function getValidationOutput(inputState) {
@@ -57,7 +62,8 @@ function getValidationOutput(inputState) {
             );
             body.push(
                 <div key="2">
-                    A valid sequence must be {">"} 3 residues in{" "}
+                    A valid sequence must be {">"} {MIN_INPUT_LEN} and {"<"}{" "}
+                    {MAX_INPUT_LEN} residues in{" "}
                     <a
                         href="https://www.bioinformatics.org/sms2/iupac"
                         target="_blank"
