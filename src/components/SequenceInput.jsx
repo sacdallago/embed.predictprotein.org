@@ -41,6 +41,7 @@ export const SequenceInput = (props) => {
         inputType,
         inputAlphabet,
         reset_input,
+        sequence,
     ] = useInputStore((state) => [
         state.input,
         state.setInput,
@@ -49,6 +50,7 @@ export const SequenceInput = (props) => {
         state.type,
         state.alphabet,
         state.reset,
+        state.sequence,
     ]);
     const [loading, error, loadSeqNow] = useSequence();
     const navigate = useNavigate();
@@ -69,8 +71,11 @@ export const SequenceInput = (props) => {
 
     const submit = () => {
         loadSeqNow();
-        if (!error) navigate("/o");
     };
+
+    React.useEffect(() => {
+        if (!error && sequence !== undefined) navigate("/o");
+    }, [error, navigate, sequence]);
 
     return (
         <Form className="d-flex justify-content-center mt-3">
