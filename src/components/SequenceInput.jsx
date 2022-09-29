@@ -8,6 +8,7 @@ import ValidationIndicator from "./ValidationIndicator";
 import LoadingButton from "./LoadingButton";
 import useInputStore from "../stores/inputStore";
 import useSequence from "../hooks/useSequence";
+import { useNavigate } from "react-router-dom";
 
 const ClickableSpan = styled.span`
     font-weight: bold;
@@ -50,6 +51,7 @@ export const SequenceInput = (props) => {
         state.reset,
     ]);
     const [loading, error, loadSeqNow] = useSequence();
+    const navigate = useNavigate();
 
     // TODO Unify into one state as they are linked
     const [isValidationPending, startValidation] = React.useTransition();
@@ -67,6 +69,7 @@ export const SequenceInput = (props) => {
 
     const submit = () => {
         loadSeqNow();
+        if (!error) navigate("/o");
     };
 
     return (
