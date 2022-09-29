@@ -10,6 +10,7 @@ import {
 let abortController = null;
 
 const invalid = {
+    accession: undefined,
     sequence: undefined,
     type: InputType.invalid,
     alphabet: InputAlphabet.undefined,
@@ -40,11 +41,11 @@ const useInputStore = create((set, get) => ({
         let type = get().type;
         let input = get().input;
         if (!get().isValid && get().sequence === undefined) return;
-        let [seq, output] = await get_sequence_for_type(type, input);
+        let [seq, acc] = await get_sequence_for_type(type, input);
         if (!abortController.signal.aborted) {
             abortController = null;
-            set({ sequence: seq });
-            return output;
+            set({ sequence: seq, accession: acc });
+            console.log(seq, acc);
         } else {
             abortController = null;
         }

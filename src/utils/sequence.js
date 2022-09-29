@@ -31,9 +31,20 @@ const re_uniprot_fasta = new RegExp(
 );
 const re_fasta_header = new RegExp("^>.*$");
 
-function SequenceException(message, error) {
-    this.message = message;
-    this.error = error;
+export class SequenceException extends Error {
+    constructor(message, error) {
+        super(message);
+        this.name = this.constructor.name;
+        this.error = error;
+    }
+}
+
+export class APIError extends Error {
+    constructor(message, code) {
+        super(message);
+        this.name = this.constructor.name;
+        this.return_code = code;
+    }
 }
 
 function get_sequence_details(input) {
@@ -125,16 +136,23 @@ async function get_seq_from_uniprot(url) {
     if (response.status === 404) {
         throw new SequenceException(
             "Could not find a sequence with this identifier.",
-            { status: response.status, statusText: response.statusText }
+            new APIError(response.statusText, response.status)
         );
     } else if (!response.ok) {
         throw new SequenceException(
             "Oops... something went wrong at Uniprot; Please try again later",
-            { status: response.status, statusText: response.statusText }
+            new APIError(response.statusText, response.status)
         );
     } else {
         let body = await response.json();
-        if ("results" in body) body = body["results"][0];
+        if ("results" in body) {
+            if (body.results.length === 0)
+                throw new SequenceException(
+                    "Could not find a protein matching the criteria",
+                    new APIError("Could not find any result", 404)
+                );
+            body = body.results[0];
+        }
         accession = body["primaryAccession"];
         sequence = body["sequence"]["value"];
     }

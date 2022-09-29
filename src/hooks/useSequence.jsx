@@ -2,6 +2,7 @@ import React from "react";
 
 import useInputStore from "../stores/inputStore";
 import { useNotifcationStore } from "../stores/notificationStore";
+import { SequenceException } from "../utils/sequence";
 
 export default function useSequence() {
     const getSequence = useInputStore((state) => state.getSequence);
@@ -20,16 +21,15 @@ export default function useSequence() {
             .catch((err) => {
                 setLoading(false);
                 setError(true);
-                if (err.message)
+                if (err instanceof SequenceException) {
                     pushNotification({
                         type: "error",
                         body: err.message,
                         header: "Error",
                     });
-                if (err.error) {
                     console.error(err.error);
                 } else {
-                    console.error(err);
+                    throw err;
                 }
             });
     }
