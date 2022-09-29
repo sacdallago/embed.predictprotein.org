@@ -16,7 +16,7 @@ import Cite from "./pages/Cite";
 import Input from "./pages/Input";
 import Glossary from "./pages/Glossary";
 import Notifications from "./components/Notifications";
-import Header from "./components/Navbar";
+import Header from "./components/Header";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
