@@ -4,20 +4,16 @@ import { Container, Stack, Nav, Navbar, Row, Col } from "react-bootstrap";
 
 import FeatureViewer from "../components/FeatureViewer";
 import StructurePrediction from "../components/StructurePrediction";
-import SequenceInput from "../components/SequenceInput";
 
-import "../styles/App.css";
-import {
-    annotationsPlaceholder,
-    structurePlaceholder,
-    resultStatus,
-} from "../stores/JobResults";
 import StructureStatus from "../components/StructureStatus";
-import AnnotationsStatus from "../components/AnnotationsStatus";
-import storeComponentWrapper from "../stores/jobDispatcher";
-import { proteinStatus } from "../stores/JobParameters";
 import FeatureGrabber from "../components/FeatureGrabber";
 import StructureDownload from "../components/StructureDownload";
+import SequenceDisplay from "../components/SequenceDisplay";
+
+const proteinStatus = null;
+const annotationsPlaceholder = null;
+const structurePlaceholder = null;
+const resultStatus = null;
 
 class Interactive extends React.Component {
     constructor(props) {
@@ -87,7 +83,7 @@ class Interactive extends React.Component {
                 </Navbar>
 
                 <div style={{ display: "none" }}>
-                    <SequenceInput />
+                    <SequenceDisplay />
                     <FeatureGrabber />
                 </div>
 
@@ -97,10 +93,6 @@ class Interactive extends React.Component {
                         <Row>
                             <Col>
                                 {/*<StructureDownload structure={this.state.structure} sequence={this.state.sequence} />*/}
-                                <AnnotationsStatus
-                                    sequence={this.state.sequence}
-                                    features={this.state.features}
-                                />
                                 <FeatureViewer data={this.state.features} />
                             </Col>
                         </Row>
@@ -125,4 +117,4 @@ class Interactive extends React.Component {
     }
 }
 
-export default storeComponentWrapper(Interactive);
+export default Interactive;

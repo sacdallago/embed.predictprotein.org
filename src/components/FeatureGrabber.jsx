@@ -1,13 +1,15 @@
-import storeComponentWrapper from '../stores/jobDispatcher';
 import React from "react";
-import {proteinStatus} from "../stores/JobParameters";
-import {resultStatus} from "../stores/JobResults";
+// import {proteinStatus} from "../stores/JobParameters";
+// import {resultStatus} from "../stores/JobResults";
 import PropTypes from "prop-types";
+
+const proteinStatus = null;
+const resultStatus = null;
 
 const ULR = "https://api.bioembeddings.com/api/annotations";
 
 class FeaturesGrabber extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.protein = props.jobParameters.protein;
@@ -16,55 +18,55 @@ class FeaturesGrabber extends React.Component {
     processGoPredSimResults = (json) => {
         // MAKE string for AMIGO viz
         // MFO
-        let predictedMFOGraphData = {...json.predictedMFO};
+        let predictedMFOGraphData = { ...json.predictedMFO };
 
-        Object
-            .keys(predictedMFOGraphData)
-            .forEach(e => {
-                let score = predictedMFOGraphData[e];
-                let newValue = {
-                    "title": e + "<br/> score:" + score,
-                    "fill": score>= .28 ? "#FFFF99" : "#E5E4E2"
-                };
+        Object.keys(predictedMFOGraphData).forEach((e) => {
+            let score = predictedMFOGraphData[e];
+            let newValue = {
+                title: e + "<br/> score:" + score,
+                fill: score >= 0.28 ? "#FFFF99" : "#E5E4E2",
+            };
 
-                predictedMFOGraphData[e]= newValue
-            });
+            predictedMFOGraphData[e] = newValue;
+        });
 
-        json['predictedMFOGraphDataString'] = encodeURIComponent(JSON.stringify(predictedMFOGraphData));
+        json["predictedMFOGraphDataString"] = encodeURIComponent(
+            JSON.stringify(predictedMFOGraphData)
+        );
         // CCO
-        let predictedCCOGraphData = {...json.predictedCCO};
+        let predictedCCOGraphData = { ...json.predictedCCO };
 
-        Object
-            .keys(predictedCCOGraphData)
-            .forEach(e => {
-                let score = predictedCCOGraphData[e];
-                let newValue = {
-                    "title": e + "<br/> score:" + score,
-                    "fill": score>= .29 ? "#FFFF99" : "#E5E4E2"
-                };
+        Object.keys(predictedCCOGraphData).forEach((e) => {
+            let score = predictedCCOGraphData[e];
+            let newValue = {
+                title: e + "<br/> score:" + score,
+                fill: score >= 0.29 ? "#FFFF99" : "#E5E4E2",
+            };
 
-                predictedCCOGraphData[e]= newValue
-            });
+            predictedCCOGraphData[e] = newValue;
+        });
 
-        json['predictedCCOGraphDataString'] = encodeURIComponent(JSON.stringify(predictedCCOGraphData));
+        json["predictedCCOGraphDataString"] = encodeURIComponent(
+            JSON.stringify(predictedCCOGraphData)
+        );
         // BPO
-        let predictedBPOGraphData = {...json.predictedBPO};
+        let predictedBPOGraphData = { ...json.predictedBPO };
 
-        Object
-            .keys(predictedBPOGraphData)
-            .forEach(e => {
-                let score = predictedBPOGraphData[e];
-                let newValue = {
-                    "title": e + "<br/> score:" + score,
-                    "fill": score>= .35 ? "#FFFF99" : "#E5E4E2"
-                };
+        Object.keys(predictedBPOGraphData).forEach((e) => {
+            let score = predictedBPOGraphData[e];
+            let newValue = {
+                title: e + "<br/> score:" + score,
+                fill: score >= 0.35 ? "#FFFF99" : "#E5E4E2",
+            };
 
-                predictedBPOGraphData[e]= newValue
-            });
+            predictedBPOGraphData[e] = newValue;
+        });
 
-        json['predictedBPOGraphDataString'] = encodeURIComponent(JSON.stringify(predictedBPOGraphData));
+        json["predictedBPOGraphDataString"] = encodeURIComponent(
+            JSON.stringify(predictedBPOGraphData)
+        );
 
-        return json
+        return json;
     };
 
     getFeatures = (sequence, embedder) => {
@@ -79,26 +81,25 @@ class FeaturesGrabber extends React.Component {
             redirect: "follow", // manual, *follow, error
             referrer: "no-referrer", // no-referrer, *client
             body: JSON.stringify({
-                "sequence": sequence,
-                "format": "full",
-                "model": embedder
+                sequence: sequence,
+                format: "full",
+                model: embedder,
             }), // body data type must match "Content-Type" header
         })
-            .then(response => response.json())
-            .then(json => {
-
+            .then((response) => response.json())
+            .then((json) => {
                 this.props.action({
                     type: "SET_ANNOTATIONS",
                     payload: {
                         embedder: embedder,
                         result: {
                             ...json,
-                            status: resultStatus.DONE
-                        }
-                    }
+                            status: resultStatus.DONE,
+                        },
+                    },
                 });
             })
-            .catch(e => {
+            .catch((e) => {
                 console.error(e);
 
                 this.props.action({
@@ -106,16 +107,15 @@ class FeaturesGrabber extends React.Component {
                     payload: {
                         embedder: embedder,
                         result: {
-                            status: resultStatus.INVALID
-                        }
-                    }
+                            status: resultStatus.INVALID,
+                        },
+                    },
                 });
-            })
-        ;
+            });
     };
 
     getStructure = (sequence) => {
-        fetch('https://api.bioembeddings.com/api/structure', {
+        fetch("https://api.bioembeddings.com/api/structure", {
             method: "POST",
             mode: "cors",
             cache: "no-cache",
@@ -126,50 +126,49 @@ class FeaturesGrabber extends React.Component {
             redirect: "follow",
             referrer: "no-referrer",
             body: JSON.stringify({
-                "sequence": sequence,
-                "predictor": "colabfold",
+                sequence: sequence,
+                predictor: "colabfold",
             }),
         })
-            .then(response => {
-                return response.json()
+            .then((response) => {
+                return response.json();
             })
-            .then(json => {
+            .then((json) => {
                 // Result is computed
-                if(json.status === "OK") {
+                if (json.status === "OK") {
                     this.props.action({
                         type: "SET_STRUCTURE",
                         payload: {
-                            predictor: 'colabfold',
+                            predictor: "colabfold",
                             result: {
                                 ...json.structure,
                                 link: null,
-                                status: resultStatus.DONE
-                            }
-                        }
+                                status: resultStatus.DONE,
+                            },
+                        },
                     });
                 } else {
                     // The request has been created or is being computed!
                     setTimeout(() => this.getStructure(sequence), 5000);
                 }
             })
-            .catch(e => {
+            .catch((e) => {
                 console.error(e);
 
                 this.props.action({
                     type: "SET_STRUCTURE",
                     payload: {
-                        predictor: 'colabfold',
+                        predictor: "colabfold",
                         result: {
-                            status: resultStatus.INVALID
-                        }
-                    }
+                            status: resultStatus.INVALID,
+                        },
+                    },
                 });
-            })
-        ;
+            });
     };
 
     structureFromAFDB = (accession, sequence) => {
-        fetch('https://www.alphafold.ebi.ac.uk/api/prediction/' + accession, {
+        fetch("https://www.alphafold.ebi.ac.uk/api/prediction/" + accession, {
             method: "GET",
             mode: "cors",
             cache: "no-cache",
@@ -180,59 +179,67 @@ class FeaturesGrabber extends React.Component {
             redirect: "follow",
             referrer: "no-referrer",
         })
-            .then(response => {
-                return response.json()
+            .then((response) => {
+                return response.json();
             })
-            .then(json => {
+            .then((json) => {
                 this.props.action({
                     type: "SET_STRUCTURE",
                     payload: {
-                        predictor: 'colabfold',
+                        predictor: "colabfold",
                         result: {
-                            link: json[0]['cifUrl'],
-                            status: resultStatus.DONE
-                        }
-                    }
+                            link: json[0]["cifUrl"],
+                            status: resultStatus.DONE,
+                        },
+                    },
                 });
             })
-            .catch(e => {
+            .catch((e) => {
                 console.error(e);
-                if(sequence.length <= 500){
+                if (sequence.length <= 500) {
                     this.getStructure(sequence);
                 }
             });
-
-    }
+    };
 
     componentWillReceiveProps(nextProps) {
         let jobParameters = nextProps.jobParameters;
 
         switch (jobParameters.proteinStatus) {
             case proteinStatus.UNIPROT:
-                if(this.protein !== jobParameters.protein) {
+                if (this.protein !== jobParameters.protein) {
                     this.protein = jobParameters.protein;
 
                     this.props.action({
-                        type: "RESET_RESULTS"
+                        type: "RESET_RESULTS",
                     });
 
-                    this.getFeatures(jobParameters.protein.sequence, 'prottrans_t5_xl_u50');
-                    this.structureFromAFDB(jobParameters.protein?.uniprotData?.accession, jobParameters.protein.sequence);
+                    this.getFeatures(
+                        jobParameters.protein.sequence,
+                        "prottrans_t5_xl_u50"
+                    );
+                    this.structureFromAFDB(
+                        jobParameters.protein?.uniprotData?.accession,
+                        jobParameters.protein.sequence
+                    );
                 }
                 break;
             case proteinStatus.AA:
             case proteinStatus.FASTA:
             case proteinStatus.MULTIPLESEQUENCES:
-                if(this.protein !== jobParameters.protein){
+                if (this.protein !== jobParameters.protein) {
                     this.protein = jobParameters.protein;
 
                     this.props.action({
-                        type: "RESET_RESULTS"
+                        type: "RESET_RESULTS",
                     });
 
-                    this.getFeatures(jobParameters.protein.sequence, 'prottrans_t5_xl_u50');
+                    this.getFeatures(
+                        jobParameters.protein.sequence,
+                        "prottrans_t5_xl_u50"
+                    );
 
-                    if(jobParameters.protein.sequence.length <= 500){
+                    if (jobParameters.protein.sequence.length <= 500) {
                         this.getStructure(jobParameters.protein.sequence);
                     }
                 }
@@ -245,7 +252,7 @@ class FeaturesGrabber extends React.Component {
     }
 
     render() {
-        return (<div/>);
+        return <div />;
     }
 }
 
@@ -254,4 +261,4 @@ FeaturesGrabber.propTypes = {
     action: PropTypes.func,
 };
 
-export default storeComponentWrapper(FeaturesGrabber);
+export default FeaturesGrabber;
