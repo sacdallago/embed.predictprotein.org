@@ -17,7 +17,7 @@ const ClickableSpan = styled.span`
 `;
 
 const example_input = {
-    [InputType.fasta]: `>My sequence
+    [InputType.fasta]: `>tr|A0A654IBU3|A0A654IBU3_HUMAN Gap junction protein...
 MGDWSALGKLLDKVQAYSTAGGKVWLSVLFIFRILLLGTAVESAWGDEQSAFRCNTQQPG
 CENVCYDKSFPISHVRFWVLQIIFVSVPTLLYLAHVFYVMRKEEKLNKKEEELKVAQTDG
 VNVDMHLKQIEIKKFKYGIEEHGKVKMRGGLLRTYIISILFKSIFEVAFLLIQWYIYGFS
@@ -40,6 +40,7 @@ export const SequenceInput = (props) => {
         inputType,
         inputAlphabet,
         reset_input,
+        accession,
     ] = useInputStore((state) => [
         state.input,
         state.setInput,
@@ -48,6 +49,7 @@ export const SequenceInput = (props) => {
         state.type,
         state.alphabet,
         state.reset,
+        state.accession,
     ]);
     const [loading, error, loadSeqNow] = useSequence();
 

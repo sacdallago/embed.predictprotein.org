@@ -19,15 +19,15 @@ const IUPAC = "ACDEFGHIKLMNPQRSTVWYX";
 const IUPAC_extended = IUPAC + "BZJUO";
 
 const re_accessionNumber = new RegExp(
-    "[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}$"
+    "^[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9](?:[A-Z][A-Z0-9]{2}[0-9]){1,2}$"
 );
-const re_uniprotName = new RegExp("[A-Z0-9]{3,20}_[A-Z0-9]{3,20}");
+const re_uniprotName = new RegExp("^[A-Z0-9]{3,20}_[A-Z0-9]{3,20}$");
 const re_invalid_aminoAcid = new RegExp("^$|[^" + IUPAC + "]");
 const re_invalid_aminoAcid_extended = new RegExp(
     "^$|[^" + IUPAC_extended + "]"
 );
 const re_uniprot_fasta = new RegExp(
-    ">(?:tr|sp)|(?<id>" + re_accessionNumber.source + ")|.*"
+    "^>(?:tr|sp)\\|(?<id>" + re_accessionNumber.source.slice(1, -1) + ")\\|.*$"
 );
 const re_fasta_header = new RegExp("^>.*$");
 
@@ -88,7 +88,7 @@ function get_seq_from_fasta(input) {
     let accession = undefined;
     let uniprot_header = re_uniprot_fasta.exec(lines[0]);
     if (uniprot_header !== null) accession = uniprot_header.groups.id;
-    return [accession, lines.slice(1).join("")];
+    return [lines.slice(1).join(""), accession];
 }
 
 async function get_seq_from_uniprot_id(input) {
@@ -142,20 +142,20 @@ async function get_seq_from_uniprot(url) {
 }
 
 export async function get_sequence_for_type(input_type, input) {
-    let seq = "";
+    let sequence = "";
     let accession = undefined;
     switch (input_type) {
         case InputType.fasta:
-            [accession, seq] = get_seq_from_fasta(input);
+            [sequence, accession] = get_seq_from_fasta(input);
             break;
         case InputType.uniprot_id:
-            [seq, accession] = await get_seq_from_uniprot_id(input);
+            [sequence, accession] = await get_seq_from_uniprot_id(input);
             break;
         case InputType.uniprot_protein_name:
-            [seq, accession] = await get_seq_from_uniprot_name(input);
+            [sequence, accession] = await get_seq_from_uniprot_name(input);
             break;
         case InputType.residue:
-            seq = get_seq_from_residue(input);
+            sequence = get_seq_from_residue(input);
             break;
         default:
             throw new SequenceException(
@@ -163,5 +163,5 @@ export async function get_sequence_for_type(input_type, input) {
                 { error: "Invalid Input type!", input_type: input_type }
             );
     }
-    return [accession, seq];
+    return [sequence, accession];
 }
