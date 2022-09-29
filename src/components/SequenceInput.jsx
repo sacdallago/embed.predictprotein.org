@@ -40,7 +40,6 @@ export const SequenceInput = (props) => {
         inputType,
         inputAlphabet,
         reset_input,
-        accession,
     ] = useInputStore((state) => [
         state.input,
         state.setInput,
@@ -49,7 +48,6 @@ export const SequenceInput = (props) => {
         state.type,
         state.alphabet,
         state.reset,
-        state.accession,
     ]);
     const [loading, error, loadSeqNow] = useSequence();
 
