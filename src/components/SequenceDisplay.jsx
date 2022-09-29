@@ -37,8 +37,8 @@ export default function SequenceDisplay() {
                     </Col>
                 </Row>
                 <Row className="mt-3">
-                    <Col md={7}></Col>
-                    <Col md={1}>
+                    <Col md={8}></Col>
+                    <Col md={2}>
                         <Button
                             id="new-input"
                             variant="danger"
