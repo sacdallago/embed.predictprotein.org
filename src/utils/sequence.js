@@ -31,8 +31,6 @@ const re_uniprot_fasta = new RegExp(
 );
 const re_fasta_header = new RegExp("^>.*$");
 
-export const NO_ACCESSION = Symbol("no-accession");
-
 function SequenceException(message, error) {
     this.message = message;
     this.error = error;
@@ -87,7 +85,7 @@ function get_seq_from_residue(input) {
 function get_seq_from_fasta(input) {
     input = input.trim();
     let lines = input.split("\n");
-    let accession = NO_ACCESSION;
+    let accession = undefined;
     let uniprot_header = re_uniprot_fasta.exec(lines[0]);
     if (uniprot_header !== null) accession = uniprot_header.groups.id;
     return [accession, lines.slice(1).join("")];
@@ -117,7 +115,7 @@ async function get_seq_from_uniprot_name(input) {
 
 async function get_seq_from_uniprot(url) {
     let sequence = "";
-    let accession = NO_ACCESSION;
+    let accession = undefined;
     let response = await fetch(url).catch((e) => {
         throw new SequenceException(
             "Oops... something went wrong contacting Uniprot; Please try again later",
@@ -145,7 +143,7 @@ async function get_seq_from_uniprot(url) {
 
 export async function get_sequence_for_type(input_type, input) {
     let seq = "";
-    let accession = "";
+    let accession = undefined;
     switch (input_type) {
         case InputType.fasta:
             [accession, seq] = get_seq_from_fasta(input);

@@ -18,12 +18,18 @@ export default function useSequence() {
         getSequence()
             .then((out) => setLoading(false))
             .catch((err) => {
+                setLoading(false);
                 setError(true);
-                if (err.message) pushNotification(err.message);
+                if (err.message)
+                    pushNotification({
+                        type: "error",
+                        body: err.message,
+                        header: "Error",
+                    });
                 if (err.error) {
-                    console.log(err.error);
+                    console.error(err.error);
                 } else {
-                    console.log(err);
+                    console.error(err);
                 }
             });
     }

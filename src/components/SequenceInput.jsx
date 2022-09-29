@@ -8,7 +8,6 @@ import ValidationIndicator from "./ValidationIndicator";
 import LoadingButton from "./LoadingButton";
 import useInputStore from "../stores/inputStore";
 import useSequence from "../hooks/useSequence";
-import { useNotifcationStore } from "../stores/notificationStore";
 
 const ClickableSpan = styled.span`
     font-weight: bold;
@@ -50,10 +49,7 @@ export const SequenceInput = (props) => {
         state.alphabet,
         state.reset,
     ]);
-    const [loading, output, loadSeqNow] = useSequence();
-    const pushNotification = useNotifcationStore(
-        (state) => state.pushNotification
-    );
+    const [loading, error, loadSeqNow] = useSequence();
 
     // TODO Unify into one state as they are linked
     const [isValidationPending, startValidation] = React.useTransition();
@@ -71,11 +67,7 @@ export const SequenceInput = (props) => {
 
     const submit = () => {
         loadSeqNow();
-        if (output !== {}){
-            pushNotification({type: output.type, })
-        }
-
-    }
+    };
 
     return (
         <Form className="d-flex justify-content-center mt-3">
@@ -161,7 +153,7 @@ export const SequenceInput = (props) => {
                             id="submit-protein"
                             loading={loading}
                             disabled={!inputValid}
-                            onClick={() => {submit();}
+                            onClick={() => submit()}
                         >
                             {!loading && <>PredictProperties</>}
                             {loading && <>Loading Sequence...</>}
