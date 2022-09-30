@@ -8,7 +8,7 @@ export default function HowitWorks() {
         <Container>
             <Row className="justify-content-center">
                 <Col xs="12" md="10">
-                    <h3 className="mb-5"> How it works </h3>
+                    <h3 className="mb-5">How it works</h3>
                 </Col>
             </Row>
             <Row className="justify-content-center">
