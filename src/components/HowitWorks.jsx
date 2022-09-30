@@ -7,15 +7,24 @@ export default function HowitWorks() {
     return (
         <Container>
             <Row className="justify-content-center">
-                <Col xs="12" md="9">
+                <Col xs="12" md="10">
                     <h3 className="mb-5"> How it works </h3>
+                </Col>
+            </Row>
+            <Row className="justify-content-center">
+                <Col xs="12" md="10">
                     <img
                         width="80%"
                         className="ms-3"
                         src={Diagram}
                         alt="Diagramm of LambdaPP's architecture"
                     />
-                    <p className="ms-1">
+                </Col>
+            </Row>
+            <Row className="justify-content-center">
+                <Col xs="12" md="10">
+                    <p className="col-md-10">
+                        {/* NOTE: without col-md-10 the paragraph does not format correctly.*/}
                         <strong>LambdaPP pipeline:</strong> Starting with an
                         amino acid sequence, LambdaPP orchestrates the
                         prediction of (1) protein structure using ColabFold
