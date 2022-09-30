@@ -17,28 +17,33 @@ import Input from "./pages/Input";
 import Glossary from "./pages/Glossary";
 import Notifications from "./components/Notifications";
 import Header from "./components/Header";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
 
+const queryClient = new QueryClient();
+
 root.render(
     <React.StrictMode>
-        <BrowserRouter>
-            <Header />
-            <Notifications />
-            <Routes>
-                <Route path="/" element={<Input />} />
-                <Route path="/imprint" element={<Imprint />} />
-                <Route path="/cite" element={<Cite />} />
-                <Route path="/glossary" element={<Glossary />} />
-                <Route path="/i/:sequence" element={<Interactive />} />
-                <Route path="/i" element={<Interactive />} />
-                <Route path="/p/:sequence" element={<PrintPage />} />
-                <Route path="/p" element={<PrintPage />} />
-                <Route path="/o/:sequence" element={<Overview />} />
-                <Route path="/o" element={<Overview />} />
-            </Routes>
-            <Footer />
-        </BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <Header />
+                <Notifications />
+                <Routes>
+                    <Route path="/" element={<Input />} />
+                    <Route path="/imprint" element={<Imprint />} />
+                    <Route path="/cite" element={<Cite />} />
+                    <Route path="/glossary" element={<Glossary />} />
+                    <Route path="/i/:sequence" element={<Interactive />} />
+                    <Route path="/i" element={<Interactive />} />
+                    <Route path="/p/:sequence" element={<PrintPage />} />
+                    <Route path="/p" element={<PrintPage />} />
+                    <Route path="/o/:sequence" element={<Overview />} />
+                    <Route path="/o" element={<Overview />} />
+                </Routes>
+                <Footer />
+            </BrowserRouter>
+        </QueryClientProvider>
     </React.StrictMode>
 );
