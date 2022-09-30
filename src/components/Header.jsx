@@ -40,16 +40,12 @@ export default function Header() {
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
+                    <Nav className="ms-auto">
                         <Nav.Link href="https://www.biorxiv.org/content/10.1101/2022.08.04.502750v1">
                             Publication
                         </Nav.Link>
-                        <Nav.Link
-                            href="https://rostlab.org"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            Rostlab Group
+                        <Nav.Link href="https://github.com/sacdallago/embed.predictprotein.org">
+                            Code
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
