@@ -1,11 +1,14 @@
 import create from "zustand";
 
-export const DEFAULT_MESSAGE = {
-    id: 0,
-    type: "info",
-    body: <></>,
-    header: <></>,
-};
+export class Notification {
+    constructor(body, type = "error", header = "Error", icon = undefined) {
+        this.id = 0;
+        this.body = body;
+        this.type = type;
+        this.header = header;
+        this.icon = icon;
+    }
+}
 
 export const useNotifcationStore = create((set, get) => ({
     notifications: [],

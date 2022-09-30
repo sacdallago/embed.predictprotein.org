@@ -10,9 +10,12 @@ function buildToastFromNotification(notification, deletefn) {
     let icon = <></>;
     switch (notification.type) {
         case "error":
-            icon = <FaExclamationCircle size="1.5em" className="me-1" />;
+            icon = notification.icon ?? (
+                <FaExclamationCircle size="1.5em" className="me-1" />
+            );
             break;
         default:
+            icon = notification.icon ?? <></>;
             break;
     }
 
