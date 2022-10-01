@@ -27,7 +27,11 @@ export default function useSequence(onSuccess = () => {}) {
         onError: (error) => {
             if (error instanceof SequenceException) {
                 pushNotification(
-                    new Notification(error.message, "error", "Error")
+                    new Notification(
+                        error.message,
+                        "error",
+                        "Error fetching Sequence"
+                    )
                 );
                 if (error.error != null) console.error(error.error);
             } else {
