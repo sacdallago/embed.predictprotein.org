@@ -56,3 +56,61 @@ export async function fetch_features(request) {
 
     return response.json();
 }
+
+/*******************************************************************************
+ *                              Data Processing                                *
+ *******************************************************************************/
+
+export function processGoPredSimResults(data) {
+    // MAKE string for AMIGO viz
+    // MFO
+    let predictedMFOGraphData = { ...data.predictedMFO };
+
+    Object.keys(predictedMFOGraphData).forEach((e) => {
+        let score = predictedMFOGraphData[e];
+        let newValue = {
+            title: e + "<br/> score:" + score,
+            fill: score >= 0.28 ? "#FFFF99" : "#E5E4E2",
+        };
+
+        predictedMFOGraphData[e] = newValue;
+    });
+
+    data["predictedMFOGraphDataString"] = encodeURIComponent(
+        JSON.stringify(predictedMFOGraphData)
+    );
+    // CCO
+    let predictedCCOGraphData = { ...data.predictedCCO };
+
+    Object.keys(predictedCCOGraphData).forEach((e) => {
+        let score = predictedCCOGraphData[e];
+        let newValue = {
+            title: e + "<br/> score:" + score,
+            fill: score >= 0.29 ? "#FFFF99" : "#E5E4E2",
+        };
+
+        predictedCCOGraphData[e] = newValue;
+    });
+
+    data["predictedCCOGraphDataString"] = encodeURIComponent(
+        JSON.stringify(predictedCCOGraphData)
+    );
+    // BPO
+    let predictedBPOGraphData = { ...data.predictedBPO };
+
+    Object.keys(predictedBPOGraphData).forEach((e) => {
+        let score = predictedBPOGraphData[e];
+        let newValue = {
+            title: e + "<br/> score:" + score,
+            fill: score >= 0.35 ? "#FFFF99" : "#E5E4E2",
+        };
+
+        predictedBPOGraphData[e] = newValue;
+    });
+
+    data["predictedBPOGraphDataString"] = encodeURIComponent(
+        JSON.stringify(predictedBPOGraphData)
+    );
+
+    return data;
+}

@@ -3,9 +3,8 @@ import React from "react";
 import SequenceDisplay from "../components/SequenceDisplay";
 import InputGate from "../components/InputGate";
 
-// import Cite from "../components/Cite";
-// import Features from "../components/Features";
-// import SequenceStatus from "../components/SequenceStatus";
+import Features from "../components/Features";
+import SequenceStatus from "../components/SequenceStatus";
 
 export const Overview = () => {
     return (
@@ -19,8 +18,9 @@ export const Overview = () => {
                     {/* <Row>
                         <SequenceStatus />
                     </Row>
-                    <Features />
-                    <Row /> */}
+                    <Row>
+                        <Features />
+                    </Row> */}
                 </Stack>
             </Container>
         </InputGate>
