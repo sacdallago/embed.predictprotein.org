@@ -6,6 +6,7 @@ import { Route, Routes, BrowserRouter } from "react-router-dom";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 import "./styles/index.css";
+import "./styles/App.css";
 
 import Overview from "./pages/Overview";
 import Interactive from "./pages/Interactive";

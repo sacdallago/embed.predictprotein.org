@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import styled from "styled-components";
+import WorkerStatus from "./WorkerStatus";
 
 const UndecoratedLink = styled(Link)`
     &,
@@ -33,12 +34,13 @@ export default function Header() {
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
-                <Navbar.Brand className="me-auto">
+                <Navbar.Brand>
                     <UndecoratedLink to="/">
                         𝗟amdba 𝗣redict 𝗣rotein (𝞴𝗣𝗣)
                     </UndecoratedLink>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <WorkerStatus />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
                         <Nav.Link href="https://www.biorxiv.org/content/10.1101/2022.08.04.502750v1">

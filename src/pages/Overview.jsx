@@ -1,4 +1,3 @@
-import "../styles/App.css";
 import { Container, Stack, Nav, Navbar, Row } from "react-bootstrap";
 import React from "react";
 import SequenceDisplay from "../components/SequenceDisplay";
