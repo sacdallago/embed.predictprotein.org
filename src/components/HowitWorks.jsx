@@ -1,20 +1,20 @@
 import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Image } from "react-bootstrap";
 
 import Diagram from "../assets/PredDiagram.png";
 
 export default function HowitWorks() {
     return (
-        <Container>
+        <Container className="justify-content-center">
             <Row className="justify-content-center">
-                <Col xs="12" md="10">
+                <Col md="8">
                     <h3 className="mb-5">How it works</h3>
                 </Col>
             </Row>
             <Row className="justify-content-center">
-                <Col xs="12" md="10">
-                    <img
-                        width="80%"
+                <Col md="7">
+                    <Image
+                        width="100%"
                         className="ms-3"
                         src={Diagram}
                         alt="Diagramm of LambdaPP's architecture"
@@ -22,8 +22,8 @@ export default function HowitWorks() {
                 </Col>
             </Row>
             <Row className="justify-content-center">
-                <Col xs="12" md="10">
-                    <p className="col-md-10">
+                <Col md="8">
+                    <p style={{ wordBreak: "break-all" }}>
                         {/* NOTE: without col-md-10 the paragraph does not format correctly.*/}
                         <strong>LambdaPP pipeline:</strong> Starting with an
                         amino acid sequence, LambdaPP orchestrates the

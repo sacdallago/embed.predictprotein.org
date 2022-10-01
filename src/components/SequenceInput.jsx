@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Form, Col, Row, Button } from "react-bootstrap";
+import { Form, Container, Col, Row, Button } from "react-bootstrap";
 import styled from "styled-components";
 
 import { InputType } from "../utils/sequence";
@@ -15,6 +15,29 @@ const ClickableSpan = styled.span`
     text-decoration: underline;
     text-decoration-style: dashed;
     cursor: pointer;
+`;
+
+const StyledTextArea = styled.textarea`
+    display: inline-block;
+    margin: 0;
+    padding: 0.2em;
+    width: 80ch;
+    max-width: 100%;
+    word-wrap: break-word;
+    line-height: 1.5em;
+    height: 7.8em;
+    min-height: 7.8em;
+    border: 1px solid var(--bs-gray-400);
+    cursor: text;
+    overflow: auto;
+    resize: vertical;
+    border-radius: 5px;
+
+    &:focus,
+    &:focus-within,
+    &:active {
+        outline: 4px solid #9eeaf9;
+    }
 `;
 
 const example_input = {
@@ -73,96 +96,103 @@ export const SequenceInput = (props) => {
     };
 
     return (
-        <Form className="d-flex justify-content-center mt-3">
+        <Form className=" mt-3">
             <Form.Group controlId="sequenceInput">
-                <Row>
-                    <Col md={10} className="position-relative">
-                        <Form.Control
-                            as="textarea"
-                            rows={5}
-                            cols={100}
-                            ref={ref_input}
-                            value={input}
-                            placeholder="SEQWENCE... "
-                            onChange={(event) => {
-                                setInput(ref_input.current.value);
-                                validate_input();
-                            }}
-                        />
-                        {input !== "" && (
-                            <ValidationIndicator
-                                inputState={{
-                                    isValidationPending: isValidationPending,
-                                    type: inputType,
-                                    alphabet: inputAlphabet,
+                <Container>
+                    <Row className="justify-content-center">
+                        <Col md={8} className="position-relative">
+                            <Form.Control
+                                as={StyledTextArea}
+                                ref={ref_input}
+                                value={input}
+                                placeholder="SEQWENCE... "
+                                onChange={(event) => {
+                                    setInput(ref_input.current.value);
+                                    validate_input();
                                 }}
                             />
-                        )}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col md={10}>
-                        <Form.Text muted={true}>
-                            Input a sequence in either{" "}
-                            <ClickableSpan
-                                onClick={() => setExampleState(InputType.fasta)}
-                            >
-                                FASTA format
-                            </ClickableSpan>
-                            , a {""}
-                            <ClickableSpan
-                                onClick={() =>
-                                    setExampleState(InputType.uniprot_id)
-                                }
-                            >
-                                UniProt Accession
-                            </ClickableSpan>{" "}
-                            number or {""}
-                            <ClickableSpan
-                                onClick={() =>
-                                    setExampleState(
-                                        InputType.uniprot_protein_name
-                                    )
-                                }
-                            >
-                                UniProt Protein Name
-                            </ClickableSpan>
-                            , or {""}
-                            <ClickableSpan
-                                onClick={() =>
-                                    setExampleState(InputType.residue)
-                                }
-                            >
-                                AA sequence
-                            </ClickableSpan>
-                            .
-                        </Form.Text>
-                    </Col>
-                </Row>
-                <Row className="mt-3">
-                    <Col md={7}></Col>
-                    <Col md={1}>
-                        <Button
-                            id="clear-input"
-                            variant="danger"
-                            disabled={input === ""}
-                            onClick={() => reset_input()}
-                        >
-                            Clear
-                        </Button>
-                    </Col>
-                    <Col md={3}>
-                        <LoadingButton
-                            id="submit-protein"
-                            loading={loading}
-                            disabled={!inputValid}
-                            onClick={submit}
-                        >
-                            {!loading && <>PredictProperties</>}
-                            {loading && <>Loading Sequence...</>}
-                        </LoadingButton>
-                    </Col>
-                </Row>
+                            {input !== "" && (
+                                <ValidationIndicator
+                                    inputState={{
+                                        isValidationPending:
+                                            isValidationPending,
+                                        type: inputType,
+                                        alphabet: inputAlphabet,
+                                    }}
+                                />
+                            )}
+                        </Col>
+                    </Row>
+                    <Row className="justify-content-center">
+                        <Col md={8}>
+                            <Form.Text muted={true}>
+                                Input a sequence in either{" "}
+                                <ClickableSpan
+                                    onClick={() =>
+                                        setExampleState(InputType.fasta)
+                                    }
+                                >
+                                    FASTA format
+                                </ClickableSpan>
+                                , a {""}
+                                <ClickableSpan
+                                    onClick={() =>
+                                        setExampleState(InputType.uniprot_id)
+                                    }
+                                >
+                                    UniProt Accession
+                                </ClickableSpan>{" "}
+                                number or {""}
+                                <ClickableSpan
+                                    onClick={() =>
+                                        setExampleState(
+                                            InputType.uniprot_protein_name
+                                        )
+                                    }
+                                >
+                                    UniProt Protein Name
+                                </ClickableSpan>
+                                , or {""}
+                                <ClickableSpan
+                                    onClick={() =>
+                                        setExampleState(InputType.residue)
+                                    }
+                                >
+                                    AA sequence
+                                </ClickableSpan>
+                                .
+                            </Form.Text>
+                        </Col>
+                    </Row>
+                    <Row className="mt-3 justify-content-center">
+                        <Col md={8}>
+                            <Row className="justify-content-end">
+                                <Col className="me-auto"></Col>
+                                <Col xs={1}>
+                                    <Button
+                                        id="clear-input"
+                                        variant="danger"
+                                        disabled={input === ""}
+                                        onClick={() => reset_input()}
+                                    >
+                                        Clear
+                                    </Button>
+                                </Col>
+                                <Col xs={3}>
+                                    <LoadingButton
+                                        id="submit-protein"
+                                        loading={loading}
+                                        disabled={!inputValid}
+                                        onClick={submit}
+                                    >
+                                        {!loading && <>PredictProperties</>}
+                                        {loading && <>Loading Sequence...</>}
+                                    </LoadingButton>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Container>
             </Form.Group>
         </Form>
     );

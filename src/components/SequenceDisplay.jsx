@@ -2,9 +2,9 @@ import React from "react";
 
 import { Form, Col, Row, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-import useSequence from "../hooks/useSequence";
 
+import useSequence from "../hooks/useSequence";
+import TextDisplay from "../components/TextDisplay";
 import useInputStore from "../stores/inputStore";
 
 function getAccessionDisplay(accession) {
@@ -49,13 +49,7 @@ export default function SequenceDisplay() {
                 </Row>
                 <Row>
                     <Col md={10}>
-                        <Form.Control
-                            as="textarea"
-                            rows={5}
-                            disabled={true}
-                            cols={100}
-                            value={sequence}
-                        />
+                        <TextDisplay>{sequence}</TextDisplay>
                     </Col>
                 </Row>
                 <Row className="mt-3">
