@@ -1,25 +1,30 @@
 import React from "react";
 
+import { useQuery } from "react-query";
+
 import useInputStore from "../stores/inputStore";
 import { Notification, useNotifcationStore } from "../stores/notificationStore";
-import { SequenceException } from "../utils/sequence";
+import { get_sequence_for_type, SequenceException } from "../utils/sequence";
 
-export default function useSequence() {
-    const getSequence = useInputStore((state) => state.getSequence);
-    const [error, setError] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
+export default function useSequence(onSuccess = () => {}) {
+    const [input, inputType] = useInputStore((state) => [
+        state.input,
+        state.type,
+    ]);
+
     const pushNotification = useNotifcationStore(
         (state) => state.pushNotification
     );
 
-    async function loadSeqNow() {
-        setLoading(true);
-        setError(false);
-        let seq = undefined;
-        try {
-            seq = await getSequence();
-        } catch (error) {
-            setError(true);
+    const sequenceQuery = useQuery({
+        queryKey: ["sequence", input],
+        queryFn: () => get_sequence_for_type(inputType, input),
+        staleTime: "Infinity",
+        refetchOnWindowFocus: false,
+        enabled: false,
+        retry: 2,
+        retryDelay: 500,
+        onError: (error) => {
             if (error instanceof SequenceException) {
                 pushNotification(
                     new Notification(error.message, "error", "Error")
@@ -28,11 +33,9 @@ export default function useSequence() {
             } else {
                 throw error;
             }
-        } finally {
-            setLoading(false);
-        }
-        return seq;
-    }
+        },
+        onSuccess: onSuccess,
+    });
 
-    return [loading, error, loadSeqNow];
+    return sequenceQuery;
 }

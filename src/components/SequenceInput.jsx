@@ -41,7 +41,6 @@ export const SequenceInput = (props) => {
         inputType,
         inputAlphabet,
         reset_input,
-        sequence,
     ] = useInputStore((state) => [
         state.input,
         state.setInput,
@@ -50,10 +49,10 @@ export const SequenceInput = (props) => {
         state.type,
         state.alphabet,
         state.reset,
-        state.sequence,
     ]);
-    const [loading, error, loadSeqNow] = useSequence();
     const navigate = useNavigate();
+    const sequenceQuery = useSequence(() => navigate("/o"));
+    const loading = sequenceQuery.isLoading;
 
     // TODO Unify into one state as they are linked
     const [isValidationPending, startValidation] = React.useTransition();
@@ -69,9 +68,8 @@ export const SequenceInput = (props) => {
         startValidation(() => validateInput());
     };
 
-    const submit = async () => {
-        let seq = await loadSeqNow();
-        if (!error && seq !== undefined) navigate("/o");
+    const submit = () => {
+        if (inputValid) sequenceQuery.refetch();
     };
 
     return (
@@ -158,9 +156,7 @@ export const SequenceInput = (props) => {
                             id="submit-protein"
                             loading={loading}
                             disabled={!inputValid}
-                            onClick={async () => {
-                                await submit();
-                            }}
+                            onClick={submit}
                         >
                             {!loading && <>PredictProperties</>}
                             {loading && <>Loading Sequence...</>}

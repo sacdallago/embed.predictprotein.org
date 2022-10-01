@@ -1,17 +1,8 @@
 import create from "zustand";
 
-import {
-    InputAlphabet,
-    InputType,
-    eval_input_type,
-    get_sequence_for_type,
-} from "../utils/sequence";
-
-let abortController = null;
+import { InputAlphabet, InputType, eval_input_type } from "../utils/sequence";
 
 const invalid = {
-    accession: undefined,
-    sequence: undefined,
     type: InputType.invalid,
     alphabet: InputAlphabet.undefined,
     isValid: false,
@@ -35,27 +26,12 @@ const useInputStore = create((set, get) => ({
             alphabet: new_alphabet,
             isValid: new_type !== InputType.invalid,
         });
-    },
-    getSequence: async () => {
-        abortController = new AbortController();
-        let type = get().type;
-        let input = get().input;
-        if (!get().isValid && get().sequence === undefined) return;
-        let [seq, acc] = await get_sequence_for_type(type, input);
-        if (!abortController.signal.aborted) {
-            abortController = null;
-            set({ sequence: seq, accession: acc });
-        } else {
-            abortController = null;
-        }
-        return seq;
+        return new_type !== InputType.invalid;
     },
     reset: () => {
-        if (abortController) abortController.abort();
         set(initial);
     },
     invalidate: () => {
-        if (abortController) abortController.abort();
         set(invalid);
     },
 }));

@@ -3,6 +3,7 @@ import React from "react";
 import { Form, Col, Row, Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import useSequence from "../hooks/useSequence";
 
 import useInputStore from "../stores/inputStore";
 
@@ -26,12 +27,14 @@ function getAccessionDisplay(accession) {
 }
 
 export default function SequenceDisplay() {
-    const [sequence, accession, reset_input] = useInputStore((state) => [
-        state.sequence,
-        state.accession,
-        state.reset,
-    ]);
+    const sequenceQuery = useSequence();
+    const reset_input = useInputStore((state) => state.reset);
     const navigate = useNavigate();
+
+    const [accession, sequence] = [
+        sequenceQuery.data.accession,
+        sequenceQuery.data.sequence,
+    ];
 
     const new_input = () => {
         reset_input();

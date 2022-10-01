@@ -32,7 +32,7 @@ const re_uniprot_fasta = new RegExp(
 const re_fasta_header = new RegExp("^>.*$");
 
 export class SequenceException extends Error {
-    constructor(message, error) {
+    constructor(message, error = null) {
         super(message);
         this.name = this.constructor.name;
         this.error = error;
@@ -173,5 +173,5 @@ export async function get_sequence_for_type(input_type, input) {
                 { error: "Invalid Input type!", input_type: input_type }
             );
     }
-    return [sequence, accession];
+    return { sequence: sequence, accession: accession };
 }
