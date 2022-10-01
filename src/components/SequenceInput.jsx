@@ -69,13 +69,10 @@ export const SequenceInput = (props) => {
         startValidation(() => validateInput());
     };
 
-    const submit = () => {
-        loadSeqNow();
+    const submit = async () => {
+        let seq = await loadSeqNow();
+        if (!error && seq !== undefined) navigate("/o");
     };
-
-    React.useEffect(() => {
-        if (!error && sequence !== undefined) navigate("/o");
-    }, [error, navigate, sequence]);
 
     return (
         <Form className="d-flex justify-content-center mt-3">
@@ -161,7 +158,9 @@ export const SequenceInput = (props) => {
                             id="submit-protein"
                             loading={loading}
                             disabled={!inputValid}
-                            onClick={() => submit()}
+                            onClick={async () => {
+                                await submit();
+                            }}
                         >
                             {!loading && <>PredictProperties</>}
                             {loading && <>Loading Sequence...</>}

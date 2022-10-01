@@ -12,23 +12,26 @@ export default function useSequence() {
         (state) => state.pushNotification
     );
 
-    function loadSeqNow() {
+    async function loadSeqNow() {
         setLoading(true);
         setError(false);
-        getSequence()
-            .then((out) => setLoading(false))
-            .catch((err) => {
-                setLoading(false);
-                setError(true);
-                if (err instanceof SequenceException) {
-                    pushNotification(
-                        new Notification(err.message, "error", "Error")
-                    );
-                    if (err.error != null) console.error(err.error);
-                } else {
-                    throw err;
-                }
-            });
+        let seq = undefined;
+        try {
+            seq = await getSequence();
+        } catch (error) {
+            setError(true);
+            if (error instanceof SequenceException) {
+                pushNotification(
+                    new Notification(error.message, "error", "Error")
+                );
+                if (error.error != null) console.error(error.error);
+            } else {
+                throw error;
+            }
+        } finally {
+            setLoading(false);
+        }
+        return seq;
     }
 
     return [loading, error, loadSeqNow];

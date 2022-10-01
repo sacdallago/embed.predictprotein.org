@@ -48,6 +48,7 @@ const useInputStore = create((set, get) => ({
         } else {
             abortController = null;
         }
+        return seq;
     },
     reset: () => {
         if (abortController) abortController.abort();
