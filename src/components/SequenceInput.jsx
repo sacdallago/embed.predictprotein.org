@@ -118,14 +118,16 @@ export const SequenceInput = (props) => {
                                     }}
                                 />
 
-                                <ValidationIndicator
-                                    inputState={{
-                                        isValidationPending:
-                                            isValidationPending,
-                                        type: inputType,
-                                        alphabet: inputAlphabet,
-                                    }}
-                                />
+                                {input !== "" && (
+                                    <ValidationIndicator
+                                        inputState={{
+                                            isValidationPending:
+                                                isValidationPending,
+                                            type: inputType,
+                                            alphabet: inputAlphabet,
+                                        }}
+                                    />
+                                )}
                             </div>
                         </Col>
                     </Row>
