@@ -6,10 +6,19 @@ import { Modal } from "react-bootstrap";
 import useInputStore from "../stores/inputStore";
 import useSequence from "../hooks/useSequence";
 import Spinner from "./Spinner";
+import LoadingOverview from "../pages/LoadingOverview";
+
+const DISPALAY_STATE = {
+    NOTHING: 0,
+    REDIRECT: 1,
+    SEQUENCE: 2,
+    PAGE: 3,
+};
 
 function LoadingModal() {
     return (
         <>
+            <LoadingOverview />
             <Modal show={true} onHide={() => {}}>
                 <Modal.Header>
                     <Modal.Title>Loading Sequence</Modal.Title>
@@ -41,10 +50,13 @@ export default function InputGate({ children }) {
         state.validate,
         state.reset,
     ]);
-    const [redirect, setRedirect] = React.useState(undefined);
+    const [renderState, setRenderState] = React.useState(
+        DISPALAY_STATE.NOTHING
+    );
 
     const urlInput = useParams();
     const isParamEmpty = Object.keys(urlInput).length === 0;
+    const { isSuccess } = useSequence();
 
     React.useEffect(() => {
         if (!isParamEmpty) {
@@ -52,15 +64,24 @@ export default function InputGate({ children }) {
             setInput(urlInput.sequence);
             let isValid = validateInput();
             if (isValid) {
-                setRedirect(false);
+                setRenderState(DISPALAY_STATE.SEQUENCE);
             } else {
-                setRedirect(true);
+                setRenderState(DISPALAY_STATE.REDIRECT);
             }
         } else {
-            setRedirect(true);
+            if (!isSuccess) setRenderState(DISPALAY_STATE.REDIRECT);
+            else setRenderState(DISPALAY_STATE.PAGE);
         }
     }, []);
 
-    if (redirect === true) return <Navigate to="/" />;
-    if (redirect === false) return <SequenceLoader>{children}</SequenceLoader>;
+    switch (renderState) {
+        case DISPALAY_STATE.REDIRECT:
+            return <Navigate to="/" />;
+        case DISPALAY_STATE.SEQUENCE:
+            return <SequenceLoader>{children}</SequenceLoader>;
+        case DISPALAY_STATE.PAGE:
+            return <>{children}</>;
+        default:
+            return <></>;
+    }
 }
