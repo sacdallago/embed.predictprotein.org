@@ -6,6 +6,25 @@ import styled from "styled-components";
 
 import useInputStore from "../stores/inputStore";
 
+function getAccessionDisplay(accession) {
+    if (!accession) return "No Uniprot Reference Found.";
+    return (
+        <>
+            Using sequence with Accession{" "}
+            <a
+                href={
+                    "https://www.uniprot.org/uniprotkb/" + accession + "/entry"
+                }
+                target="_blank"
+                rel="noreferrer"
+            >
+                <strong>{accession}</strong>
+            </a>
+            .
+        </>
+    );
+}
+
 export default function SequenceDisplay() {
     const [sequence, accession, reset_input] = useInputStore((state) => [
         state.sequence,
@@ -23,7 +42,7 @@ export default function SequenceDisplay() {
         <Form className="d-flex justify-content-center mt-3">
             <Form.Group controlId="sequenceInput">
                 <Row>
-                    <Col md={10}>{accession}</Col>
+                    <Col md={10}>{getAccessionDisplay(accession)}</Col>
                 </Row>
                 <Row>
                     <Col md={10}>
