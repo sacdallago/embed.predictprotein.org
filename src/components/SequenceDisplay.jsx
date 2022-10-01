@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Form, Col, Row, Button } from "react-bootstrap";
+import { Form, Col, Row, Button, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import useSequence from "../hooks/useSequence";
@@ -42,29 +42,34 @@ export default function SequenceDisplay() {
     };
 
     return (
-        <Form className="d-flex justify-content-center mt-3">
-            <Form.Group controlId="sequenceInput">
-                <Row>
-                    <Col md={10}>{getAccessionDisplay(accession)}</Col>
-                </Row>
-                <Row>
-                    <Col md={10}>
-                        <TextDisplay>{sequence}</TextDisplay>
-                    </Col>
-                </Row>
-                <Row className="mt-3">
-                    <Col md={8}></Col>
-                    <Col md={2}>
-                        <Button
-                            id="new-input"
-                            variant="danger"
-                            onClick={() => new_input()}
-                        >
-                            New Query
-                        </Button>
-                    </Col>
-                </Row>
-            </Form.Group>
-        </Form>
+        <Container>
+            <Form className="mt-3">
+                <Form.Group controlId="sequenceInput">
+                    <Row className="justify-content-center">
+                        <Col md={8}>{getAccessionDisplay(accession)}</Col>
+                    </Row>
+                    <Row className="justify-content-center">
+                        <Col md={8}>
+                            <TextDisplay>{sequence}</TextDisplay>
+                        </Col>
+                    </Row>
+                    <Row className="mt-3 justify-content-center">
+                        <Col md={8}>
+                            <Row className="justify-content-end">
+                                <Col md={2}>
+                                    <Button
+                                        id="new-input"
+                                        variant="danger"
+                                        onClick={() => new_input()}
+                                    >
+                                        New Query
+                                    </Button>
+                                </Col>
+                            </Row>
+                        </Col>
+                    </Row>
+                </Form.Group>
+            </Form>
+        </Container>
     );
 }

@@ -18,6 +18,8 @@ export const TextDisplay = styled.div`
     overflow: auto;
     resize: vertical;
     border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 400;
 
     &:focus,
     &:focus-within,

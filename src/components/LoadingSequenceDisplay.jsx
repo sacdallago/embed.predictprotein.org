@@ -7,15 +7,18 @@ export default function LoadingSequenceDisplay() {
     return (
         <Container className="d-flex justify-content-center mt-3">
             <Row>
-                <Col md={10}>
+                <Col md={8}>
                     <span>
-                        <Placeholder xs={7} />
+                        <Placeholder xs={5} />
                     </span>
                 </Col>
             </Row>
             <Row>
-                <Col md={10}>
-                    <TextDisplay></TextDisplay>
+                <Col md={8}>
+                    <TextDisplay>
+                        <Placeholder xs={6} />
+                        <Placeholder xs={5} />
+                    </TextDisplay>
                 </Col>
             </Row>
             {/* <Row className="mt-3">
