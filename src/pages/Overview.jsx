@@ -1,7 +1,7 @@
-import { Container, Stack, Nav, Navbar, Row } from "react-bootstrap";
+import { Container, Stack, Row } from "react-bootstrap";
 import React from "react";
 import SequenceDisplay from "../components/SequenceDisplay";
-import InputValidator from "../components/InputValidator";
+import InputGate from "../components/InputValidator";
 
 // import Cite from "../components/Cite";
 // import Features from "../components/Features";
@@ -9,7 +9,7 @@ import InputValidator from "../components/InputValidator";
 
 export const Overview = () => {
     return (
-        <InputValidator>
+        <InputGate>
             <Container>
                 <Stack gap={3}>
                     <Row />
@@ -23,7 +23,7 @@ export const Overview = () => {
                     <Row /> */}
                 </Stack>
             </Container>
-        </InputValidator>
+        </InputGate>
     );
 };
 
