@@ -66,10 +66,14 @@ export default function InputGate({ children }) {
             if (!isSuccess) setRenderState(DISPALAY_STATE.REDIRECT);
             else setRenderState(DISPALAY_STATE.PAGE);
         }
-        return () => {
-            if (renderState === DISPALAY_STATE.SEQUENCE) refetch();
-        };
     }, []);
+    React.useEffect(() => {
+        if (
+            renderState === DISPALAY_STATE.SEQUENCE &&
+            !(isSuccess || isError || isLoading)
+        )
+            refetch();
+    }, [renderState]);
 
     switch (renderState) {
         case DISPALAY_STATE.REDIRECT:
