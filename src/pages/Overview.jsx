@@ -1,7 +1,7 @@
 import { Container, Stack, Row } from "react-bootstrap";
 import React from "react";
 import SequenceDisplay from "../components/SequenceDisplay";
-import InputGate from "../components/InputValidator";
+import InputGate from "../components/InputGate";
 
 // import Cite from "../components/Cite";
 // import Features from "../components/Features";
