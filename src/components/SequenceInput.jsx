@@ -100,18 +100,24 @@ export const SequenceInput = (props) => {
             <Form.Group controlId="sequenceInput">
                 <Container>
                     <Row className="justify-content-center">
-                        <Col md={8} className="position-relative">
-                            <Form.Control
-                                as={StyledTextArea}
-                                ref={ref_input}
-                                value={input}
-                                placeholder="SEQWENCE... "
-                                onChange={(event) => {
-                                    setInput(ref_input.current.value);
-                                    validate_input();
+                        <Col md={8}>
+                            <div
+                                style={{
+                                    position: "relative",
+                                    display: "inline-block",
                                 }}
-                            />
-                            {input !== "" && (
+                            >
+                                <Form.Control
+                                    as={StyledTextArea}
+                                    ref={ref_input}
+                                    value={input}
+                                    placeholder="SEQWENCE... "
+                                    onChange={(event) => {
+                                        setInput(ref_input.current.value);
+                                        validate_input();
+                                    }}
+                                />
+
                                 <ValidationIndicator
                                     inputState={{
                                         isValidationPending:
@@ -120,7 +126,7 @@ export const SequenceInput = (props) => {
                                         alphabet: inputAlphabet,
                                     }}
                                 />
-                            )}
+                            </div>
                         </Col>
                     </Row>
                     <Row className="justify-content-center">

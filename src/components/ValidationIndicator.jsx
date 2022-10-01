@@ -144,7 +144,7 @@ const PopoverValidationIndicator = ({ inputState, ...props }) => {
 
 const StyledValidationIndicator = styled(PopoverValidationIndicator)`
     position: absolute;
-    right: 0%;
+    right: -1.5%;
     top: -9%;
     background-color: white;
 `;
