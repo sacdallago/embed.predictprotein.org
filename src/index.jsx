@@ -30,7 +30,6 @@ root.render(
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
                 <Header />
-                <Notifications />
                 <Routes>
                     <Route path="/" element={<Input />} />
                     <Route path="/imprint" element={<Imprint />} />
@@ -44,6 +43,8 @@ root.render(
                     <Route path="/o" element={<Overview />} />
                 </Routes>
                 <Footer />
+                <Notifications />
+                {/*NOTE: Leave as last element so it is rendered above all.*/}
             </BrowserRouter>
         </QueryClientProvider>
     </React.StrictMode>
