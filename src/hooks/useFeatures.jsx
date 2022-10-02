@@ -7,10 +7,6 @@ import useSequence from "./useSequence";
 export function useFeatures(select) {
     const { data, isSuccess } = useSequence();
 
-    const pushNotification = useNotifcationStore(
-        (state) => state.pushNotification
-    );
-
     const request = new FeatureRequest(data?.sequence);
 
     const sequenceQuery = useQuery({
@@ -20,15 +16,6 @@ export function useFeatures(select) {
         refetchOnWindowFocus: false,
         enabled: isSuccess,
         retry: 3,
-        onError: (error) => {
-            pushNotification(
-                new Notification(
-                    error.message,
-                    "error",
-                    "Error fetching Features"
-                )
-            );
-        },
         select: select,
     });
 

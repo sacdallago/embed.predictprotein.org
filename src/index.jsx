@@ -8,9 +8,6 @@ import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./styles/index.css";
 import "./styles/App.css";
 
-import Overview from "./pages/Overview";
-import Interactive from "./pages/Interactive";
-import PrintPage from "./pages/PrintPage";
 import Imprint from "./pages/imprint";
 import Footer from "./components/Footer";
 import Cite from "./pages/Cite";
@@ -18,12 +15,18 @@ import Input from "./pages/Input";
 import Glossary from "./pages/Glossary";
 import Notifications from "./components/Notifications";
 import Header from "./components/Header";
-import { QueryClient, QueryClientProvider } from "react-query";
+import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
+import { Followup, PAGES } from "./pages/Followup";
+import { handleQueryError } from "./utils/error";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    queryCache: new QueryCache({
+        onError: (error, query) => handleQueryError(error, query),
+    }),
+});
 
 root.render(
     <React.StrictMode>
@@ -35,12 +38,30 @@ root.render(
                     <Route path="/imprint" element={<Imprint />} />
                     <Route path="/cite" element={<Cite />} />
                     <Route path="/glossary" element={<Glossary />} />
-                    <Route path="/i/:sequence" element={<Interactive />} />
-                    <Route path="/i" element={<Interactive />} />
-                    <Route path="/p/:sequence" element={<PrintPage />} />
-                    <Route path="/p" element={<PrintPage />} />
-                    <Route path="/o/:sequence" element={<Overview />} />
-                    <Route path="/o" element={<Overview />} />
+                    <Route
+                        path="/i/:sequence"
+                        element={<Followup page={PAGES.interactive} />}
+                    />
+                    <Route
+                        path="/i"
+                        element={<Followup page={PAGES.interactive} />}
+                    />
+                    <Route
+                        path="/p/:sequence"
+                        element={<Followup page={PAGES.print} />}
+                    />
+                    <Route
+                        path="/p"
+                        element={<Followup page={PAGES.print} />}
+                    />
+                    <Route
+                        path="/o/:sequence"
+                        element={<Followup page={PAGES.overview} />}
+                    />
+                    <Route
+                        path="/o"
+                        element={<Followup page={PAGES.overview} />}
+                    />
                 </Routes>
                 <Footer />
                 <Notifications />
