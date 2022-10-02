@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { proteinColorSchemes } from "../utils/Graphics";
+import { proteinColorSchemes } from "../../utils/Graphics";
 
 class FeatureViewer extends React.Component {
     componentDidMount() {

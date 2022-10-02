@@ -6,7 +6,6 @@ import { Modal } from "react-bootstrap";
 import useInputStore from "../stores/inputStore";
 import useSequence from "../hooks/useSequence";
 import Spinner from "./Spinner";
-import LoadingSequenceDisplay from "./LoadingSequenceDisplay";
 
 const DISPALAY_STATE = {
     NOTHING: 0,
@@ -18,7 +17,6 @@ const DISPALAY_STATE = {
 function LoadingModal() {
     return (
         <>
-            <LoadingSequenceDisplay />
             <Modal show={true} onHide={() => {}}>
                 <Modal.Header>
                     <Modal.Title>Loading Sequence</Modal.Title>
@@ -33,7 +31,12 @@ function LoadingModal() {
 }
 
 const SequenceLoader = ({ isLoading, isSuccess, isError, children }) => {
-    if (isLoading) return <LoadingModal />;
+    if (isLoading)
+        return (
+            <>
+                <LoadingModal /> {children}
+            </>
+        );
     if (isError) return <Navigate to="/" />;
     if (isSuccess) return <>{children}</>;
 };
@@ -66,6 +69,7 @@ export default function InputGate({ children }) {
             if (!isSuccess) setRenderState(DISPALAY_STATE.REDIRECT);
             else setRenderState(DISPALAY_STATE.PAGE);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     React.useEffect(() => {
         if (
@@ -73,6 +77,7 @@ export default function InputGate({ children }) {
             !(isSuccess || isError || isLoading)
         )
             refetch();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [renderState]);
 
     switch (renderState) {
