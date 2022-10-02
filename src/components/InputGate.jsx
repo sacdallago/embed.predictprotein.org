@@ -30,7 +30,13 @@ function LoadingModal() {
     );
 }
 
-const SequenceLoader = ({ isLoading, isSuccess, isError, children }) => {
+const SequenceLoader = ({ children }) => {
+    const { isLoading, isSuccess, isError, refetch } = useSequence();
+
+    React.useEffect(() => {
+        if (!(isSuccess || isError)) refetch();
+    }, []);
+
     if (isLoading)
         return (
             <>
@@ -51,9 +57,10 @@ export default function InputGate({ children }) {
         DISPALAY_STATE.NOTHING
     );
 
+    const { isSuccess } = useSequence();
+
     const urlInput = useParams();
     const isParamEmpty = Object.keys(urlInput).length === 0;
-    const { isLoading, isSuccess, isError, refetch } = useSequence();
 
     React.useEffect(() => {
         if (!isParamEmpty) {
@@ -71,28 +78,12 @@ export default function InputGate({ children }) {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
-    React.useEffect(() => {
-        if (
-            renderState === DISPALAY_STATE.SEQUENCE &&
-            !(isSuccess || isError || isLoading)
-        )
-            refetch();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [renderState]);
 
     switch (renderState) {
         case DISPALAY_STATE.REDIRECT:
             return <Navigate to="/" />;
         case DISPALAY_STATE.SEQUENCE:
-            return (
-                <SequenceLoader
-                    isLoading={isLoading}
-                    isError={isError}
-                    isSuccess={isSuccess}
-                >
-                    {children}
-                </SequenceLoader>
-            );
+            return <SequenceLoader>{children}</SequenceLoader>;
         case DISPALAY_STATE.PAGE:
             return <>{children}</>;
         default:
