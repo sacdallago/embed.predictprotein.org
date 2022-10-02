@@ -6,7 +6,7 @@ import { Modal } from "react-bootstrap";
 import useInputStore from "../stores/inputStore";
 import useSequence from "../hooks/useSequence";
 import Spinner from "./Spinner";
-import LoadingOverview from "../pages/LoadingOverview";
+import LoadingSequenceDisplay from "./LoadingSequenceDisplay";
 
 const DISPALAY_STATE = {
     NOTHING: 0,
@@ -18,7 +18,7 @@ const DISPALAY_STATE = {
 function LoadingModal() {
     return (
         <>
-            <LoadingOverview />
+            <LoadingSequenceDisplay />
             <Modal show={true} onHide={() => {}}>
                 <Modal.Header>
                     <Modal.Title>Loading Sequence</Modal.Title>

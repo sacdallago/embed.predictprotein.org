@@ -1,8 +1,22 @@
 const Endpoint = "https://api.bioembeddings.com/api/";
 
+// See:
+async function fetchWithTimeout(resource, options = {}) {
+    const { timeout = 3000 } = options;
+
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), timeout);
+    const response = await fetch(resource, {
+        ...options,
+        signal: controller.signal,
+    });
+    clearTimeout(id);
+    return response;
+}
+
 export async function get_worker_status(worker_name) {
     const status_endpoint = Endpoint + "status/";
-    const response = await fetch(status_endpoint + worker_name);
+    const response = await fetchWithTimeout(status_endpoint + worker_name);
     if (!response.ok) {
         throw new Error("Worker status not okay.");
     }
@@ -35,13 +49,12 @@ export class FeatureRequest {
 }
 
 export async function fetch_features(request) {
-    const feature_endpoint = Endpoint + "annotations/";
+    const feature_endpoint = Endpoint + "annotations";
 
-    let response = await fetch(feature_endpoint, {
+    let response = await fetchWithTimeout(feature_endpoint, {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
-        credentials: "same-origin",
         headers: {
             "Content-Type": "application/json",
         },

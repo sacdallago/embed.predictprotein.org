@@ -3,8 +3,9 @@ import React from "react";
 import SequenceDisplay from "../components/SequenceDisplay";
 import InputGate from "../components/InputGate";
 
-import Features from "../components/Features";
-import SequenceStatus from "../components/SequenceStatus";
+// import Features from "../components/Features";
+// import SequenceStatus from "../components/SequenceStatus";
+import FeatureProgress from "../components/FeatureProgress";
 
 export const Overview = () => {
     return (
@@ -15,12 +16,12 @@ export const Overview = () => {
                     <Row>
                         <SequenceDisplay />
                     </Row>
-                    {/* <Row>
-                        <SequenceStatus />
+                    <Row className="justify-content-center">
+                        <FeatureProgress />
                     </Row>
                     <Row>
                         <Features />
-                    </Row> */}
+                    </Row>
                 </Stack>
             </Container>
         </InputGate>
