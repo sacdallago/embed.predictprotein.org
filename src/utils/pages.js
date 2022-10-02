@@ -1,8 +1,8 @@
 export const PAGES = {
-    overview: Symbol("overview"),
-    interactive: Symbol("interactive"),
-    print: Symbol("print"),
-    error: Symbol("error"),
+    overview: "overview",
+    interactive: "interactive",
+    print: "print",
+    error: "error",
 };
 
 export const PageToURL = {

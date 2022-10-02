@@ -49,7 +49,7 @@ export function Followup({ page }) {
                     </Row>
                     <Row className="justify-content-center">
                         <Col md={8}>
-                            <DisplayNavigation />
+                            <DisplayNavigation page={page} />
                         </Col>
                     </Row>
                 </Stack>

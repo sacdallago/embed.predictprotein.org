@@ -4,18 +4,16 @@ import { Nav, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { PageToURL, PAGES } from "../utils/pages";
 
-export default function DisplayNavigation(page) {
+export default function DisplayNavigation({ page }) {
     const navigate = useNavigate();
     const handleNav = (key, event) => {
-        console.log(key, event, PageToURL, PageToURL[key]);
-        navigate(PageToURL.get(key));
+        navigate(PageToURL[key]);
     };
-
     return (
         <Nav
             fill
             variant="pills"
-            defaultActiveKey={page === PAGES.error ? PAGES.overview : page}
+            defaultActiveKey={page}
             onSelect={(key, event) => handleNav(key, event)}
         >
             <Nav.Item>
