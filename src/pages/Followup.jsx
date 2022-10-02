@@ -1,22 +1,17 @@
-import { Container, Stack, Row } from "react-bootstrap";
+import { Container, Stack, Row, Col } from "react-bootstrap";
 import React from "react";
 import SequenceDisplay from "../components/SequenceDisplay";
 import InputGate from "../components/InputGate";
 
+import { PAGES } from "../utils/pages";
 import useSequence from "../hooks/useSequence";
 import LoadingSequenceDisplay from "../components/LoadingSequenceDisplay";
 import FeatureProgress from "../components/FeatureProgress";
 
 import Overview from "./Overview";
+import DisplayNavigation from "../components/DisplayNavigation";
 // import PrintPage from "./PrintPage";
 // import Interactive from "./Interactive";
-
-export const PAGES = {
-    overview: Symbol("overview"),
-    interactive: Symbol("interactive"),
-    print: Symbol("print"),
-    error: Symbol("error"),
-};
 
 export function Followup({ page }) {
     const { isLoading } = useSequence();
@@ -51,6 +46,11 @@ export function Followup({ page }) {
                     <Row>{seqDisplay}</Row>
                     <Row className="justify-content-center">
                         <FeatureProgress />
+                    </Row>
+                    <Row className="justify-content-center">
+                        <Col md={8}>
+                            <DisplayNavigation />
+                        </Col>
                     </Row>
                 </Stack>
             </Container>
