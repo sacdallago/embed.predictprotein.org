@@ -1,4 +1,12 @@
-const Endpoint = "https://api.bioembeddings.com/api/";
+const ENDPOINT = "https://api.bioembeddings.com/api/";
+
+export class APIException extends Error {
+    constructor(message, code = 0) {
+        super(message);
+        this.name = this.constructor.name;
+        this.code = code;
+    }
+}
 
 // See:
 async function fetchWithTimeout(resource, options = {}) {
@@ -15,10 +23,10 @@ async function fetchWithTimeout(resource, options = {}) {
 }
 
 export async function get_worker_status(worker_name) {
-    const status_endpoint = Endpoint + "status/";
+    const status_endpoint = ENDPOINT + "status/";
     const response = await fetchWithTimeout(status_endpoint + worker_name);
     if (!response.ok) {
-        throw new Error("Worker status not okay.");
+        throw new APIException(response.statusText, response.status);
     }
     return response.json();
 }
@@ -49,7 +57,7 @@ export class FeatureRequest {
 }
 
 export async function fetch_features(request) {
-    const feature_endpoint = Endpoint + "annotations";
+    const feature_endpoint = ENDPOINT + "annotations";
 
     let response = await fetchWithTimeout(feature_endpoint, {
         method: "POST",
@@ -64,7 +72,7 @@ export async function fetch_features(request) {
     });
 
     if (!response.ok) {
-        throw new Error("Error" + response.status + ": " + response.statusText);
+        throw new APIException(response.statusText, response.status);
     }
 
     return response.json();
