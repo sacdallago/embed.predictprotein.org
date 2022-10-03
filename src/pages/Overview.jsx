@@ -1,10 +1,9 @@
 import React from "react";
 
-import Features from "../components/Features/Features";
+import FeatureViewer from "../components/FeatureViewer.new";
 
 export const Overview = () => {
-    // return <Features />;
-    return <></>;
+    return <FeatureViewer />;
 };
 
 export default Overview;
