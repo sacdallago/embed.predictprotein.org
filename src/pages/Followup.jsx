@@ -8,7 +8,7 @@ import FeatureProgress from "../components/FeatureProgress";
 
 import Overview from "./Overview";
 import DisplayNavigation from "../components/DisplayNavigation";
-// import PrintPage from "./PrintPage";
+import PrintPage from "./PrintPage";
 // import Interactive from "./Interactive";
 
 export function Followup({ page }) {
@@ -20,9 +20,9 @@ export function Followup({ page }) {
         // case PAGES.interactive:
         //     pageComponent = <Interactive />;
         //     break;
-        // case PAGES.print:
-        //     pageComponent = <PrintPage />;
-        //     break;
+        case PAGES.print:
+            pageComponent = <PrintPage />;
+            break;
         case PAGES.error:
         default:
             pageComponent = <>Error</>;
