@@ -1,6 +1,5 @@
 import React from "react";
 
-import { createFeature } from "feature-viewer";
 import { useEffect } from "react";
 
 export default function FeatureViewer() {
