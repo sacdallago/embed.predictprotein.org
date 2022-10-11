@@ -1,7 +1,6 @@
 import { useQuery } from "react-query";
 
 import { FeatureRequest, fetch_features } from "../utils/api";
-import { Notification, useNotifcationStore } from "../stores/notificationStore";
 import useSequence from "./useSequence";
 
 export function useFeatures(select) {
