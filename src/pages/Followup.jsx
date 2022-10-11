@@ -4,8 +4,6 @@ import SequenceDisplay from "../components/SequenceDisplay";
 import InputGate from "../components/InputGate";
 
 import { PAGES } from "../utils/pages";
-import useSequence from "../hooks/useSequence";
-import LoadingSequenceDisplay from "../components/LoadingSequenceDisplay";
 import FeatureProgress from "../components/FeatureProgress";
 
 import Overview from "./Overview";
@@ -14,8 +12,6 @@ import DisplayNavigation from "../components/DisplayNavigation";
 // import Interactive from "./Interactive";
 
 export function Followup({ page }) {
-    const { isLoading } = useSequence();
-
     let pageComponent = undefined;
     switch (page) {
         case PAGES.overview:
@@ -32,18 +28,14 @@ export function Followup({ page }) {
             pageComponent = <>Error</>;
     }
 
-    let seqDisplay = isLoading ? (
-        <LoadingSequenceDisplay />
-    ) : (
-        <SequenceDisplay />
-    );
-
     return (
         <InputGate>
             <Container>
                 <Stack gap={3}>
                     <Row />
-                    <Row>{seqDisplay}</Row>
+                    <Row>
+                        <SequenceDisplay />
+                    </Row>
                     <Row className="justify-content-center">
                         <FeatureProgress />
                     </Row>
