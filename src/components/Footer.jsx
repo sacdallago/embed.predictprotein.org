@@ -23,7 +23,7 @@ const Footer = () => (
                     </a>
                 </Col>
 
-                <Col auto md={2} className="mb-md-0 mb-3 text-start">
+                <Col xs md={2} className="mb-md-0 mb-3 text-start">
                     <h5 className="text-uppercase">Links</h5>
                     <ul className="list-unstyled">
                         <li>
@@ -52,7 +52,7 @@ const Footer = () => (
                     </ul>
                 </Col>
 
-                <Col auto md={2} className="mb-md-0 mb-3 text-start">
+                <Col xs md={2} className="mb-md-0 mb-3 text-start">
                     <h5 className="text-uppercase">Services</h5>
                     <ul className="list-unstyled">
                         <li>
@@ -87,7 +87,7 @@ const Footer = () => (
                     </ul>
                 </Col>
 
-                <Col auto md={2} xl={2} className="mb-md-0 mb-3 ">
+                <Col xs md={3} xl={2} className="mb-md-0 mb-3 ">
                     <h5 className="text-uppercase">Follow Us</h5>
 
                     <a href="https://twitter.com/rostlab" className="link-dark">
