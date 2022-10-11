@@ -8,7 +8,8 @@
                 "firefox-devtools.vscode-firefox-debug",
                 "planbcoding.vscode-react-refactor",
                 "formulahendry.auto-rename-tag",
-                "dsznajder.es7-react-js-snippets"
+                "dsznajder.es7-react-js-snippets",
+                "styled-components.vscode-styled-components"
             ]
         }
     },
