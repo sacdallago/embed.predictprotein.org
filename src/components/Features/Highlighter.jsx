@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Placeholder } from "react-bootstrap";
 
 import styled from "styled-components";
 
@@ -72,13 +73,9 @@ function kmer2component(sequence, displayStyle, chunk = 10) {
     });
 }
 
-export default function Highlighter({
-    sequence,
-    isLoading,
-    isError,
-    isSuccess,
-    displayStyle,
-}) {
+export default function Highlighter({ dataFn, displayStyle }) {
+    const { isSuccess, isLoading, isError, data } = useFeatures();
+
     const [setState, sequenceState] = useState({
         selected: undefined,
         region: [0, 0],
@@ -90,14 +87,18 @@ export default function Highlighter({
     if (isSuccess) {
         return (
             <LoadedHighlighter
-                sequence={sequence}
+                sequence={dataFn(data)}
                 displayStyle={displayStyle}
             />
         );
     }
 }
 
-function LoadingHighlighter() {}
+function LoadingHighlighter() {
+    <SequenceContainer>
+        <Placeholder animation="glow"></Placeholder>
+    </SequenceContainer>;
+}
 
 function ErroredHighlighter() {}
 

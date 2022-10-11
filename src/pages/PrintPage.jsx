@@ -7,8 +7,6 @@ import { useFeatures } from "../hooks/useFeatures";
 import { proteinColorSchemes } from "../utils/Graphics";
 
 const PrintPage = () => {
-    const { isSuccess, isLoading, isError, data } = useFeatures();
-
     return (
         <Container>
             <Stack gap={3}>
@@ -18,10 +16,7 @@ const PrintPage = () => {
                     <h4>Input Sequence</h4>
                     <div>
                         <Highlighter
-                            isLoading={isLoading}
-                            isError={isError}
-                            isSuccess={isSuccess}
-                            sequence={data.sequence}
+                            dataFn={(data) => data.sequence}
                             displayStyle={proteinColorSchemes["mview"]}
                         />
                     </div>
@@ -35,10 +30,7 @@ const PrintPage = () => {
                         <div className="col-lg-12">
                             <div>
                                 <Highlighter
-                                    isLoading={isLoading}
-                                    isError={isError}
-                                    isSuccess={isSuccess}
-                                    sequence={data.predictedDSSP3}
+                                    dataFn={(data) => data.predictedDSSP3}
                                     displayStyle={proteinColorSchemes["dssp8"]}
                                 />
                             </div>
@@ -87,10 +79,7 @@ const PrintPage = () => {
                         <div className="col-lg-12">
                             <div>
                                 <Highlighter
-                                    isLoading={isLoading}
-                                    isError={isError}
-                                    isSuccess={isSuccess}
-                                    sequence={data.predictedDSSP8}
+                                    dataFn={(data) => data.predictedDSSP8}
                                     displayStyle={proteinColorSchemes["dssp8"]}
                                 />
                                 <br />
@@ -187,12 +176,11 @@ const PrintPage = () => {
                         <div className="col-lg-12">
                             <div>
                                 <Highlighter
-                                    isLoading={isLoading}
-                                    isError={isError}
-                                    isSuccess={isSuccess}
-                                    sequence={data.predictedConservation
-                                        .map((e) => e + "")
-                                        .join("")}
+                                    dataFn={(data) =>
+                                        data.predictedConservation
+                                            .map((e) => e + "")
+                                            .join("")
+                                    }
                                     displayStyle={
                                         proteinColorSchemes["conservation"]
                                     }
@@ -303,10 +291,9 @@ const PrintPage = () => {
                         <div className="col-lg-12">
                             <div>
                                 <Highlighter
-                                    isLoading={isLoading}
-                                    isError={isError}
-                                    isSuccess={isSuccess}
-                                    sequence={data.predictedTransmembrane}
+                                    dataFn={(data) =>
+                                        data.predictedTransmembrane
+                                    }
                                     displayStyle={
                                         proteinColorSchemes[
                                             "predictedTransmembrane"
@@ -385,10 +372,7 @@ const PrintPage = () => {
                         <div className="col-lg-12">
                             <div>
                                 <Highlighter
-                                    isLoading={isLoading}
-                                    isError={isError}
-                                    isSuccess={isSuccess}
-                                    sequence={data.predictedDisorder}
+                                    dataFn={(data) => data.predictedDisorder}
                                     displayStyle={
                                         proteinColorSchemes["disorder"]
                                     }
@@ -404,10 +388,9 @@ const PrintPage = () => {
                         <div className="col-lg-12">
                             <div>
                                 <Highlighter
-                                    isLoading={isLoading}
-                                    isError={isError}
-                                    isSuccess={isSuccess}
-                                    sequence={data.predictedBindingMetal}
+                                    dataFn={(data) =>
+                                        data.predictedBindingMetal
+                                    }
                                     displayStyle={proteinColorSchemes["metal"]}
                                 />
                             </div>
@@ -421,10 +404,9 @@ const PrintPage = () => {
                         <div className="col-lg-12">
                             <div>
                                 <Highlighter
-                                    isLoading={isLoading}
-                                    isError={isError}
-                                    isSuccess={isSuccess}
-                                    sequence={data.predictedBindingNucleicAcids}
+                                    dataFn={(data) =>
+                                        data.predictedBindingNucleicAcids
+                                    }
                                     displayStyle={
                                         proteinColorSchemes["nucleicAcids"]
                                     }
@@ -440,10 +422,7 @@ const PrintPage = () => {
                         <div className="col-lg-12">
                             <div>
                                 <Highlighter
-                                    isLoading={isLoading}
-                                    isError={isError}
-                                    isSuccess={isSuccess}
-                                    sequence={
+                                    dataFn={(data) =>
                                         data.predictedBindingSmallMolecules
                                     }
                                     displayStyle={
