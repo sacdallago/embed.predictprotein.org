@@ -1,9 +1,33 @@
 import React from "react";
+import { Accordion, Col, Row, Container } from "react-bootstrap";
+import SubcellularLocation from "../components/Features/SubcellularLocation";
 
 import FeatureViewer from "../components/FeatureViewer.new";
 
 export const Overview = () => {
-    return <FeatureViewer />;
+    return (
+        <Container>
+            <Row className="justify-content-center">
+                <Col md={12}>
+                    <FeatureViewer />
+                </Col>
+            </Row>
+            <Row className="justify-content-center">
+                <Col md={12}>
+                    <Accordion defaultActiveKey={["0"]} flush alwaysOpen>
+                        <Accordion.Item eventKey="0">
+                            <Accordion.Header>
+                                Subceullular Location
+                            </Accordion.Header>
+                            <Accordion.Body>
+                                <SubcellularLocation />
+                            </Accordion.Body>
+                        </Accordion.Item>
+                    </Accordion>
+                </Col>
+            </Row>
+        </Container>
+    );
 };
 
 export default Overview;

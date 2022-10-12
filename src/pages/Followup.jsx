@@ -31,8 +31,7 @@ export function Followup({ page }) {
     return (
         <InputGate>
             <Container>
-                <Stack gap={3}>
-                    <Row />
+                <Stack gap={3} className="mb-5">
                     <Row>
                         <SequenceDisplay />
                     </Row>
