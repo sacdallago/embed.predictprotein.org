@@ -302,7 +302,8 @@ const PrintTopology = () => (
                     >
                         B
                     </span>
-                    - Transmembrane beta strand (IN --&gt OUT orientation), {""}
+                    - Transmembrane beta strand (IN --{">"} OUT orientation),{" "}
+                    {""}
                     <span
                         style={{
                             backgroundColor:
@@ -312,7 +313,8 @@ const PrintTopology = () => (
                     >
                         b
                     </span>
-                    - Transmembrane beta strand (OUT --&gt IN orientation), {""}
+                    - Transmembrane beta strand (OUT --{">"} IN orientation),{" "}
+                    {""}
                     <span
                         style={{
                             backgroundColor:
@@ -322,7 +324,8 @@ const PrintTopology = () => (
                     >
                         H
                     </span>
-                    - Transmembrane alpha helix (IN --&gt OUT orientation), {""}
+                    - Transmembrane alpha helix (IN --{">"} OUT orientation),{" "}
+                    {""}
                     <span
                         style={{
                             backgroundColor:
@@ -332,7 +335,8 @@ const PrintTopology = () => (
                     >
                         h
                     </span>
-                    - Transmembrane alpha helix (OUT --&gt IN orientation), {""}
+                    - Transmembrane alpha helix (OUT --{">"} IN orientation),{" "}
+                    {""}
                     <span
                         style={{
                             backgroundColor:

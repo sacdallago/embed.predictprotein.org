@@ -76,13 +76,7 @@ function kmer2component(sequence, displayStyle, chunk = 10) {
 export default function Highlighter({ dataFn, displayStyle }) {
     const { isSuccess, isLoading, isError, data } = useFeatures();
 
-    const [setState, sequenceState] = useState({
-        selected: undefined,
-        region: [0, 0],
-        highlightOnClick: false,
-    });
-
-    if (isLoading) return <LoadedHighlighter />;
+    if (isLoading) return <LoadingHighlighter />;
     if (isError) return <ErroredHighlighter />;
     if (isSuccess) {
         return (
@@ -95,9 +89,23 @@ export default function Highlighter({ dataFn, displayStyle }) {
 }
 
 function LoadingHighlighter() {
-    <SequenceContainer>
-        <Placeholder animation="glow"></Placeholder>
-    </SequenceContainer>;
+    let placeholder_blocks = [];
+
+    for (let i = 0; i < 34; ++i) {
+        placeholder_blocks.push(
+            <Placeholder
+                key={`placeholder-${i}`}
+                as="pre"
+                style={{ width: "10ch" }}
+            />
+        );
+    }
+
+    return (
+        <Placeholder as={SequenceContainer} animation="glow">
+            {placeholder_blocks}
+        </Placeholder>
+    );
 }
 
 function ErroredHighlighter() {}
