@@ -1,190 +1,136 @@
 import React from "react";
-import {Col, Row, Table} from "react-bootstrap";
+import { Col, Row, Table } from "react-bootstrap";
 
-export default function GeneOntology(props) {
+import { useFeatures } from "../../hooks/useFeatures";
 
-    let features = props.features;
+function GOEntry({ go_term_data }) {
+    return (
+        <tr>
+            <td>
+                <a
+                    href={
+                        "https://www.uniprot.org/uniprot/" +
+                        go_term_data?.identifier
+                    }
+                >
+                    <div>{go_term_data?.identifier}</div>
+                </a>
+            </td>
 
-    return <>
-        <Row>
-            <Col>
-                <Table striped bordered hover>
-                    <thead>
-                    <tr>
-                        <th colSpan="3">Biological process (BPO)</th>
-                    </tr>
-                    <tr>
-                        <th>Reference Seq.</th>
-                        <th>GO Name</th>
-                        <th>Reliability Index</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {features.predictedBPO.map((value, index) => {
-                        return (
-                            <tr key={"" + index}>
-                                <td>
-                                    <a
-                                        href={
-                                            "https://www.uniprot.org/uniprot/" +
-                                            features.predictedBPO[index]
-                                                ?.identifier
-                                        }
-                                    >
-                                        <div>
-                                            {
-                                                features.predictedBPO[index]
-                                                    ?.identifier
-                                            }
-                                        </div>
-                                    </a>
-                                </td>
+            <td>
+                <a
+                    href={
+                        "http://amigo.geneontology.org/amigo/term/" +
+                        go_term_data?.GO_Term
+                    }
+                >
+                    <div>{go_term_data?.GO_Name}</div>
+                </a>
+            </td>
 
-                                <td>
-                                    <a
-                                        href={
-                                            "http://amigo.geneontology.org/amigo/term/" +
-                                            features.predictedBPO[index]?.GO_Term
-                                        }
-                                    >
-                                        <div>
-                                            {
-                                                features.predictedBPO[index]
-                                                    ?.GO_Name
-                                            }
-                                        </div>
-                                    </a>
-                                </td>
+            <td>{go_term_data?.RI.toFixed(2)}</td>
+        </tr>
+    );
+}
 
-                                <td>
-                                    {features.predictedBPO[index]?.RI.toFixed(
-                                        2
-                                    )}
-                                </td>
+export default function GeneOntology() {
+    const { isSuccess, isLoading, isError, data } = useFeatures();
+
+    if (isLoading) return <GeneOntologyLoading />;
+    if (isError) return <GeneOntologyError />;
+    if (isSuccess)
+        return (
+            <GeneOntologyLoaded
+                predictedBPO={data.predictedBPO}
+                predictedCCO={data.predictedCCO}
+                predictedMFO={data.predictedMFO}
+            />
+        );
+}
+
+function GeneOntologyLoading() {}
+
+function GeneOntologyError() {}
+
+function GeneOntologyLoaded({ predictedBPO, predictedCCO, predictedMFO }) {
+    return (
+        <>
+            <Row>
+                <Col>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th colSpan="3">Biological process (BPO)</th>
                             </tr>
-                        );
-                    })}
-                    </tbody>
-                </Table>
-            </Col>
-            <Col>
-                <Table striped bordered hover>
-                    <thead>
-                    <tr>
-                        <th colSpan="3">Molecular function (MFO)</th>
-                    </tr>
-                    <tr>
-                        <th>Reference Seq.</th>
-                        <th>GO Name</th>
-                        <th>Reliability Index</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {features.predictedMFO.map((value, index) => {
-                        return (
-                            <tr key={"" + index}>
-                                <td>
-                                    <a
-                                        href={
-                                            "https://www.uniprot.org/uniprot/" +
-                                            features.predictedMFO[index]
-                                                ?.identifier
-                                        }
-                                    >
-                                        <div>
-                                            {
-                                                features.predictedMFO[index]
-                                                    ?.identifier
-                                            }
-                                        </div>
-                                    </a>
-                                </td>
-
-                                <td>
-                                    <a
-                                        href={
-                                            "http://amigo.geneontology.org/amigo/term/" +
-                                            features.predictedMFO[index]?.GO_Term
-                                        }
-                                    >
-                                        <div>
-                                            {
-                                                features.predictedMFO[index]
-                                                    ?.GO_Name
-                                            }
-                                        </div>
-                                    </a>
-                                </td>
-
-                                <td>
-                                    {features.predictedMFO[index]?.RI.toFixed(
-                                        2
-                                    )}
-                                </td>
+                            <tr>
+                                <th>Reference Seq.</th>
+                                <th>GO Name</th>
+                                <th>Reliability Index</th>
                             </tr>
-                        );
-                    })}
-                    </tbody>
-                </Table>
-            </Col>
-        </Row>
-        <Row>
-            <Col>
-                <Table striped bordered hover>
-                    <thead>
-                    <tr>
-                        <th colSpan="3">Cellular Component (CCO)</th>
-                    </tr>
-                    <tr>
-                        <th>Reference Seq.</th>
-                        <th>GO Name</th>
-                        <th>Reliability Index</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {features.predictedCCO.map((value, index) => {
-                        return (
-                            <tr key={"" + index}>
-                                <td>
-                                    <a
-                                        href={
-                                            "https://www.uniprot.org/uniprot/" +
-                                            features.predictedCCO[index]?.identifier
-                                        }
-                                    >
-                                        <div>
-                                            {
-                                                features.predictedCCO[index]
-                                                    ?.identifier
-                                            }
-                                        </div>
-                                    </a>
-                                </td>
-
-                                <td>
-                                    <a
-                                        href={
-                                            "http://amigo.geneontology.org/amigo/term/" +
-                                            features.predictedCCO[index]?.GO_Term
-                                        }
-                                    >
-                                        <div>
-                                            {features.predictedCCO[index]?.GO_Name}
-                                        </div>
-                                    </a>
-                                </td>
-
-                                <td>
-                                    {features.predictedCCO[index]?.RI.toFixed(
-                                        2
-                                    )}
-                                </td>
+                        </thead>
+                        <tbody>
+                            {predictedBPO.map((value, index) => {
+                                return (
+                                    <GOEntry
+                                        go_term_data={value}
+                                        key={`BPO-${index}`}
+                                    />
+                                );
+                            })}
+                        </tbody>
+                    </Table>
+                </Col>
+                <Col>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th colSpan="3">Molecular function (MFO)</th>
                             </tr>
-                        );
-                    })}
-                    </tbody>
-                </Table>
-            </Col>
-        </Row>
-    </>
+                            <tr>
+                                <th>Reference Seq.</th>
+                                <th>GO Name</th>
+                                <th>Reliability Index</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {predictedMFO.map((value, index) => {
+                                return (
+                                    <GOEntry
+                                        go_term_data={value}
+                                        key={`MFO-${index}`}
+                                    />
+                                );
+                            })}
+                        </tbody>
+                    </Table>
+                </Col>
+            </Row>
+            <Row>
+                <Col>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th colSpan="3">Cellular Component (CCO)</th>
+                            </tr>
+                            <tr>
+                                <th>Reference Seq.</th>
+                                <th>GO Name</th>
+                                <th>Reliability Index</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {predictedCCO.map((value, index) => {
+                                return (
+                                    <GOEntry
+                                        go_term_data={value}
+                                        key={`CCO-${index}`}
+                                    />
+                                );
+                            })}
+                        </tbody>
+                    </Table>
+                </Col>
+            </Row>
+        </>
+    );
 }
