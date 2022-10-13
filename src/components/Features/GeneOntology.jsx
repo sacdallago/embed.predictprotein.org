@@ -1,31 +1,51 @@
 import React from "react";
 import { Col, Row, Table } from "react-bootstrap";
+import styled from "styled-components";
 
 import { useFeatures } from "../../hooks/useFeatures";
+
+const Ref = styled.a`
+    color: black;
+    text-decoration: none;
+
+    &:hover {
+        color: grey;
+        text-decoration: none;
+        cursor: pointer;
+    }
+`;
+
+const RefSeq = styled(Ref)`
+    font-weight: bold;
+`;
 
 function GOEntry({ go_term_data }) {
     return (
         <tr>
             <td>
-                <a
+                <RefSeq
+                    target="_blank"
+                    rel="norefferrer"
                     href={
                         "https://www.uniprot.org/uniprot/" +
                         go_term_data?.identifier
                     }
                 >
                     <div>{go_term_data?.identifier}</div>
-                </a>
+                </RefSeq>
             </td>
 
             <td>
-                <a
+                <Ref
+                    target="_blank"
+                    rel="norefferrer"
                     href={
                         "http://amigo.geneontology.org/amigo/term/" +
                         go_term_data?.GO_Term
                     }
                 >
                     <div>{go_term_data?.GO_Name}</div>
-                </a>
+                </Ref>
             </td>
 
             <td>{go_term_data?.RI.toFixed(2)}</td>
