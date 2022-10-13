@@ -60,8 +60,6 @@ const get_display_for_status = (worker, isLoading, isError) => {
 };
 
 export default function WorkerStatus(props) {
-    const queryClient = useQueryClient();
-
     const workers = [
         "prott5",
         "prott5_annotations",
@@ -83,6 +81,8 @@ export default function WorkerStatus(props) {
             refetchInterval: 1000 * 60 * 5,
         }))
     );
+
+    // TODO add uniprot status
 
     const globalLoading = workerStatus.some((element) => element.isLoading);
     const globalError = workerStatus.some((element) => element.isError);
