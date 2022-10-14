@@ -5,10 +5,21 @@ import styled from "styled-components";
 
 import { InputType } from "../utils/sequence";
 import ValidationIndicator from "./ValidationIndicator";
-import LoadingButton from "./LoadingButton";
 import useInputStore from "../stores/inputStore";
 import useSequence from "../hooks/useSequence";
 import { useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
+
+function LoadingButton({ loading, children, ...props }) {
+    let btn_disabled = (props.disabled ?? false) || loading;
+    if (props.hasOwnProperty("disabled")) delete props.disabled;
+    return (
+        <Button disabled={btn_disabled} {...props}>
+            {loading && <Spinner className="me-1" />}
+            {children}
+        </Button>
+    );
+}
 
 const ClickableSpan = styled.span`
     font-weight: bold;

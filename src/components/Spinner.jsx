@@ -19,7 +19,7 @@ function Spinner(props) {
 const StyledSpinner = styled(Spinner)`
     display: inline-block;
     animation: ${rotate} 2s linear infinite;
-    with: ${(props) => props.size || "1em"};
+    width: ${(props) => props.size || "1em"};
     height: ${(props) => props.size || "1em"};
 `;
 
