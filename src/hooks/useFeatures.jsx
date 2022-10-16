@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 
-import { FeatureRequest, fetch_features } from "../utils/api";
+import { FeatureRequest, fetch_features } from "../lib/api";
 import useSequence from "./useSequence";
 
 export function useFeatures(select) {

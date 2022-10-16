@@ -8,7 +8,7 @@ import {
     InputType,
     MAX_INPUT_LEN,
     MIN_INPUT_LEN,
-} from "../utils/sequence";
+} from "../lib/sequence";
 import { OverlayTrigger, Popover } from "react-bootstrap";
 
 function getValidationOutput(inputState) {

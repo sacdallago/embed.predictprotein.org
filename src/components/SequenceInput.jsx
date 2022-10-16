@@ -3,7 +3,7 @@ import React from "react";
 import { Form, Container, Col, Row, Button } from "react-bootstrap";
 import styled from "styled-components";
 
-import { InputType } from "../utils/sequence";
+import { InputType } from "../lib/sequence";
 import ValidationIndicator from "./ValidationIndicator";
 import useInputStore from "../stores/inputStore";
 import useSequence from "../hooks/useSequence";

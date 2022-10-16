@@ -2,7 +2,7 @@ import React from "react";
 
 import { Nav, Tooltip, OverlayTrigger } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { PageToURL, PAGES } from "../utils/pages";
+import { PageToURL, PAGES } from "../lib/pages";
 
 export default function DisplayNavigation({ page }) {
     const navigate = useNavigate();

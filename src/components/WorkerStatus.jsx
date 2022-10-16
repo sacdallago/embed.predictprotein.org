@@ -7,7 +7,7 @@ import styled from "styled-components";
 import { useQueries, useQueryClient } from "react-query";
 
 import Spinner from "./Spinner";
-import { get_worker_status } from "../utils/api";
+import { get_worker_status } from "../lib/api";
 
 const Circle = styled.span.attrs((props) => ({
     color: props.color || "red",

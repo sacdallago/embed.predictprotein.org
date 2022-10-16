@@ -17,8 +17,8 @@ import Notifications from "./components/Notifications";
 import Header from "./components/Header";
 import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 import { Followup } from "./pages/Followup";
-import { handleQueryError } from "./utils/error";
-import { PAGES } from "./utils/pages";
+import { handleQueryError } from "./lib/error";
+import { PAGES } from "./lib/pages";
 
 const container = document.getElementById("root");
 const root = createRoot(container);

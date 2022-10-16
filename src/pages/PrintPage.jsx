@@ -4,7 +4,7 @@ import Highlighter from "../components/Features/Highlighter";
 import { Container, Stack } from "react-bootstrap";
 
 import { useFeatures } from "../hooks/useFeatures";
-import { proteinColorSchemes } from "../utils/Graphics";
+import { proteinColorSchemes } from "../lib/Graphics";
 
 const PrintInput = () => (
     // TODO take colorscheme aliView

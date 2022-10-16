@@ -3,7 +3,7 @@ import React from "react";
 import SequenceDisplay from "../components/SequenceDisplay";
 import InputGate from "../components/InputGate";
 
-import { PAGES } from "../utils/pages";
+import { PAGES } from "../lib/pages";
 import FeatureProgress from "../components/FeatureProgress";
 
 import Overview from "./Overview";

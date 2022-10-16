@@ -1,6 +1,6 @@
 import create from "zustand";
 
-import { InputAlphabet, InputType, eval_input_type } from "../utils/sequence";
+import { InputAlphabet, InputType, eval_input_type } from "../lib/sequence";
 
 const invalid = {
     type: InputType.invalid,

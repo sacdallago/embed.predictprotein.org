@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
-import * as d3 from "d3";
 import { useFeatures } from "../../hooks/useFeatures";
 import { EffectPredictor } from "../../lib/effect";
 
