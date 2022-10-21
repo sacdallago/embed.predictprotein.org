@@ -109,9 +109,8 @@ async function get_seq_from_uniprot_id(input) {
 export async function get_uniprot_status() {
     let seq_acc = "A0A654IBU3";
     let status_url = `https://rest.uniprot.org/uniprotkb/${seq_acc}?fields=accession&format=json`;
-    let body = query_uniprot(status_url);
+    let body = await query_uniprot(status_url);
     let reportedAcession = body["primaryAccession"] ?? undefined;
-    console.log(reportedAcession);
     if (reportedAcession !== seq_acc) {
         throw new SequenceException(
             "Oops... something went wrong contacting Uniprot; Please try again later"
