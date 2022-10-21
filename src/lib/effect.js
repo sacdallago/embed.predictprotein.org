@@ -9,6 +9,8 @@ const CHART_DIMENSIONS = {
     padding_outer: 0.1,
 };
 
+const AAOrder = "ARNDCQEGHILKMFPSTWYV".split("").reverse();
+
 export class EffectPredictor {
     sequence_view;
     containerWidth;
@@ -70,7 +72,7 @@ export class EffectPredictor {
             .scaleBand()
             .range([this.chartHeight, 0])
             .padding(this.dimensions.padding_inner)
-            .domain(d3.range(20));
+            .domain(AAOrder);
 
         var max_domain = EffectPredictor.calc_x_domain_num(
             tmp_yscale.bandwidth(),
@@ -125,7 +127,7 @@ export class EffectPredictor {
             .attr("clip-path", "url(#clip)");
     }
 
-    setup_chart_axis(data) {
+    setup_chart_axis() {
         this.colorScale = d3
             .scaleSequential()
             .interpolator(d3.interpolateReds)
@@ -135,7 +137,7 @@ export class EffectPredictor {
             .scaleBand()
             .range([this.chartHeight, 0])
             .padding(this.dimensions.padding_inner)
-            .domain(data.y_axis);
+            .domain(AAOrder);
 
         this.chart_yAxis = d3.axisLeft(this.chart_yScale).tickSize(0);
 
@@ -146,17 +148,10 @@ export class EffectPredictor {
             .range([0, this.containerWidth])
             .domain(d3.range(...this.sequence_view));
 
-        this.chart_xAxis = d3
-            .axisBottom(this.chart_xScale)
-            .tickSize(0)
-            .ticks()
-            .tickFormat((index) => {
-                var seq_idx = Math.round(index, 0);
-                return `${seq_idx}`;
-            });
+        this.chart_xAxis = d3.axisBottom(this.chart_xScale).tickSize(0);
     }
 
-    draw_axis() {
+    draw_axis(data) {
         this.chart
             .append("g")
             .call(this.chart_yAxis)
@@ -164,12 +159,35 @@ export class EffectPredictor {
             .style("font-size", "1em")
             .select(".domain")
             .style("stroke-width", "3px");
-        this.chart
+
+        // Draw axis
+        let axis = this.chart
             .append("g")
-            .call(this.chart_xAxis)
             .attr("class", "x-axis")
+            .attr("transform", `translate(0, ${this.chartHeight + 3})`);
+
+        axis.append("g")
+            .attr("class", "x-residue")
             .style("font-size", "1em")
-            .attr("transform", `translate(0, ${this.chartHeight})`)
+            .call(
+                this.chart_xAxis.tickFormat((index) => {
+                    var seq_idx = Math.round(index, 0);
+                    return `${data.x_axis[seq_idx]}`;
+                })
+            )
+            .select(".domain")
+            .remove();
+
+        axis.append("g")
+            .attr("class", "x-index")
+            .style("font-size", "8px")
+            .attr("transform", `translate(0, 16)`)
+            .call(
+                this.chart_xAxis.tickFormat((index) => {
+                    var seq_idx = Math.round(index, 0);
+                    return `${seq_idx + 1}`;
+                })
+            )
             .select(".domain")
             .remove();
     }
@@ -178,9 +196,16 @@ export class EffectPredictor {
         console.log(data);
         this.chart
             .selectAll()
-            .data(data.values, (d) => {
-                return `${d.x}->${d.y}`;
-            })
+            .data(
+                data.values.filter(
+                    (element) =>
+                        this.sequence_view[0] <= element.x &&
+                        element.x < this.sequence_view[1]
+                ),
+                (d) => {
+                    return `${d.x}->${d.y}`;
+                }
+            )
             .join("rect")
             .attr("x", (d) => {
                 return this.chart_xScale(d.x);
@@ -201,8 +226,8 @@ export class EffectPredictor {
     }
 
     draw(data) {
-        this.setup_chart_axis(data);
-        this.draw_axis();
+        this.setup_chart_axis();
+        this.draw_axis(data);
         this.draw_chart(data);
     }
 
