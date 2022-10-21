@@ -1,8 +1,8 @@
 import { get_worker_status } from "../lib/api";
-import { get_seq_from_uniprot, get_uniprot_status } from "../lib/sequence";
+import { get_uniprot_status } from "../lib/sequence";
 import { useQueries, useQuery } from "react-query";
 
-export default function useAPIStatus() {
+export default function useServiceStatus() {
     // TODO add uniprot status
 
     const workers = [

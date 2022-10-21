@@ -4,7 +4,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 
 import styled from "styled-components";
-import useAPIStatus from "../hooks/useAPIStatus";
+import useAPIStatus from "../hooks/useServiceStatus";
 
 import Spinner from "./Spinner";
 
@@ -58,7 +58,7 @@ const get_display_for_status = (worker, isLoading, isError) => {
     );
 };
 
-export default function WorkerStatus(props) {
+export default function ServiceStatus(props) {
     const [globalLoading, globalError, serviceStatus] = useAPIStatus();
 
     return (

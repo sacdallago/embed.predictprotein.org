@@ -3,7 +3,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import styled from "styled-components";
-import WorkerStatus from "./WorkerStatus";
+import ServiceStatus from "./ServiceStatus";
 
 const UndecoratedLink = styled(Link)`
     &,
