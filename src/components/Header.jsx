@@ -40,7 +40,7 @@ export default function Header() {
                     </UndecoratedLink>
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <WorkerStatus />
+                <ServiceStatus />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
                         <Nav.Link href="https://www.biorxiv.org/content/10.1101/2022.08.04.502750v1">
