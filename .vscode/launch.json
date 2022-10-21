@@ -21,7 +21,13 @@
             "profile": "react-debug",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "yarn:start"
+            "preLaunchTask": "yarn:start",
+            "pathMappings": [
+                {
+                    "url": "file:///workspaces/embed.predictprotein.org/src",
+                    "path": "${workspaceFolder}/src"
+                }
+            ]
         }
     ]
 }

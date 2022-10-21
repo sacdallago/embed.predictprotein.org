@@ -45,11 +45,11 @@ function VariantEffectPredictionLoaded({ data }) {
 
     // Draw chart
     useLayoutEffect(() => {
-        const data_map = EffectPredictor(this.containerRef.current);
+        const data_map = new EffectPredictor(containerRef.current);
 
-        data_map.draw(effectData);
+        if (effectData) data_map.draw(effectData);
 
-        return data_map.teardown;
+        return () => data_map.teardown();
     }, [effectData, containerRef]);
 
     return <div className="w-100" ref={containerRef} />;
