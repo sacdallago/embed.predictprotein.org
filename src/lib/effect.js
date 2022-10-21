@@ -3,7 +3,7 @@ import * as d3 from "d3";
 const CHART_DIMENSIONS = {
     width: undefined,
     chart_height: 500,
-    zoom_height: 100,
+    panel_height: 75,
     margin: { top: 30, bottom: 30, left: 20, right: 20 },
     padding_inner: 0.05,
     padding_outer: 0.1,
@@ -61,11 +61,12 @@ export class EffectPredictor {
         this.dimensions = dimensions;
         this.containerRef = containerRef;
         this.calc_dimensions();
-        this.setup_canvas();
-        this.setup_sequence_view();
+        this.calc_sequence_view();
+        this.setup_panel_canvas();
+        this.setup_chart_canvas();
     }
 
-    setup_sequence_view() {
+    calc_sequence_view() {
         var view_starts_at = 0;
 
         var tmp_yscale = d3
@@ -83,10 +84,11 @@ export class EffectPredictor {
         this.sequence_view = [view_starts_at, max_domain];
     }
 
-    setup_canvas() {
+    setup_chart_canvas() {
         this.chart = d3
             .select(this.containerRef)
             .append("svg")
+            .attr("id", "effect-chart")
             .attr("width", this.dimensions.width)
             .attr("height", this.dimensions.chart_height)
             // create plot group
@@ -127,6 +129,16 @@ export class EffectPredictor {
             .attr("clip-path", "url(#clip)");
     }
 
+    setup_panel_canvas() {
+        this.panel = d3
+            .select(this.containerRef)
+            .append("svg")
+            .attr("width", this.dimensions.width)
+            .attr("height", this.dimensions.panel_height)
+            .attr("id", "effect-panel")
+            .append("g");
+    }
+
     setup_chart_axis() {
         this.colorScale = d3
             .scaleSequential()
@@ -151,12 +163,25 @@ export class EffectPredictor {
         this.chart_xAxis = d3.axisBottom(this.chart_xScale).tickSize(0);
     }
 
+    setup_panel_axis(data) {
+        this.panel_yScale = d3
+            .scaleBand()
+            .range([this.dimensions.panel_height, 0])
+            .domain(AAOrder);
+
+        this.panel_xScale = d3
+            .scaleBand()
+            .range([0, this.dimensions.width])
+            .domain(d3.range(data.x_axis.length));
+    }
+
     draw_axis(data) {
         this.chart
             .append("g")
             .call(this.chart_yAxis)
             .attr("class", "y-axis")
             .style("font-size", "1em")
+            .attr("text-anchor", "end")
             .select(".domain")
             .style("stroke-width", "3px");
 
@@ -193,7 +218,6 @@ export class EffectPredictor {
     }
 
     draw_chart(data) {
-        console.log(data);
         this.chart
             .selectAll()
             .data(
@@ -225,9 +249,34 @@ export class EffectPredictor {
             .style("opacity", 0.8);
     }
 
+    draw_panel(data) {
+        this.panel
+            .selectAll()
+            .data(data.values, (d) => {
+                return `${d.x}->${d.y}`;
+            })
+            .join("rect")
+            .attr("x", (d) => {
+                return this.panel_xScale(d.x);
+            })
+            .attr("y", (d) => {
+                return this.panel_yScale(d.y);
+            })
+            .attr("width", this.panel_xScale.bandwidth())
+            .attr("height", this.panel_yScale.bandwidth())
+            .style("fill", (d) => {
+                if (d.score > 0) return this.colorScale(d.score);
+                else return "#ffffff";
+            })
+            .attr("class", "score")
+            .style("opacity", 0.8);
+    }
+
     draw(data) {
         this.setup_chart_axis();
+        this.setup_panel_axis(data);
         this.draw_axis(data);
+        this.draw_panel(data);
         this.draw_chart(data);
     }
 
