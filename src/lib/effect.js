@@ -124,7 +124,7 @@ export class EffectPredictor {
             .attr("stroke", "#000000")
             .attr("stroke-width", 1);
 
-        this.dataCanvas = this.chart
+        this.chart_dataCanvas = this.chart
             .append("g")
             .attr("clip-path", "url(#clip)");
     }
@@ -135,8 +135,9 @@ export class EffectPredictor {
             .append("svg")
             .attr("width", this.dimensions.width)
             .attr("height", this.dimensions.panel_height)
-            .attr("id", "effect-panel")
-            .append("g");
+            .attr("id", "effect-panel");
+
+        this.panel_dataCanvas = this.panel.append("g");
     }
 
     setup_chart_axis() {
@@ -250,7 +251,7 @@ export class EffectPredictor {
     }
 
     draw_panel(data) {
-        this.panel
+        this.panel_dataCanvas
             .selectAll()
             .data(data.values, (d) => {
                 return `${d.x}->${d.y}`;
@@ -272,12 +273,29 @@ export class EffectPredictor {
             .style("opacity", 0.8);
     }
 
+    draw_brush() {
+        var brush = d3.brushX().extent([
+            [0, 0],
+            [this.dimensions.width, this.dimensions.panel_height],
+        ]);
+
+        var brush_rect = this.panel
+            .append("g")
+            .attr("class", "brush")
+            .call(brush)
+            .call(brush.move, this.sequence_view.map(this.panel_xScale));
+
+        brush_rect.selectAll(".handle").remove();
+        brush_rect.selectAll(".overlay").remove();
+    }
+
     draw(data) {
         this.setup_chart_axis();
         this.setup_panel_axis(data);
         this.draw_axis(data);
         this.draw_panel(data);
         this.draw_chart(data);
+        this.draw_brush();
     }
 
     teardown() {
