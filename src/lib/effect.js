@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import { axisBottom } from "d3";
 
 const CHART_DIMENSIONS = {
     width: undefined,
@@ -26,9 +27,11 @@ export class EffectPredictor {
     panel_yScale;
     panel_xScale;
     panel;
+    tooltip;
     _data;
+    _chartData;
 
-    calc_dimensions() {
+    _calc_dimensions() {
         this.dimensions.width =
             this.dimensions.width ?? this.containerRef.clientWidth;
 
@@ -57,14 +60,34 @@ export class EffectPredictor {
         return Math.floor(x_domain_num);
     }
 
+    static data_range(x_value_lower, x_value_upper, y_length, max_len = 0) {
+        var lower = x_value_lower * y_length;
+        var upper = x_value_upper * y_length;
+        return [lower, upper];
+    }
+
     data(data) {
         this._data = data;
+        this._data.values.sort((a, b) => {
+            if (a.x === b.x && a.y <= b.y) return -1;
+            if (a.x === b.x && a.y > b.y) return 1;
+            if (a.x > b.x) return 1;
+            if (a.x < b.x) return -1;
+            return -1;
+        });
+        this._chartData = this._data.values.slice(
+            ...EffectPredictor.data_range(
+                ...this.sequence_view,
+                data.y_axis.length
+            )
+        );
         return this;
     }
 
     static invertBandScale(scale, value) {
         var eachBand = scale.step();
-        var index = Math.round(value / eachBand);
+        var index = Math.floor(value / eachBand);
+        index = Math.min(scale.domain().length - 1, index);
         return scale.domain()[index];
     }
 
@@ -75,13 +98,16 @@ export class EffectPredictor {
         this.colorScale = undefined;
         this.dimensions = dimensions;
         this.containerRef = containerRef;
-        this.calc_dimensions();
-        this.calc_sequence_view();
-        this.setup_panel_canvas();
-        this.setup_chart_canvas();
+        this._calc_dimensions();
+        this._calc_sequence_view();
+        this._setup_panel_canvas();
+        this._setup_chart_canvas();
+        this._setup_tooltip();
+        this.update_chart_x = this._setup_chart_xAxis();
+        this.update_chart_y = this._setup_chart_yAxis();
     }
 
-    calc_sequence_view() {
+    _calc_sequence_view() {
         var view_starts_at = 0;
 
         var tmp_yscale = d3
@@ -99,7 +125,7 @@ export class EffectPredictor {
         this.sequence_view = [view_starts_at, max_domain];
     }
 
-    setup_chart_canvas() {
+    _setup_chart_canvas() {
         this.chart = d3
             .select(this.containerRef)
             .append("svg")
@@ -144,7 +170,7 @@ export class EffectPredictor {
             .attr("clip-path", "url(#clip)");
     }
 
-    setup_panel_canvas() {
+    _setup_panel_canvas() {
         this.panel = d3
             .select(this.containerRef)
             .append("svg")
@@ -153,6 +179,20 @@ export class EffectPredictor {
             .attr("id", "effect-panel");
 
         this.panel_dataCanvas = this.panel.append("g");
+    }
+
+    _setup_tooltip() {
+        // create a tooltip
+        this.tooltip = d3
+            .select(this.containerRef)
+            .append("div")
+            .style("opacity", 1)
+            .style("background-color", "white")
+            .style("border", "solid")
+            .style("border-width", "2px")
+            .style("border-radius", "5px")
+            .style("padding", "5px")
+            .style("position", "absolute");
     }
 
     _setup_chart_axis() {
@@ -177,6 +217,9 @@ export class EffectPredictor {
             .domain(d3.range(...this.sequence_view));
 
         this.chart_xAxis = d3.axisBottom(this.chart_xScale).tickSize(0);
+
+        this.update_chart_x();
+        this.update_chart_y();
     }
 
     _setup_panel_axis(data) {
@@ -191,82 +234,148 @@ export class EffectPredictor {
             .domain(d3.range(data.x_axis.length));
     }
 
-    _draw_chart_yAxis() {
-        this.chart
+    _setup_chart_yAxis() {
+        var ax = this.chart
             .append("g")
-            .call(this.chart_yAxis)
             .attr("class", "y-axis")
             .style("font-size", "1em")
-            .attr("text-anchor", "end")
-            .select(".domain")
-            .style("stroke-width", "3px");
+            .attr("text-anchor", "end");
+
+        var instance = this;
+
+        function update() {
+            ax.call(instance.chart_yAxis)
+                .select(".domain")
+                .style("stroke-width", "3px");
+        }
+        return update;
     }
 
-    _draw_chart_xAxis(data) {
-        // Draw axis
+    _setup_chart_xAxis() {
         let xAxis = this.chart
             .append("g")
             .attr("class", "x-axis")
             .attr("transform", `translate(0, ${this.chartHeight + 3})`);
 
-        xAxis
+        var x_residue = xAxis
             .append("g")
             .attr("class", "x-residue")
-            .style("font-size", "1em")
-            .call(
-                this.chart_xAxis.tickFormat((index) => {
-                    var seq_idx = Math.round(index, 0);
-                    return `${data.x_axis[seq_idx]}`;
-                })
-            )
-            .select(".domain")
-            .remove();
+            .style("font-size", "1em");
 
-        xAxis
+        var x_index = xAxis
             .append("g")
             .attr("class", "x-index")
             .style("font-size", "8px")
-            .attr("transform", `translate(0, 16)`)
-            .call(
-                this.chart_xAxis.tickFormat((index) => {
-                    var seq_idx = Math.round(index, 0);
-                    return `${seq_idx + 1}`;
-                })
-            )
-            .select(".domain")
-            .remove();
+            .attr("transform", `translate(0, 16)`);
+
+        var instance = this;
+
+        function update() {
+            x_residue
+                .call(
+                    instance.chart_xAxis.tickFormat((index) => {
+                        var seq_idx = Math.round(index, 0);
+                        return `${this._data.x_axis[seq_idx]}`;
+                    })
+                )
+                .select(".domain")
+                .remove();
+
+            x_index
+                .call(
+                    instance.chart_xAxis.tickFormat((index) => {
+                        var seq_idx = Math.round(index, 0);
+                        return `${seq_idx + 1}`;
+                    })
+                )
+                .select(".domain")
+                .remove();
+        }
+
+        return update;
     }
 
-    _draw_chart(data) {
-        this.chart
-            .selectAll()
-            .data(
-                data.values.filter(
-                    (element) =>
-                        this.sequence_view[0] <= element.x &&
-                        element.x < this.sequence_view[1]
-                ),
-                (d) => {
-                    return `${d.x}->${d.y}`;
-                }
-            )
-            .join("rect")
-            .attr("x", (d) => {
-                return this.chart_xScale(d.x);
+    get_tooltip_handler() {
+        var instance = this;
+
+        // Three function that change the tooltip when user hover / move / leave a cell
+        var _mouseover = function (event, d) {
+            instance.tooltip.style("opacity", 1);
+            d3.select(this).style("stroke", "white").style("opacity", 1);
+        };
+        var _mousemove = function (event, d) {
+            let score_text =
+                d.score > -1 ? "predicted effect: " + d.score : "wild type";
+
+            instance.tooltip
+                .html(
+                    instance._data.x_axis[d.x] +
+                        (d.x + 1) +
+                        "" +
+                        d.y +
+                        "<br>" +
+                        score_text
+                )
+                .style("left", event.pageX + 70 + "px")
+                .style("top", event.pageY + "px");
+        };
+        var _mouseleave = function (event, d) {
+            instance.tooltip.style("opacity", 0);
+            d3.select(this).style("stroke", "none").style("opacity", 0.8);
+        };
+
+        return [_mouseleave, _mousemove, _mouseover];
+    }
+
+    _draw_chart() {
+        const [_mouseleave, _mousemove, _mouseover] =
+            this.get_tooltip_handler();
+
+        this.chart_dataCanvas
+            .selectAll("rect")
+            .data(this._chartData, (d) => {
+                return `${d.x}->${d.y}`;
             })
-            .attr("y", (d) => {
-                return this.chart_yScale(d.y);
-            })
-            .attr("width", this.chart_xScale.bandwidth())
-            .attr("height", this.chart_yScale.bandwidth())
-            .style("fill", (d) => {
-                if (d.score > 0) return this.colorScale(d.score);
-                else return "url(#diagonalHatch)";
-            })
-            .attr("class", "score")
-            .style("stroke-width", 4)
-            .style("stroke", "none")
-            .style("opacity", 0.8);
+            .join(
+                (enter) => {
+                    return enter
+                        .append("rect")
+                        .attr("x", (d) => {
+                            return this.chart_xScale(d.x);
+                        })
+                        .attr("y", (d) => {
+                            return this.chart_yScale(d.y);
+                        })
+                        .attr("width", this.chart_xScale.bandwidth())
+                        .attr("height", this.chart_yScale.bandwidth())
+                        .style("fill", (d) => {
+                            if (d.score > 0) return this.colorScale(d.score);
+                            else return "url(#diagonalHatch)";
+                        })
+                        .attr("class", "score")
+                        .style("stroke-width", 4)
+                        .style("stroke", "none")
+                        .style("opacity", 0.8)
+                        .on("mouseover", _mouseover)
+                        .on("mousemove", _mousemove)
+                        .on("mouseleave", _mouseleave);
+                },
+                (update) =>
+                    update
+                        .attr("x", (d) => {
+                            return this.chart_xScale(d.x);
+                        })
+                        .attr("y", (d) => {
+                            return this.chart_yScale(d.y);
+                        })
+                        .attr("width", this.chart_xScale.bandwidth())
+                        .attr("height", this.chart_yScale.bandwidth())
+                        .style("fill", (d) => {
+                            if (d.score > 0) return this.colorScale(d.score);
+                            else return "url(#diagonalHatch)";
+                        }),
+                (exit) => exit.remove()
+            );
     }
 
     _draw_panel(data) {
@@ -320,30 +429,32 @@ export class EffectPredictor {
             this.panel_xScale,
             selection[1]
         );
+
         this.sequence_view = [start, end + 1];
         this._update_chart_xAxis();
+        this._chartData = this._data.values.slice(
+            ...EffectPredictor.data_range(
+                ...this.sequence_view,
+                this._data.y_axis.length
+            )
+        );
+        this._draw_chart();
     }
 
     _update_chart_xAxis() {
         this.chart_xScale.domain(d3.range(...this.sequence_view));
+        this.update_chart_x();
     }
 
     draw() {
-        if (this.data === undefined) return;
+        if (this._data === undefined) return;
         this._setup_chart_axis();
-        this._setup_panel_axis(this.data);
-        this._draw_chart_yAxis();
+        this._setup_panel_axis(this._data);
         this._draw_brush();
 
-        this._update_data();
-    }
-
-    _update_data() {
-        if (this.data === undefined) return;
         this._update_chart_xAxis();
-        this._draw_chart_xAxis(this.data);
-        this._draw_panel(this.data);
-        this._draw_chart(this.data);
+        this._draw_panel(this._data);
+        this._draw_chart();
     }
 
     teardown() {
