@@ -47,7 +47,7 @@ function VariantEffectPredictionLoaded({ data }) {
     useLayoutEffect(() => {
         const data_map = new EffectPredictor(containerRef.current);
 
-        if (effectData) data_map.draw(effectData);
+        if (effectData) data_map.data(effectData).draw();
 
         return () => data_map.teardown();
     }, [effectData, containerRef]);

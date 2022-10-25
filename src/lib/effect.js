@@ -23,6 +23,10 @@ export class EffectPredictor {
     chart_yScale;
     chart_xAxis;
     chart_xScale;
+    panel_yScale;
+    panel_xScale;
+    panel;
+    _data;
 
     calc_dimensions() {
         this.dimensions.width =
@@ -51,6 +55,17 @@ export class EffectPredictor {
                 2 * paddingOuter * rectDim) /
             ((1 + paddingInner) * rectDim);
         return Math.floor(x_domain_num);
+    }
+
+    data(data) {
+        this._data = data;
+        return this;
+    }
+
+    static invertBandScale(scale, value) {
+        var eachBand = scale.step();
+        var index = Math.round(value / eachBand);
+        return scale.domain()[index];
     }
 
     constructor(containerRef, dimensions = CHART_DIMENSIONS) {
@@ -140,7 +155,7 @@ export class EffectPredictor {
         this.panel_dataCanvas = this.panel.append("g");
     }
 
-    setup_chart_axis() {
+    _setup_chart_axis() {
         this.colorScale = d3
             .scaleSequential()
             .interpolator(d3.interpolateReds)
@@ -164,7 +179,7 @@ export class EffectPredictor {
         this.chart_xAxis = d3.axisBottom(this.chart_xScale).tickSize(0);
     }
 
-    setup_panel_axis(data) {
+    _setup_panel_axis(data) {
         this.panel_yScale = d3
             .scaleBand()
             .range([this.dimensions.panel_height, 0])
@@ -176,7 +191,7 @@ export class EffectPredictor {
             .domain(d3.range(data.x_axis.length));
     }
 
-    draw_axis(data) {
+    _draw_chart_yAxis() {
         this.chart
             .append("g")
             .call(this.chart_yAxis)
@@ -185,14 +200,17 @@ export class EffectPredictor {
             .attr("text-anchor", "end")
             .select(".domain")
             .style("stroke-width", "3px");
+    }
 
+    _draw_chart_xAxis(data) {
         // Draw axis
-        let axis = this.chart
+        let xAxis = this.chart
             .append("g")
             .attr("class", "x-axis")
             .attr("transform", `translate(0, ${this.chartHeight + 3})`);
 
-        axis.append("g")
+        xAxis
+            .append("g")
             .attr("class", "x-residue")
             .style("font-size", "1em")
             .call(
@@ -204,7 +222,8 @@ export class EffectPredictor {
             .select(".domain")
             .remove();
 
-        axis.append("g")
+        xAxis
+            .append("g")
             .attr("class", "x-index")
             .style("font-size", "8px")
             .attr("transform", `translate(0, 16)`)
@@ -218,7 +237,7 @@ export class EffectPredictor {
             .remove();
     }
 
-    draw_chart(data) {
+    _draw_chart(data) {
         this.chart
             .selectAll()
             .data(
@@ -250,7 +269,7 @@ export class EffectPredictor {
             .style("opacity", 0.8);
     }
 
-    draw_panel(data) {
+    _draw_panel(data) {
         this.panel_dataCanvas
             .selectAll()
             .data(data.values, (d) => {
@@ -273,11 +292,14 @@ export class EffectPredictor {
             .style("opacity", 0.8);
     }
 
-    draw_brush() {
-        var brush = d3.brushX().extent([
-            [0, 0],
-            [this.dimensions.width, this.dimensions.panel_height],
-        ]);
+    _draw_brush() {
+        var brush = d3
+            .brushX()
+            .extent([
+                [0, 0],
+                [this.dimensions.width, this.dimensions.panel_height],
+            ])
+            .on("brush", ({ selection }) => this.updateSelection(selection));
 
         var brush_rect = this.panel
             .append("g")
@@ -289,13 +311,39 @@ export class EffectPredictor {
         brush_rect.selectAll(".overlay").remove();
     }
 
-    draw(data) {
-        this.setup_chart_axis();
-        this.setup_panel_axis(data);
-        this.draw_axis(data);
-        this.draw_panel(data);
-        this.draw_chart(data);
-        this.draw_brush();
+    updateSelection(selection) {
+        var start = EffectPredictor.invertBandScale(
+            this.panel_xScale,
+            selection[0]
+        );
+        var end = EffectPredictor.invertBandScale(
+            this.panel_xScale,
+            selection[1]
+        );
+        this.sequence_view = [start, end + 1];
+        this._update_chart_xAxis();
+    }
+
+    _update_chart_xAxis() {
+        this.chart_xScale.domain(d3.range(...this.sequence_view));
+    }
+
+    draw() {
+        if (this.data === undefined) return;
+        this._setup_chart_axis();
+        this._setup_panel_axis(this.data);
+        this._draw_chart_yAxis();
+        this._draw_brush();
+
+        this._update_data();
+    }
+
+    _update_data() {
+        if (this.data === undefined) return;
+        this._update_chart_xAxis();
+        this._draw_chart_xAxis(this.data);
+        this._draw_panel(this.data);
+        this._draw_chart(this.data);
     }
 
     teardown() {
