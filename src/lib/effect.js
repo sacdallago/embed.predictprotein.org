@@ -5,6 +5,7 @@ const CHART_DIMENSIONS = {
     width: undefined,
     chart_height: 500,
     panel_height: 75,
+    colorbar: { width: 15, margin: 25 },
     margin: { top: 30, bottom: 30, left: 20, right: 20 },
     padding_inner: 0.05,
     padding_outer: 0.1,
@@ -38,6 +39,8 @@ export class EffectPredictor {
         this.containerWidth =
             this.dimensions.width -
             this.dimensions.margin.left -
+            this.dimensions.colorbar.width -
+            this.dimensions.colorbar.margin -
             this.dimensions.margin.right;
         this.chartHeight =
             this.dimensions.chart_height -
@@ -100,8 +103,10 @@ export class EffectPredictor {
         this.containerRef = containerRef;
         this._calc_dimensions();
         this._calc_sequence_view();
+        this._setup_chart_axis();
         this._setup_panel_canvas();
         this._setup_chart_canvas();
+        this._setup_color_bar();
         this._setup_tooltip();
         this.update_chart_x = this._setup_chart_xAxis();
         this.update_chart_y = this._setup_chart_yAxis();
@@ -130,7 +135,12 @@ export class EffectPredictor {
             .select(this.containerRef)
             .append("svg")
             .attr("id", "effect-chart")
-            .attr("width", this.dimensions.width)
+            .attr(
+                "width",
+                this.dimensions.width -
+                    this.dimensions.colorbar.width -
+                    this.dimensions.colorbar.margin
+            )
             .attr("height", this.dimensions.chart_height)
             // create plot group
             .append("g")
@@ -186,13 +196,97 @@ export class EffectPredictor {
         this.tooltip = d3
             .select(this.containerRef)
             .append("div")
-            .style("opacity", 1)
+            .style("opacity", 0)
             .style("background-color", "white")
             .style("border", "solid")
             .style("border-width", "2px")
             .style("border-radius", "5px")
             .style("padding", "5px")
             .style("position", "absolute");
+    }
+
+    _setup_color_bar() {
+        this.colorbar = d3
+            .select(this.containerRef)
+            .append("svg")
+            .attr("id", "effect-colorbar")
+            .attr(
+                "width",
+                this.dimensions.colorbar.width + this.dimensions.colorbar.margin
+            )
+            .attr("height", this.dimensions.chart_height);
+
+        var defs = this.colorbar.append("defs");
+
+        defs.append("pattern")
+            .attr("id", "diagonalHatch")
+            .attr("patternUnits", "userSpaceOnUse")
+            .attr("width", 4)
+            .attr("height", 4)
+            .append("path")
+            .attr("d", "M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2")
+            .attr("stroke", "#000000")
+            .attr("stroke-width", 1);
+
+        var plot = this.colorbar
+            .append("g")
+            .attr("transform", `translate(0, ${this.dimensions.margin.top})`);
+
+        var bar_height =
+            this.dimensions.chart_height -
+            this.dimensions.colorbar.width -
+            this.dimensions.margin.bottom -
+            this.dimensions.margin.top;
+
+        plot.append("rect")
+            .attr("y", bar_height + 5)
+            .attr("width", this.dimensions.colorbar.width)
+            .attr("height", this.dimensions.colorbar.width)
+            .style("fill", "url(#diagonalHatch)");
+        plot.append("text")
+            .attr("y", bar_height + this.dimensions.colorbar.width / 1.2 + 5)
+            .attr("x", this.dimensions.colorbar.width + 4)
+            .text("wt")
+            .style("font-size", "0.7em");
+
+        // See https://github.com/ttdtrang/d3-colorbar/blob/master/src/colorbar.js
+        var nBars = 100;
+        var barData = [];
+        var trueDL = bar_height / nBars;
+        for (var i = 0; i < nBars; i++) {
+            barData.push(i);
+        }
+
+        var linearScale = d3
+            .scaleLinear()
+            .domain([0, 100])
+            .range([0, bar_height]);
+
+        var axis = d3.axisRight(linearScale).tickSize(0).ticks(4);
+
+        var ax = plot
+            .append("g")
+            .attr("class", "colorbar axis")
+            .attr(
+                "transform",
+                "translate(" + this.dimensions.colorbar.width + ", 0)"
+            )
+            .call(axis)
+            .style("font-size", "0.7em");
+
+        ax.select(".domain").remove();
+
+        var bars = plot
+            .selectAll("rect")
+            .data(barData)
+            .enter()
+            .append("rect")
+            .attr("x", 0)
+            .attr("y", (d) => d * trueDL)
+            .attr("width", this.dimensions.colorbar.width)
+            .attr("height", trueDL)
+            .style("stroke-width", "0px")
+            .style("fill", (d) => this.colorScale(d));
     }
 
     _setup_chart_axis() {
@@ -217,9 +311,6 @@ export class EffectPredictor {
             .domain(d3.range(...this.sequence_view));
 
         this.chart_xAxis = d3.axisBottom(this.chart_xScale).tickSize(0);
-
-        this.update_chart_x();
-        this.update_chart_y();
     }
 
     _setup_panel_axis(data) {
@@ -448,7 +539,8 @@ export class EffectPredictor {
 
     draw() {
         if (this._data === undefined) return;
-        this._setup_chart_axis();
+        this.update_chart_x();
+        this.update_chart_y();
         this._setup_panel_axis(this._data);
         this._draw_brush();
 
