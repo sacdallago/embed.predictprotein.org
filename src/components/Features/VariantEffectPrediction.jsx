@@ -32,6 +32,13 @@ export default function VariantEffectPrediction() {
                 position, for which the substitution effect score is null. SAV
                 effect was computed using the VESPAl method.
             </p>
+            <a
+                href="https://doi.org/10.1007/s00439-021-02411-y"
+                target="_blank"
+                rel="noreferrer"
+            >
+                Citation and Details
+            </a>
             {renderAction()}
         </>
     );

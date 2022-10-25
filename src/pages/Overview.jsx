@@ -1,5 +1,7 @@
 import React from "react";
 import { Accordion, Col, Row, Container } from "react-bootstrap";
+import { useMatomo } from "@jonkoops/matomo-tracker-react";
+
 import GeneOntology from "../components/Features/GeneOntology";
 import SubcellularLocation from "../components/Features/SubcellularLocation";
 import VariantEffectPrediction from "../components/Features/VariantEffectPrediction";
@@ -7,6 +9,16 @@ import VariantEffectPrediction from "../components/Features/VariantEffectPredict
 import FeatureViewer from "../components/FeatureViewer.new";
 
 export const Overview = () => {
+    const { trackPageView } = useMatomo();
+
+    // Track page view
+    React.useEffect(() => {
+        trackPageView({
+            documentTitle: "Overview",
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <Container>
             <Row className="justify-content-center">

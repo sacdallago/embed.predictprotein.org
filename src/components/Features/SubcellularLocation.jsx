@@ -30,15 +30,31 @@ const locations_mapping = {
 export default function SubcellularLocation() {
     const { isSuccess, isLoading, isError, data } = useFeatures();
 
-    if (isLoading) return <SubcellularLocationLoading />;
-    if (isError) return <SubcellularLocationError />;
-    if (isSuccess)
-        return (
-            <SubcellularLocationLoaded
-                location={data.predictedSubcellularLocalizations}
-                membrane={data.predictedMembrane}
-            />
-        );
+    const renderAction = () => {
+        if (isLoading) return <SubcellularLocationLoading />;
+        if (isError) return <SubcellularLocationError />;
+        if (isSuccess)
+            return (
+                <SubcellularLocationLoaded
+                    location={data.predictedSubcellularLocalizations}
+                    membrane={data.predictedMembrane}
+                />
+            );
+    };
+
+    return (
+        <>
+            <p className="mb-5">
+                LA ProtT5 predicts the sub-cellular localization of proteins in
+                ten classes (nucleus, cytoplasm, extracellular space,
+                mitochondrion, cell membrane, endoplasmatic reticulum, plastid,
+                Golgi apparatus, lysosome/vacuole and peroxisome). {""}
+                The method was trained and evaluated on eukaryotic proteins.
+            </p>
+
+            {renderAction()}
+        </>
+    );
 }
 
 function SubcellularLocationLoading() {

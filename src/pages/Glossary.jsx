@@ -1,8 +1,19 @@
 import React from "react";
 
 import { Stack, Container, Row, Col } from "react-bootstrap";
+import { useMatomo } from "@jonkoops/matomo-tracker-react";
 
 export default function Glossary() {
+    const { trackPageView } = useMatomo();
+
+    // Track page view
+    React.useEffect(() => {
+        trackPageView({
+            documentTitle: "Glossary",
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <Container>
             <Row className="justify-content-md-center">
