@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
 import { Placeholder } from "react-bootstrap";
 import { useFeatures } from "../../hooks/useFeatures";
 import { EffectPredictor } from "../../lib/effect";
+import MethodDetails from "../MethodDetails";
 
 export default function VariantEffectPrediction() {
     const { isSuccess, isLoading, isError, data } = useFeatures();
@@ -22,23 +23,19 @@ export default function VariantEffectPrediction() {
 
     return (
         <>
-            <p className="mb-5">
-                The following visualization displays the effect of substituting
-                the residue at position X on the x-axis with amino acid Y on the
-                y-axis. Darker color / higher value indicates more significant
-                effect in performing said substitution, while a lighter color /
-                lower value indicates a more tolerable substitution. The orange
-                dotted marks indicate the wild-type residue at the given
-                position, for which the substitution effect score is null. SAV
-                effect was computed using the VESPAl method.
-            </p>
-            <a
-                href="https://doi.org/10.1007/s00439-021-02411-y"
-                target="_blank"
-                rel="noreferrer"
-            >
-                Citation and Details
-            </a>
+            <MethodDetails citations={["10.1007/s00439-021-02411-y"]}>
+                <p>
+                    The following visualization displays the effect of
+                    substituting the residue at position X on the x-axis with
+                    amino acid Y on the y-axis. Darker color / higher value
+                    indicates more significant effect in performing said
+                    substitution, while a lighter color / lower value indicates
+                    a more tolerable substitution. The hatched squares indicate
+                    the wild-type residue at the given position, for which the
+                    substitution effect score is null. SAV effect was computed
+                    using the VESPAl method.
+                </p>
+            </MethodDetails>
             {renderAction()}
         </>
     );

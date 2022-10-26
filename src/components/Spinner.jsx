@@ -16,11 +16,11 @@ function Spinner(props) {
     return <img {...props} src={Helix} alt="spinning protein logo"></img>;
 }
 
-const StyledSpinner = styled(Spinner)`
+const HelixSpinner = styled(Spinner)`
     display: inline-block;
     animation: ${rotate} 2s linear infinite;
     width: ${(props) => props.size || "1em"};
     height: ${(props) => props.size || "1em"};
 `;
 
-export default StyledSpinner;
+export default HelixSpinner;
