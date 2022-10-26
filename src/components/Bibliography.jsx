@@ -1,13 +1,17 @@
 import React from "react";
 import styled from "styled-components";
+import Cite from "citation-js";
 
+import { BsBoxArrowInUpRight } from "react-icons/bs";
 import {
     HiOutlineClipboardCopy,
     HiOutlineClipboardCheck,
 } from "react-icons/hi";
 import { useCitations } from "../hooks/useCitations";
 import HelixSpinner from "./Spinner";
-import { Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { Button } from "react-bootstrap";
+
+Cite.plugins.output.add("url", (data) => data[0]["URL"]);
 
 const BibContainer = styled.div``;
 
@@ -69,6 +73,14 @@ function citation_entry(cite, index) {
                 text="bibtex"
                 citeKey={cite.format("citation")}
             />
+            <a
+                href={cite.format("url")}
+                className="link-dark"
+                target="_blank"
+                rel="noreferrer"
+            >
+                <BsBoxArrowInUpRight /> open
+            </a>
         </BibEntry>
     );
 }
