@@ -11,7 +11,7 @@ export function useFeatures(select) {
     const sequenceQuery = useQuery({
         queryKey: ["features", data?.sequence],
         queryFn: () => fetch_features(request),
-        staleTime: "Infinity",
+        staleTime: Infinity,
         refetchOnWindowFocus: false,
         enabled: isSuccess,
         retry: 3,

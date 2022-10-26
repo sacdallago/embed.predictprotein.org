@@ -14,7 +14,7 @@ export default function useSequence(onSuccess = () => {}) {
     const sequenceQuery = useQuery({
         queryKey: ["sequence", input],
         queryFn: () => get_sequence_for_type(inputType, input),
-        staleTime: "Infinity",
+        staleTime: Infinity,
         refetchOnWindowFocus: false,
         enabled: false,
         retry: 2,

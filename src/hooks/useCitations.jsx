@@ -6,9 +6,8 @@ export function useCitations(citations) {
         citations.map((citation) => ({
             queryKey: ["citation", citation],
             queryFn: () => Cite.async(citation),
-            refetchInterval: false,
-            staleTime: "Infinity",
-            cacheTime: "Infinity",
+            staleTime: Infinity,
+            cacheTime: Infinity,
         }))
     );
 
