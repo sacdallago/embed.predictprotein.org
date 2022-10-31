@@ -6,7 +6,7 @@ export const TextDisplay = styled.div`
     display: inline-block;
     margin: 0;
     padding: 0.2em;
-    width: 80ch;
+    width: 100%;
     max-width: 100%;
     word-wrap: break-word;
     line-height: 1.5em;

@@ -96,7 +96,7 @@ function LoadedSequenceDisplay({ accession, sequence }) {
                     <Row className="mt-3 justify-content-center">
                         <Col md={8}>
                             <Row className="justify-content-end">
-                                <Col md={2}>
+                                <Col className="col-auto">
                                     <Button
                                         id="new-input"
                                         variant="danger"
