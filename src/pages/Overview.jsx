@@ -6,7 +6,7 @@ import GeneOntology from "../components/Features/GeneOntology";
 import SubcellularLocation from "../components/Features/SubcellularLocation";
 import VariantEffectPrediction from "../components/Features/VariantEffectPrediction";
 
-import FeatureViewer from "../components/FeatureViewer.new";
+import FeatureViewer from "../components/Features/FeatureViewer";
 
 export const Overview = () => {
     const { trackPageView } = useMatomo();
