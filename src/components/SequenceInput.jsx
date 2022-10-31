@@ -32,7 +32,7 @@ const StyledTextArea = styled.textarea`
     display: inline-block;
     margin: 0;
     padding: 0.2em;
-    width: 80ch;
+    width: 100%;
     max-width: 100%;
     word-wrap: break-word;
     line-height: 1.5em;
@@ -107,7 +107,7 @@ export const SequenceInput = (props) => {
     };
 
     return (
-        <Form className=" mt-3">
+        <Form className="mt-3">
             <Form.Group controlId="sequenceInput">
                 <Container>
                     <Row className="justify-content-center">
@@ -116,6 +116,7 @@ export const SequenceInput = (props) => {
                                 style={{
                                     position: "relative",
                                     display: "inline-block",
+                                    width: "100%",
                                 }}
                             >
                                 <Form.Control
@@ -186,8 +187,8 @@ export const SequenceInput = (props) => {
                     <Row className="mt-3 justify-content-center">
                         <Col md={8}>
                             <Row className="justify-content-end">
-                                <Col className="me-auto"></Col>
-                                <Col xs={1}>
+                                <Col xs className="me-auto col-auto" />
+                                <Col xs className="col-auto">
                                     <Button
                                         id="clear-input"
                                         variant="danger"
@@ -197,7 +198,7 @@ export const SequenceInput = (props) => {
                                         Clear
                                     </Button>
                                 </Col>
-                                <Col xs={3}>
+                                <Col xs className="col-auto">
                                     <LoadingButton
                                         id="submit-protein"
                                         loading={loading}
