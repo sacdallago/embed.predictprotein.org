@@ -1,16 +1,65 @@
 import React, { useEffect, useRef, useState, useLayoutEffect } from "react";
+import { Placeholder } from "react-bootstrap";
 import { useFeatures } from "../../hooks/useFeatures";
 import { EffectPredictor } from "../../lib/effect";
+import MethodDetails from "../MethodDetails";
 
 export default function VariantEffectPrediction() {
     const { isSuccess, isLoading, isError, data } = useFeatures();
 
-    if (isLoading) return <VariantEffectPredictionLoading />;
-    if (isError) return <VariantEffectPredictionError />;
-    if (isSuccess)
-        return <VariantEffectPredictionLoaded data={data.predictedVariation} />;
+    const renderAction = () => {
+        if (isLoading) {
+            return <VariantEffectPredictionLoading />;
+        }
+        if (isError) {
+            return <VariantEffectPredictionError />;
+        }
+        if (isSuccess) {
+            return (
+                <VariantEffectPredictionLoaded data={data.predictedVariation} />
+            );
+        }
+    };
+
+    return (
+        <>
+            <MethodDetails citations={["10.1007/s00439-021-02411-y"]}>
+                <p>
+                    The following visualization displays the effect of
+                    substituting the residue at position X on the x-axis with
+                    amino acid Y on the y-axis. Darker color / higher value
+                    indicates more significant effect in performing said
+                    substitution, while a lighter color / lower value indicates
+                    a more tolerable substitution. The hatched squares indicate
+                    the wild-type residue at the given position, for which the
+                    substitution effect score is null. SAV effect was computed
+                    using the VESPAl method.
+                </p>
+            </MethodDetails>
+            {renderAction()}
+        </>
+    );
 }
-function VariantEffectPredictionLoading() {}
+function VariantEffectPredictionLoading() {
+    return (
+        <>
+            <Placeholder animation="glow">
+                <Placeholder
+                    style={{ width: "100%", height: "75px" }}
+                    className="mb-2"
+                />
+                <Placeholder
+                    style={{
+                        width: "95%",
+                        height: "440px",
+                        marginLeft: "20px",
+                        marginTop: "30px",
+                    }}
+                />
+            </Placeholder>
+        </>
+    );
+}
 function VariantEffectPredictionError() {}
 
 function VariantEffectPredictionLoaded({ data }) {
@@ -47,7 +96,7 @@ function VariantEffectPredictionLoaded({ data }) {
     useLayoutEffect(() => {
         const data_map = new EffectPredictor(containerRef.current);
 
-        if (effectData) data_map.draw(effectData);
+        if (effectData) data_map.data(effectData).draw();
 
         return () => data_map.teardown();
     }, [effectData, containerRef]);

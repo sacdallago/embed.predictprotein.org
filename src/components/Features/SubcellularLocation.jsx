@@ -13,6 +13,7 @@ import peroxisome from "../../assets/peroxisome.PNG";
 import plastid from "../../assets/plastid.PNG";
 import secreted from "../../assets/secreted.PNG";
 import { useFeatures } from "../../hooks/useFeatures";
+import MethodDetails from "../MethodDetails";
 
 const locations_mapping = {
     Cytoplasm: cytoplasm,
@@ -30,15 +31,33 @@ const locations_mapping = {
 export default function SubcellularLocation() {
     const { isSuccess, isLoading, isError, data } = useFeatures();
 
-    if (isLoading) return <SubcellularLocationLoading />;
-    if (isError) return <SubcellularLocationError />;
-    if (isSuccess)
-        return (
-            <SubcellularLocationLoaded
-                location={data.predictedSubcellularLocalizations}
-                membrane={data.predictedMembrane}
-            />
-        );
+    const renderAction = () => {
+        if (isLoading) return <SubcellularLocationLoading />;
+        if (isError) return <SubcellularLocationError />;
+        if (isSuccess)
+            return (
+                <SubcellularLocationLoaded
+                    location={data.predictedSubcellularLocalizations}
+                    membrane={data.predictedMembrane}
+                />
+            );
+    };
+
+    return (
+        <>
+            <MethodDetails citations={["10.1093/bioadv/vbab035"]}>
+                <p>
+                    LA ProtT5 predicts the sub-cellular localization of proteins
+                    in ten classes (nucleus, cytoplasm, extracellular space,
+                    mitochondrion, cell membrane, endoplasmatic reticulum,
+                    plastid, Golgi apparatus, lysosome/vacuole and peroxisome).{" "}
+                    {""}
+                    The method was trained and evaluated on eukaryotic proteins.
+                </p>
+            </MethodDetails>
+            {renderAction()}
+        </>
+    );
 }
 
 function SubcellularLocationLoading() {

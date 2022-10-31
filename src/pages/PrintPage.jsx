@@ -1,9 +1,8 @@
 import React from "react";
-import Highlighter from "../components/Features/Highlighter";
-
 import { Container, Stack } from "react-bootstrap";
+import { useMatomo } from "@jonkoops/matomo-tracker-react";
 
-import { useFeatures } from "../hooks/useFeatures";
+import Highlighter from "../components/Features/Highlighter";
 import { proteinColorSchemes } from "../lib/Graphics";
 
 const PrintInput = () => (
@@ -420,6 +419,16 @@ const PrintSmallBinding = () => (
 );
 
 const PrintPage = () => {
+    const { trackPageView } = useMatomo();
+
+    // Track page view
+    React.useEffect(() => {
+        trackPageView({
+            documentTitle: "Print Page",
+        });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
     return (
         <Container>
             <Stack gap={3}>
