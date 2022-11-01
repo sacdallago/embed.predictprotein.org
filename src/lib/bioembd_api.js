@@ -58,6 +58,53 @@ export async function fetch_features(request) {
     return response.json();
 }
 
+export async function fetch_structure(
+    sequence,
+    retries = Infinity,
+    timeout = 5 * 60 * 100
+) {
+    var sleep = async (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+    var fetch_structure = async () =>
+        await fetchWithTimeout(ENDPOINT + "structure", {
+            method: "POST",
+            mode: "cors",
+            cache: "no-cache",
+            credentials: "same-origin",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            redirect: "follow",
+            referrer: "no-referrer",
+            body: JSON.stringify({
+                sequence: sequence,
+                predictor: "colabfold",
+            }),
+        });
+
+    let iteration = 0;
+
+    do {
+        let response = await fetch_structure();
+
+        if (!response.ok) {
+            throw new APIException(response.statusText, response.status);
+        }
+
+        // Structure was found
+        if (response.status === 200) return response.json();
+
+        if (response.status !== 201 || response.status !== 202)
+            throw APIException(
+                "Unexpected structure API response",
+                response.status
+            );
+        await sleep(timeout);
+    } while (iteration < retries);
+
+    throw new APIException("Failed to fetch structure", 500);
+}
+
 /*******************************************************************************
  *                              Data Processing                                *
  *******************************************************************************/

@@ -1,0 +1,77 @@
+import { useState } from "react";
+
+import { useQuery } from "react-query";
+
+import useSequence from "./useSequence";
+import { structureFromAFDB } from "../lib/afdb_api";
+import { fetch_structure } from "../lib/bioembd_api";
+
+const MAX_SEQ_LEN = 500;
+
+export function useStructure(select) {
+    const { seqData, seqIsSuccess } = useSequence();
+
+    let queryAFDB = seqIsSuccess && seqData?.accession;
+
+    const {
+        isError: afdbIsError,
+        isSuccess: afdbIsSuccess,
+        isLoading: afdbIsLoading,
+        data: afdbData,
+    } = useQuery({
+        queryKey: ["structure", "afdb", seqData?.sequence],
+        queryFn: () => structureFromAFDB(seqData?.sequence),
+        staleTime: Infinity,
+        refetchOnWindowFocus: false,
+        enabled: queryAFDB,
+        retry: 3,
+        select: select,
+    });
+
+    let predictStructure =
+        seqIsSuccess &&
+        seqData.sequence.length <= MAX_SEQ_LEN &&
+        (seqData?.accession === undefined || afdbIsError);
+
+    const {
+        isError: predIsError,
+        isSuccess: predIsSuccess,
+        isLoading: predIsLoading,
+        data: predData,
+    } = useQuery({
+        queryKey: ["structure", "predicted", seqData?.sequence],
+        queryFn: () =>
+            fetch_structure(seqData?.sequence, Infinity, 5 * 60 * 100),
+        staleTime: Infinity,
+        refetchOnWindowFocus: false,
+        enabled: predictStructure,
+        retry: 3,
+        select: select,
+    });
+
+    let isError =
+        (queryAFDB && afdbIsError && predictStructure && predIsError) ||
+        !(predictStructure || queryAFDB);
+
+    let isSuccess =
+        ((queryAFDB && afdbIsSuccess) || (predictStructure && predIsSuccess)) &&
+        (predictStructure || queryAFDB);
+
+    let isLoading =
+        ((queryAFDB && afdbIsLoading) || (predictStructure && predIsLoading)) &&
+        (predictStructure || queryAFDB);
+
+    let data =
+        queryAFDB && afdbIsSuccess
+            ? afdbData
+            : predictStructure && predIsSuccess
+            ? predData
+            : undefined;
+
+    return {
+        isError: isError,
+        isSuccess: isSuccess,
+        isLoading: isLoading,
+        data: data,
+    };
+}

@@ -1,4 +1,4 @@
-import { get_worker_status } from "../lib/api";
+import { get_worker_status } from "../lib/bioembd_api";
 import { get_uniprot_status } from "../lib/sequence";
 import { useQueries, useQuery } from "react-query";
 
