@@ -9,7 +9,7 @@ import { fetch_structure } from "../lib/bioembd_api";
 const MAX_SEQ_LEN = 500;
 
 export function useStructure(select) {
-    const { seqData, seqIsSuccess } = useSequence();
+    const { data: seqData, isSuccess: seqIsSuccess } = useSequence();
 
     let queryAFDB = seqIsSuccess && seqData?.accession;
 
@@ -50,8 +50,10 @@ export function useStructure(select) {
     });
 
     let isError =
-        (queryAFDB && afdbIsError && predictStructure && predIsError) ||
-        !(predictStructure || queryAFDB);
+        !(predictStructure || queryAFDB) &&
+        ((queryAFDB && !predictStructure && afdbIsError) ||
+            (!queryAFDB && predictStructure && predIsError) ||
+            (queryAFDB && predictStructure && predIsError && afdbIsError));
 
     let isSuccess =
         ((queryAFDB && afdbIsSuccess) || (predictStructure && predIsSuccess)) &&
@@ -69,6 +71,8 @@ export function useStructure(select) {
             : undefined;
 
     return {
+        queryAFDB: queryAFDB,
+        predictStructure: predictStructure,
         isError: isError,
         isSuccess: isSuccess,
         isLoading: isLoading,
