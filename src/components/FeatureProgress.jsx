@@ -5,10 +5,10 @@ import { Link } from "react-router-dom";
 import { useFeatures } from "../hooks/useFeatures";
 import StyledSpinner from "./Spinner";
 
-const DEFAULT_REQUEST_TIME = 12;
+const DEFAULT_REQUEST_TIME_SEC = 12;
 
 export default function FeatureProgress() {
-    const [counter, setCounter] = React.useState(DEFAULT_REQUEST_TIME);
+    const [counter, setCounter] = React.useState(DEFAULT_REQUEST_TIME_SEC);
     const [delayed, setDelayed] = React.useState(false);
     const { isSuccess, isLoading, isError, isPaused } = useFeatures();
 
@@ -17,9 +17,9 @@ export default function FeatureProgress() {
             setTimeout(() => setCounter(counter - 1), 1000);
         else if (counter <= 0) {
             setDelayed(true);
-            setCounter(DEFAULT_REQUEST_TIME);
+            setCounter(DEFAULT_REQUEST_TIME_SEC);
         } else if (!isLoading) {
-            setCounter(DEFAULT_REQUEST_TIME);
+            setCounter(DEFAULT_REQUEST_TIME_SEC);
         }
     }, [isLoading, delayed, counter]);
 
@@ -45,7 +45,9 @@ export default function FeatureProgress() {
     if (isLoading) {
         if (!delayed) {
             let progress =
-                ((DEFAULT_REQUEST_TIME - counter) / DEFAULT_REQUEST_TIME) * 100;
+                ((DEFAULT_REQUEST_TIME_SEC - counter) /
+                    DEFAULT_REQUEST_TIME_SEC) *
+                100;
             return (
                 <Alert variant="info" className="col-md-8">
                     <StyledSpinner size="1.5em" /> We are beaming the results
