@@ -7,6 +7,7 @@ import SubcellularLocation from "../components/Features/SubcellularLocation";
 import VariantEffectPrediction from "../components/Features/VariantEffectPrediction";
 
 import FeatureViewer from "../components/Features/FeatureViewer";
+import StructureProgress from "../components/StructureProgress";
 
 export const Overview = () => {
     const { trackPageView } = useMatomo();
@@ -21,11 +22,11 @@ export const Overview = () => {
 
     return (
         <Container>
-            <Row className="justify-content-center">
+            {/* <Row className="justify-content-center">
                 <Col md={12}>
                     <FeatureViewer />
                 </Col>
-            </Row>
+            </Row> */}
             <Row className="justify-content-center">
                 <Col md={12}>
                     <Accordion defaultActiveKey={["0", "2"]} flush alwaysOpen>
@@ -52,6 +53,11 @@ export const Overview = () => {
                             </Accordion.Body>
                         </Accordion.Item>
                     </Accordion>
+                </Col>
+            </Row>
+            <Row className="justify-content-center">
+                <Col md={12}>
+                    <StructureProgress />
                 </Col>
             </Row>
         </Container>

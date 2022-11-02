@@ -6,12 +6,13 @@ import useSequence from "./useSequence";
 import { structureFromAFDB } from "../lib/afdb_api";
 import { fetch_structure } from "../lib/bioembd_api";
 
-const MAX_SEQ_LEN = 500;
+export const MAX_SEQ_LEN = 500;
 
 export function useStructure(select) {
     const { data: seqData, isSuccess: seqIsSuccess } = useSequence();
 
-    let queryAFDB = seqIsSuccess && seqData?.accession;
+    let queryAFDB = seqIsSuccess && seqData?.accession !== undefined;
+    queryAFDB = false;
 
     const {
         isError: afdbIsError,
@@ -19,8 +20,8 @@ export function useStructure(select) {
         isLoading: afdbIsLoading,
         data: afdbData,
     } = useQuery({
-        queryKey: ["structure", "afdb", seqData?.sequence],
-        queryFn: () => structureFromAFDB(seqData?.sequence),
+        queryKey: ["structure", "afdb", seqData?.accession],
+        queryFn: () => structureFromAFDB(seqData?.accession),
         staleTime: Infinity,
         refetchOnWindowFocus: false,
         enabled: queryAFDB,
@@ -33,6 +34,7 @@ export function useStructure(select) {
         seqData.sequence.length <= MAX_SEQ_LEN &&
         (seqData?.accession === undefined || afdbIsError);
 
+    predictStructure = true;
     const {
         isError: predIsError,
         isSuccess: predIsSuccess,
@@ -69,6 +71,7 @@ export function useStructure(select) {
             : predictStructure && predIsSuccess
             ? predData
             : undefined;
+    console.log(data);
 
     return {
         queryAFDB: queryAFDB,
