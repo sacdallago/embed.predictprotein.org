@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import { useQuery } from "react-query";
 
 import useSequence from "./useSequence";
@@ -12,6 +10,7 @@ export function useStructure(select) {
     const { data: seqData, isSuccess: seqIsSuccess } = useSequence();
 
     let queryAFDB = seqIsSuccess && seqData?.accession !== undefined;
+
     const {
         isError: afdbIsError,
         isSuccess: afdbIsSuccess,
@@ -31,6 +30,7 @@ export function useStructure(select) {
         seqIsSuccess &&
         seqData.sequence.length <= MAX_SEQ_LEN &&
         (seqData?.accession === undefined || afdbIsError);
+
     const {
         isError: predIsError,
         isSuccess: predIsSuccess,
@@ -65,7 +65,7 @@ export function useStructure(select) {
     if (queryAFDB && afdbIsSuccess) {
         data = {
             url: afdbData[0].cifUrl,
-            format: "cif",
+            format: "mmcif",
             source: "afdb",
         };
     }
