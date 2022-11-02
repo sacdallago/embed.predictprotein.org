@@ -55,6 +55,7 @@ function citation_entry(cite, index) {
     return (
         <BibEntry key={index}>
             {cite.format("bibliography", { template: "apa", lang: "en-US" })}
+            <br />
             <CopyLink
                 data={cite.format("bibliography", {
                     template: "apa",

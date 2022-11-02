@@ -12,8 +12,6 @@ export function useStructure(select) {
     const { data: seqData, isSuccess: seqIsSuccess } = useSequence();
 
     let queryAFDB = seqIsSuccess && seqData?.accession !== undefined;
-    queryAFDB = false;
-
     const {
         isError: afdbIsError,
         isSuccess: afdbIsSuccess,
@@ -33,8 +31,6 @@ export function useStructure(select) {
         seqIsSuccess &&
         seqData.sequence.length <= MAX_SEQ_LEN &&
         (seqData?.accession === undefined || afdbIsError);
-
-    predictStructure = true;
     const {
         isError: predIsError,
         isSuccess: predIsSuccess,
@@ -65,13 +61,24 @@ export function useStructure(select) {
         ((queryAFDB && afdbIsLoading) || (predictStructure && predIsLoading)) &&
         (predictStructure || queryAFDB);
 
-    let data =
-        queryAFDB && afdbIsSuccess
-            ? afdbData
-            : predictStructure && predIsSuccess
-            ? predData
-            : undefined;
-    console.log(data);
+    let data = undefined;
+    if (queryAFDB && afdbIsSuccess) {
+        data = {
+            url: afdbData[0].cifUrl,
+            format: "cif",
+            source: "afdb",
+        };
+    }
+    if (predictStructure && predIsSuccess) {
+        let pdbBlob = new Blob([predData.structure.pdb], {
+            type: "text/plain",
+        });
+        data = {
+            url: URL.createObjectURL(pdbBlob),
+            format: "pdb",
+            source: "predicted",
+        };
+    }
 
     return {
         queryAFDB: queryAFDB,

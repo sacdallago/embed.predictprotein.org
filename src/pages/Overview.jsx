@@ -8,6 +8,7 @@ import VariantEffectPrediction from "../components/Features/VariantEffectPredict
 
 import FeatureViewer from "../components/Features/FeatureViewer";
 import StructureProgress from "../components/StructureProgress";
+import StructureDisplay from "../components/Features/StructureDisplay";
 
 export const Overview = () => {
     const { trackPageView } = useMatomo();
@@ -22,7 +23,7 @@ export const Overview = () => {
 
     return (
         <Container>
-            {/* <Row className="justify-content-center">
+            {/* <Row className="justify-content-center mb-5">
                 <Col md={12}>
                     <FeatureViewer />
                 </Col>
@@ -55,9 +56,10 @@ export const Overview = () => {
                     </Accordion>
                 </Col>
             </Row>
-            <Row className="justify-content-center">
+            <Row className="justify-content-center mt-5">
                 <Col md={12}>
                     <StructureProgress />
+                    <StructureDisplay />
                 </Col>
             </Row>
         </Container>

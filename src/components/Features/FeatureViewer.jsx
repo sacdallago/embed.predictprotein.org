@@ -2,7 +2,7 @@ import React from "react";
 // import { proteinColorSchemes } from "../../utils/Graphics";
 
 import { useFeatures } from "../../hooks/useFeatures";
-import { createFeature } from "feature-viewer";
+import { FeatureViewer } from "feature-viewer-typescript/lib";
 
 function findIndexes(string, letters) {
     let result = {};
@@ -52,26 +52,28 @@ export default function FeatureViewerCmp() {
 }
 
 function FeatureViewerLoaded({ sequence }) {
-    var featureViewerRef = React.useRef();
+    var featureViewerRef = React.useRef(null);
 
     React.useEffect(() => {
         const proteinsequence =
             "MTKFTILLISLLFCIAHTCSASKWQHQQDSCRKQLQGVNLTPCEKHIMEKIQGRGDDDDDDDDDNHILRTMRGRINYIRRNEGKDEDEE";
-        var ft = new createFeature(proteinsequence, featureViewerRef.current, {
-            showAxis: true,
-            showSequence: true,
-            brushActive: true, //zoom
-            toolbar: true, //current zoom & mouse position
-            bubbleHelp: false,
-            zoomMax: 50, //define the maximum range of the zoom
-        });
+        if (featureViewerRef) {
+            var ft = new FeatureViewer(proteinsequence, "#fv1", {
+                showAxis: true,
+                showSequence: false,
+                toolbar: true,
+                toolbarPosition: "left",
+                zoomMax: 10,
+                flagColor: "#DFD5F5",
+            });
 
-        return () => {
-            ft.clearInstance();
-        };
-    }, []);
+            return () => {
+                ft.clearInstance();
+            };
+        }
+    }, [featureViewerRef]);
 
-    return <div className="use-bootstrap" id={featureViewerRef} />;
+    return <div className="use-bootstrap" id="fv1" />;
 }
 function FeatureViewerLoading() {}
 function FeatureViewerError() {}
