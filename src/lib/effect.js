@@ -1,5 +1,4 @@
-import * as d3 from "d3";
-import { axisBottom } from "d3";
+import { d3 } from "./d3provider";
 
 const CHART_DIMENSIONS = {
     width: undefined,
