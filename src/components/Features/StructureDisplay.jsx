@@ -42,22 +42,34 @@ export default function StructureDisplay() {
 
 function StructureDisplayLoaded({ data }) {
     const viewerRef = React.useRef(null);
+    const [initialRender, setInitialRender] = React.useState(false);
     const { source, ...customData } = data;
+    const viewerInstance = React.useRef(new window.PDBeMolstarPlugin());
 
     React.useEffect(() => {
-        if (!viewerRef) return;
+        if (!viewerRef.current) return;
+        const instance = viewerInstance.current;
 
-        const viewerInstance = new window.PDBeMolstarPlugin();
+        (async () => {
+            await instance.render(viewerRef.current, VIEWER_OPTIONS);
+            setInitialRender(true);
+            console.log(viewerRef, instance, instance.plugin);
+        })();
+    }, []);
 
-        viewerInstance.render(viewerRef.current, {
-            ...VIEWER_OPTIONS,
-            customData: customData,
-        });
+    React.useEffect(() => {
+        if (initialRender)
+            viewerInstance.current.visual.update({
+                customData,
+                ...VIEWER_OPTIONS,
+            });
+    }, [initialRender, customData]);
 
-        return () => {};
-    }, [viewerRef, customData]);
-
-    return <StructureViewerElement ref={viewerRef}></StructureViewerElement>;
+    return (
+        <StructureViewerElement id="test" ref={viewerRef}>
+            <p style={{ fontSize: "5em", textAlign: "center" }}>:(</p>
+        </StructureViewerElement>
+    );
 }
 
 function StructureDisplayLoading() {}
