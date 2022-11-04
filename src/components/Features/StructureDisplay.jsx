@@ -194,7 +194,6 @@ function StructureDisplayLoaded({ data }) {
 
     React.useEffect(() => {
         if (!initialRender) return;
-        console.log(start, end);
         if (start !== undefined && end !== undefined) {
             setTimeout(
                 () =>

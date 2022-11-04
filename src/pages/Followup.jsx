@@ -9,7 +9,7 @@ import FeatureProgress from "../components/FeatureProgress";
 import Overview from "./Overview";
 import DisplayNavigation from "../components/DisplayNavigation";
 import PrintPage from "./PrintPage";
-// import Interactive from "./Interactive";
+import Interactive from "./Interactive";
 
 export function Followup({ page }) {
     let pageComponent = undefined;
@@ -17,9 +17,9 @@ export function Followup({ page }) {
         case PAGES.overview:
             pageComponent = <Overview />;
             break;
-        // case PAGES.interactive:
-        //     pageComponent = <Interactive />;
-        //     break;
+        case PAGES.interactive:
+            pageComponent = <Interactive />;
+            break;
         case PAGES.print:
             pageComponent = <PrintPage />;
             break;

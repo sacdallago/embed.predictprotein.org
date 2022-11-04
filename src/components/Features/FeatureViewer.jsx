@@ -71,7 +71,7 @@ function FeatureViewerLoaded({ sequence }) {
                 ft.clearInstance();
             };
         }
-    }, [featureViewerRef]);
+    }, []);
 
     return <div className="use-bootstrap" id="fv1" />;
 }
