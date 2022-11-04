@@ -61,12 +61,17 @@ function StructureDisplayLoaded({ data }) {
                 })();
             }
         }
-    }, [viewerRef, initialRender, customData]);
+        return () => {
+            if (viewerInstance != null && initialRender)
+                viewerInstance.current.clear();
+        };
+    }, [initialRender, customData]);
 
     return (
-        <StructureViewerElement id="test" ref={viewerRef}>
-            <p style={{ fontSize: "5em", textAlign: "center" }}>:(</p>
-        </StructureViewerElement>
+        <StructureViewerElement
+            id="test"
+            ref={viewerRef}
+        ></StructureViewerElement>
     );
 }
 
