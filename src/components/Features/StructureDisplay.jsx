@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { FaCreativeCommonsBy, FaCreativeCommons } from "react-icons/fa";
 
 import { useStructure } from "../../hooks/useStructure";
+import { useSelection } from "../../stores/featureStore";
+
 import MethodDetails from "../MethodDetails";
 
 const VIEWER_OPTIONS = {
@@ -33,7 +35,6 @@ const StructureViewerElement = styled.div`
 
 export default function StructureDisplay() {
     const { isError, isSuccess, isLoading, data, queryAFDB } = useStructure();
-
     const renderAction = () => {
         if (isLoading) return <StructureDisplayLoading />;
         if (isError) return <StructureDisplayError />;
@@ -163,6 +164,10 @@ function StructureDisplayLoaded({ data }) {
     const [initialRender, setInitialRender] = React.useState(false);
     const { source, ...customData } = data;
     const viewerInstance = React.useRef(null);
+    const { start, end } = useSelection((state) => ({
+        start: state.selectionStart,
+        end: state.selectionEnd,
+    }));
 
     React.useEffect(() => {
         if (!viewerRef.current) return;
@@ -187,11 +192,38 @@ function StructureDisplayLoaded({ data }) {
         // };
     }, [initialRender, customData]);
 
+    React.useEffect(() => {
+        if (!initialRender) return;
+        console.log(start, end);
+        if (start !== undefined && end !== undefined) {
+            setTimeout(
+                () =>
+                    viewerInstance.current.visual.select({
+                        data: [
+                            {
+                                start_residue_number: start,
+                                end_residue_number: end,
+                                focus: true,
+                            },
+                        ],
+                    }),
+                500
+            );
+        } else {
+            setTimeout(() => {
+                viewerInstance.current.visual.clearSelection();
+                viewerInstance.current.visual.reset({ camera: true });
+            }, 500);
+        }
+    }, [initialRender, start, end]);
+
     return (
-        <StructureViewerElement
-            id="test"
-            ref={viewerRef}
-        ></StructureViewerElement>
+        <>
+            <StructureViewerElement
+                id="test"
+                ref={viewerRef}
+            ></StructureViewerElement>
+        </>
     );
 }
 
