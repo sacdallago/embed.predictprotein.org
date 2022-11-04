@@ -33,7 +33,7 @@ export default function StructureProgress() {
         }
 
         return (
-            <Alert variant="info" className="col-md-8">
+            <Alert variant="info" className="col-md-12">
                 <HelixSpinner size="1.5em" /> {text}
             </Alert>
         );
