@@ -44,26 +44,24 @@ function StructureDisplayLoaded({ data }) {
     const viewerRef = React.useRef(null);
     const [initialRender, setInitialRender] = React.useState(false);
     const { source, ...customData } = data;
-    const viewerInstance = React.useRef(new window.PDBeMolstarPlugin());
+    const viewerInstance = React.useRef(null);
 
     React.useEffect(() => {
         if (!viewerRef.current) return;
-        const instance = viewerInstance.current;
-
-        (async () => {
-            await instance.render(viewerRef.current, VIEWER_OPTIONS);
-            setInitialRender(true);
-            console.log(viewerRef, instance, instance.plugin);
-        })();
-    }, []);
-
-    React.useEffect(() => {
-        if (initialRender)
-            viewerInstance.current.visual.update({
-                customData,
-                ...VIEWER_OPTIONS,
-            });
-    }, [initialRender, customData]);
+        if (!viewerInstance.current)
+            viewerInstance.current = new window.PDBeMolstarPlugin();
+        else {
+            if (!initialRender) {
+                (async () => {
+                    await viewerInstance.current.render(viewerRef.current, {
+                        ...VIEWER_OPTIONS,
+                        customData,
+                    });
+                    setInitialRender(true);
+                })();
+            }
+        }
+    }, [viewerRef, initialRender, customData]);
 
     return (
         <StructureViewerElement id="test" ref={viewerRef}>
