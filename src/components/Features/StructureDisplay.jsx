@@ -42,6 +42,7 @@ export default function StructureDisplay() {
 
     return (
         <>
+            <h2>3D Structure</h2>
             <StructurePredictionDetails queryAFDB={queryAFDB} />
             {renderAction()}
         </>

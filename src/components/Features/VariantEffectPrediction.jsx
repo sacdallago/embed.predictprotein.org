@@ -64,6 +64,7 @@ function VariantEffectPredictionError() {}
 
 function VariantEffectPredictionLoaded({ data }) {
     const containerRef = useRef(null);
+    const predictor = useRef(null);
     const [effectData, setEffectData] = useState(undefined);
 
     // Cleanup data and prepare for d3
@@ -93,13 +94,18 @@ function VariantEffectPredictionLoaded({ data }) {
     }, [data]);
 
     // Draw chart
-    useLayoutEffect(() => {
-        const data_map = new EffectPredictor(containerRef.current);
+    useEffect(() => {
+        predictor.current = new EffectPredictor(containerRef.current);
 
-        if (effectData) data_map.data(effectData).draw();
+        if (effectData) predictor.current.data(effectData).draw();
 
-        return () => data_map.teardown();
-    }, [effectData, containerRef]);
+        return () => {
+            if (predictor.current !== null) {
+                predictor.current.teardown();
+                predictor.current = null;
+            }
+        };
+    }, [effectData]);
 
     return <div className="w-100" ref={containerRef} />;
 }
