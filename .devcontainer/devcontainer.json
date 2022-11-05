@@ -14,5 +14,5 @@
         }
     },
     "forwardPorts": [3000],
-    "postStartCommand": "yarn install"
+    "postStartCommand": "npm install"
 }
