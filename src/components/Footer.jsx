@@ -28,7 +28,7 @@ const Footer = () => (
                     <ul className="list-unstyled">
                         <li>
                             <Link to="imprint" className="link-dark">
-                                Imprint
+                                Impressum
                             </Link>
                         </li>
                         <li>

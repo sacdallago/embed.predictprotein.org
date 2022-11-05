@@ -45,6 +45,11 @@ export default function Notifications() {
     );
 
     return (
-        <ToastContainer position="top-end">{DisplayedToasts}</ToastContainer>
+        <ToastContainer
+            className="position-fixed top-0 end-0 me-2 mt-2"
+            position="top-end"
+        >
+            {DisplayedToasts}
+        </ToastContainer>
     );
 }
