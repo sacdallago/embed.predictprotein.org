@@ -39,13 +39,13 @@ const instance = createInstance({
     heartBeat: {
         // optional, enabled by default
         active: true, // optional, default value: true
-        seconds: 10, // optional, default value: `15
+        seconds: 15, // optional, default value: `15
     },
     linkTracking: true, // optional, default value: true
     configurations: {
         // optional, default value: {}
         // any valid matomo configuration, all below are optional
-        disableCookies: true,
+        disableCookies: false,
         setSecureCookie: true,
         setRequestMethod: "POST",
     },

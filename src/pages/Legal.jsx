@@ -5,14 +5,15 @@ import { useMatomo } from "@jonkoops/matomo-tracker-react";
 
 import { pushNotification, Notification } from "../stores/notificationStore";
 
-function disableTracking() {
-    pushNotification(
-        new Notification("Tracking disabled", "success", "Success")
-    );
-}
-
 export const Legal = () => {
-    const { trackPageView } = useMatomo();
+    const { trackPageView, pushInstruction } = useMatomo();
+
+    function disableTracking() {
+        pushInstruction("optUserOut");
+        pushNotification(
+            new Notification("Disabled Tracking", "success", "Success")
+        );
+    }
 
     // Track page view
     React.useEffect(() => {
@@ -50,14 +51,13 @@ export const Legal = () => {
                                         </h2>
                                         <p className="ms-3">
                                             We collect the following data:
-                                            <ul>
-                                                <li>Sequence Input</li>
-                                                <li>
-                                                    Tracking and Usage
-                                                    Information
-                                                </li>
-                                            </ul>
                                         </p>
+                                        <ul>
+                                            <li>Sequence Input</li>
+                                            <li>
+                                                Tracking and Usage Information
+                                            </li>
+                                        </ul>
                                         <h2 className="mb-3">
                                             How do we collect your data?
                                         </h2>
@@ -66,17 +66,17 @@ export const Legal = () => {
                                             most of the data we collect. We
                                             collect data and process data when
                                             you:
-                                            <ul>
-                                                <li>
-                                                    Input a sequence into the
-                                                    respective field.
-                                                </li>
-                                                <li>
-                                                    Use or view our website via
-                                                    your browser's cookies.
-                                                </li>
-                                            </ul>
                                         </p>
+                                        <ul className="ms-3">
+                                            <li>
+                                                Input a sequence into the
+                                                respective field.
+                                            </li>
+                                            <li>
+                                                Use or view our website via your
+                                                browser's cookies.
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div>
                                         <h2 className="mb-3">
@@ -85,17 +85,19 @@ export const Legal = () => {
                                         <p className="ms-3">
                                             Rostlab collects your data so that
                                             we can:
-                                            <ul className="mb-2">
-                                                <li>Secure our service.</li>
-                                                <li>
-                                                    Provide prediction results
-                                                    faster.
-                                                </li>
-                                                <li>
-                                                    Improve our service based on
-                                                    user behavior
-                                                </li>
-                                            </ul>
+                                        </p>
+                                        <ul className="ms-3 mb-2">
+                                            <li>Secure our service.</li>
+                                            <li>
+                                                Provide prediction results
+                                                faster.
+                                            </li>
+                                            <li>
+                                                Improve our service based on
+                                                user behavior
+                                            </li>
+                                        </ul>
+                                        <p className="ms-3">
                                             When Rostlab processes your request,
                                             we may send your data to, and also
                                             use the resulting information from,
@@ -225,17 +227,17 @@ export const Legal = () => {
                                             Rostlab uses cookies in a range of
                                             ways to improve your experience on
                                             our website, including:
-                                            <ul>
-                                                <li>
-                                                    Understanding how you use
-                                                    our website
-                                                </li>
-                                                <li>
-                                                    Saving input and navigation
-                                                    states
-                                                </li>
-                                            </ul>
                                         </p>
+                                        <ul className="ms-3">
+                                            <li>
+                                                Understanding how you use our
+                                                website
+                                            </li>
+                                            <li>
+                                                Saving input and navigation
+                                                states
+                                            </li>
+                                        </ul>
                                     </div>
                                     <div>
                                         <h2 className="mb-3">
@@ -365,46 +367,43 @@ export const Legal = () => {
                                             connection for communication between
                                             your internet browser and our web
                                             server:
-                                            <ul>
-                                                <li>
-                                                    The data you entered into
-                                                    the input field
-                                                </li>
-                                                <li>
-                                                    Date and time of your
-                                                    request
-                                                </li>
+                                        </p>
+                                        <ul className="ms-3">
+                                            <li>
+                                                The data you entered into the
+                                                input field
+                                            </li>
+                                            <li>
+                                                Date and time of your request
+                                            </li>
 
-                                                <li>
-                                                    Name of the requested file
-                                                </li>
+                                            <li>Name of the requested file</li>
 
-                                                <li>
-                                                    Page from which the file was
-                                                    requested
-                                                </li>
+                                            <li>
+                                                Page from which the file was
+                                                requested
+                                            </li>
 
-                                                <li>
-                                                    Access status (file
-                                                    transferred, file not found,
-                                                    etc.)
-                                                </li>
+                                            <li>
+                                                Access status (file transferred,
+                                                file not found, etc.)
+                                            </li>
 
-                                                <li>
-                                                    Type and version of the
-                                                    browser and the operating
-                                                    system you use
-                                                </li>
+                                            <li>
+                                                Type and version of the browser
+                                                and the operating system you use
+                                            </li>
 
-                                                <li>
-                                                    Full IP address of the
-                                                    requesting computer
-                                                </li>
+                                            <li>
+                                                Full IP address of the
+                                                requesting computer
+                                            </li>
 
-                                                <li>
-                                                    Quantity of data transferred
-                                                </li>
-                                            </ul>
+                                            <li>
+                                                Quantity of data transferred
+                                            </li>
+                                        </ul>
+                                        <p className="ms-3">
                                             For reasons of technical security,
                                             in particular to prevent attacks on
                                             our web server, we store these data
