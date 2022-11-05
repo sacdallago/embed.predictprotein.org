@@ -3,41 +3,7 @@ import React from "react";
 
 import { useFeatures } from "../../hooks/useFeatures";
 import { FeatureViewer } from "feature-viewer-typescript/lib";
-
-function findIndexes(string, letters) {
-    let result = {};
-
-    for (let j = 0; j < letters.length; j++) {
-        let indices = [];
-        for (let i = 0; i < string.length; i++) {
-            if (string[i] === letters[j]) indices.push(i + 1);
-        }
-        result[letters[j]] = indices;
-    }
-
-    return result;
-}
-
-function findRanges(array) {
-    if (array.length < 1) {
-        return [];
-    }
-
-    array.sort((e, i) => e - i);
-
-    let ranges = [{ x: array[0], y: array[0] }];
-
-    for (let i = 1; i < array.length; i++) {
-        let currentRange = ranges[ranges.length - 1];
-
-        if (array[i] <= currentRange.y + 1) {
-            currentRange.y = array[i];
-        } else {
-            ranges.push({ x: array[i], y: array[i] });
-        }
-    }
-    return ranges;
-}
+import "feature-viewer-typescript/assets/fv.scss";
 
 export default function FeatureViewerCmp() {
     const { isSuccess, isLoading, isError, data } = useFeatures();
@@ -59,9 +25,9 @@ function FeatureViewerLoaded({ sequence }) {
             "MTKFTILLISLLFCIAHTCSASKWQHQQDSCRKQLQGVNLTPCEKHIMEKIQGRGDDDDDDDDDNHILRTMRGRINYIRRNEGKDEDEE";
         if (featureViewerRef) {
             var ft = new FeatureViewer(proteinsequence, "#fv1", {
-                showAxis: true,
+                showAxis: false,
                 showSequence: false,
-                toolbar: true,
+                toolbar: false,
                 toolbarPosition: "left",
                 zoomMax: 10,
                 flagColor: "#DFD5F5",

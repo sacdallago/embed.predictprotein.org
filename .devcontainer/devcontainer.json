@@ -9,7 +9,8 @@
                 "planbcoding.vscode-react-refactor",
                 "formulahendry.auto-rename-tag",
                 "dsznajder.es7-react-js-snippets",
-                "styled-components.vscode-styled-components"
+                "styled-components.vscode-styled-components",
+                "github.vscode-pull-request-github"
             ]
         }
     },

@@ -95,7 +95,7 @@ export async function fetch_structure(
         if (response.status === 200) return response.json();
 
         if (response.status !== 201 || response.status !== 202)
-            throw APIException(
+            throw new APIException(
                 "Unexpected structure API response",
                 response.status
             );
@@ -108,6 +108,41 @@ export async function fetch_structure(
 /*******************************************************************************
  *                              Data Processing                                *
  *******************************************************************************/
+
+export function findIndexes(string, letters) {
+    let result = {};
+
+    for (let j = 0; j < letters.length; j++) {
+        let indices = [];
+        for (let i = 0; i < string.length; i++) {
+            if (string[i] === letters[j]) indices.push(i + 1);
+        }
+        result[letters[j]] = indices;
+    }
+
+    return result;
+}
+
+export function findRanges(array) {
+    if (array.length < 1) {
+        return [];
+    }
+
+    array.sort((e, i) => e - i);
+
+    let ranges = [{ x: array[0], y: array[0] }];
+
+    for (let i = 1; i < array.length; i++) {
+        let currentRange = ranges[ranges.length - 1];
+
+        if (array[i] <= currentRange.y + 1) {
+            currentRange.y = array[i];
+        } else {
+            ranges.push({ x: array[i], y: array[i] });
+        }
+    }
+    return ranges;
+}
 
 export function processGoPredSimResults(data) {
     // MAKE string for AMIGO viz
