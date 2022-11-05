@@ -17,7 +17,7 @@ export const Imprint = () => {
     return (
         <Container>
             <Row className="justify-content-md-center">
-                <Col xs="12" md="6">
+                <Col xs="12" md="7">
                     <Stack gap={1.3}>
                         <div>
                             <h1 className="mb-3">Imprint</h1>

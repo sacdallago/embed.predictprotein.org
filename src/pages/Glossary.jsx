@@ -17,7 +17,7 @@ export default function Glossary() {
     return (
         <Container>
             <Row className="justify-content-md-center">
-                <Col xs="12" md="6">
+                <Col xs="12" md="7">
                     <h1 className="mb-3">Citation</h1>
                     <Stack gap={2} className="ms-3">
                         <div>

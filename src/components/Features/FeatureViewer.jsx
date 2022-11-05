@@ -1,9 +1,9 @@
 import React from "react";
+import { selectAll } from "d3";
 // import { proteinColorSchemes } from "../../utils/Graphics";
 
 import { useFeatures } from "../../hooks/useFeatures";
 import { FeatureViewer } from "feature-viewer-typescript/lib";
-import "feature-viewer-typescript/assets/fv.scss";
 
 export default function FeatureViewerCmp() {
     const { isSuccess, isLoading, isError, data } = useFeatures();
@@ -32,6 +32,7 @@ function FeatureViewerLoaded({ sequence }) {
                 zoomMax: 10,
                 flagColor: "#DFD5F5",
             });
+            ft.svgContainer.selectAll("single-add-variant-btn").remove();
 
             return () => {
                 ft.clearInstance();

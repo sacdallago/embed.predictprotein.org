@@ -20,6 +20,7 @@ import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 import { Followup } from "./pages/Followup";
 import { handleQueryError } from "./lib/error";
 import { PAGES } from "./lib/pages";
+import { Legal } from "./pages/Legal";
 
 const container = document.getElementById("root");
 const root = createRoot(container);
@@ -61,6 +62,7 @@ root.render(
                         <Route path="/imprint" element={<Imprint />} />
                         <Route path="/cite" element={<Cite />} />
                         <Route path="/glossary" element={<Glossary />} />
+                        <Route path="/legal" element={<Legal />} />
                         <Route
                             path="/i/:sequence"
                             element={<Followup page={PAGES.interactive} />}

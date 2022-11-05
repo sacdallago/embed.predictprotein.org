@@ -32,7 +32,7 @@ const Footer = () => (
                             </Link>
                         </li>
                         <li>
-                            <Link to="" className="link-dark">
+                            <Link to="legal" className="link-dark">
                                 ToS & Privacy Policy
                             </Link>
                         </li>
