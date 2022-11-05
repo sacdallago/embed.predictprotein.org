@@ -61,8 +61,10 @@ export function useStructure(select) {
         ((queryAFDB && afdbIsLoading) || (predictStructure && predIsLoading)) &&
         (predictStructure || queryAFDB);
 
-    let data = undefined;
+    let [raw, data] = [undefined, undefined];
+
     if (queryAFDB && afdbIsSuccess) {
+        raw = afdbData[0];
         data = {
             url: afdbData[0].cifUrl,
             format: "mmcif",
@@ -70,6 +72,7 @@ export function useStructure(select) {
         };
     }
     if (predictStructure && predIsSuccess) {
+        raw = predData;
         let pdbBlob = new Blob([predData.structure.pdb], {
             type: "text/plain",
         });
@@ -87,5 +90,6 @@ export function useStructure(select) {
         isSuccess: isSuccess,
         isLoading: isLoading,
         data: data,
+        raw: raw,
     };
 }

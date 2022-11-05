@@ -1,11 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 import { FaCreativeCommonsBy, FaCreativeCommons } from "react-icons/fa";
+import { FiDownload, FiSearch } from "react-icons/fi";
 
 import { useStructure } from "../../hooks/useStructure";
 import { useSelection } from "../../stores/featureStore";
+import { Placeholder, Button } from "react-bootstrap";
 
 import MethodDetails from "../MethodDetails";
+import { download_link } from "../../lib/net_utils";
+import { submit_foldseek } from "../../lib/foldseek_api";
 
 const VIEWER_OPTIONS = {
     hideControls: true,
@@ -34,11 +38,22 @@ const StructureViewerElement = styled.div`
 `;
 
 export default function StructureDisplay() {
-    const { isError, isSuccess, isLoading, data, queryAFDB } = useStructure();
+    const { isError, isSuccess, isLoading, data, raw, queryAFDB } =
+        useStructure();
     const renderAction = () => {
         if (isLoading) return <StructureDisplayLoading />;
         if (isError) return <StructureDisplayError />;
-        if (isSuccess) return <StructureDisplayLoaded data={data} />;
+        if (isSuccess)
+            return (
+                <>
+                    <StructureNavigation
+                        data={data}
+                        pdb={raw?.structure?.pdb}
+                        queryAFDB={queryAFDB}
+                    />
+                    <StructureDisplayLoaded data={data} />
+                </>
+            );
     };
 
     return (
@@ -159,6 +174,40 @@ function StructurePredictionDetails({ queryAFDB }) {
     return <MethodDetails citations={citations}>{method_text}</MethodDetails>;
 }
 
+function StructureNavigation({ queryAFDB, data, pdb }) {
+    var foldseekbtn = queryAFDB ? (
+        <></>
+    ) : (
+        <Button
+            variant="link"
+            className="link-dark"
+            onClick={() => submit_foldseek(pdb)}
+        >
+            <FiSearch size="1em" />
+            Find similar structure (FoldSeek)
+        </Button>
+    );
+
+    return (
+        <div className="d-flex flex-row justify-content-end">
+            {foldseekbtn}
+            <Button
+                variant="link"
+                className="link-dark"
+                onClick={() =>
+                    download_link(
+                        data.url,
+                        "predicted-structure." + data.format
+                    )
+                }
+            >
+                <FiDownload size="1em" />
+                Download Structure
+            </Button>
+        </div>
+    );
+}
+
 function StructureDisplayLoaded({ data }) {
     const viewerRef = React.useRef(null);
     const [initialRender, setInitialRender] = React.useState(false);
@@ -226,5 +275,18 @@ function StructureDisplayLoaded({ data }) {
     );
 }
 
-function StructureDisplayLoading() {}
+function StructureDisplayLoading() {
+    return (
+        <>
+            <Placeholder animation="glow">
+                <Placeholder
+                    style={{
+                        width: "inherit",
+                        height: "700px",
+                    }}
+                />
+            </Placeholder>
+        </>
+    );
+}
 function StructureDisplayError() {}

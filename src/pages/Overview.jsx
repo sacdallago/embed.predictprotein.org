@@ -23,11 +23,11 @@ export const Overview = () => {
 
     return (
         <Container>
-            <Row className="justify-content-center mb-5">
+            {/* <Row className="justify-content-center mb-5">
                 <Col md={12}>
                     <FeatureViewer />
                 </Col>
-            </Row>
+            </Row> */}
             <Row className="justify-content-center">
                 <Col md={12}>
                     <Accordion defaultActiveKey={["0", "2"]} flush alwaysOpen>
