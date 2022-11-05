@@ -19,6 +19,15 @@ export const Interactive = () => {
 
     return (
         <Container>
+            <Row className="justify-content-center mt-5">
+                <Col xs="auto">
+                    <p>
+                        Explore predicted per-residue features on the structure
+                        by highlighting regions of interest in the feature
+                        viewer.
+                    </p>
+                </Col>
+            </Row>
             {/* <Row className="justify-content-center mb-5">
                 <Col md={12}>
                     <FeatureViewer />
