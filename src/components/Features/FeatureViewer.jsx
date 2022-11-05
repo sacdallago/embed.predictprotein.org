@@ -1,5 +1,4 @@
 import React from "react";
-import { selectAll } from "d3";
 // import { proteinColorSchemes } from "../../utils/Graphics";
 
 import { useFeatures } from "../../hooks/useFeatures";

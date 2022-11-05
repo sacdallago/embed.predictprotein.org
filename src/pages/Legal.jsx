@@ -4,12 +4,14 @@ import { Stack, Container, Row, Col, Accordion, Button } from "react-bootstrap";
 import { useMatomo } from "@jonkoops/matomo-tracker-react";
 
 import { pushNotification, Notification } from "../stores/notificationStore";
+import { resetCookieConsentValue } from "react-cookie-consent";
 
 export const Legal = () => {
     const { trackPageView, pushInstruction } = useMatomo();
 
     function disableTracking() {
         pushInstruction("optUserOut");
+        resetCookieConsentValue("TrackingConsent");
         pushNotification(
             new Notification("Disabled Tracking", "success", "Success")
         );
@@ -27,7 +29,7 @@ export const Legal = () => {
         <Container>
             <Row className="justify-content-md-center">
                 <Col xs="12" md="9">
-                    <Accordion alwaysOpen className="mt-3">
+                    <Accordion defaultActiveKey="0" className="mt-3">
                         <Accordion.Item eventKey="0">
                             <Accordion.Header>Privacy Policy</Accordion.Header>
                             <Accordion.Body>
@@ -459,7 +461,7 @@ export const Legal = () => {
                                 </Stack>
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item>
+                        <Accordion.Item eventKey="1">
                             <Accordion.Header>
                                 Terms of Service
                             </Accordion.Header>

@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import { MatomoProvider, createInstance } from "@jonkoops/matomo-tracker-react";
+import CookieConsent, { getCookieConsentValue } from "react-cookie-consent";
 
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
@@ -51,6 +52,10 @@ const instance = createInstance({
     },
 });
 
+if (!getCookieConsentValue("TrackingConsent")) {
+    instance.pushInstruction("optUserOut");
+}
+
 root.render(
     <React.StrictMode>
         <QueryClientProvider client={queryClient}>
@@ -92,6 +97,29 @@ root.render(
                     <Notifications />
                     {/*NOTE: Leave as last element so it is rendered above all.*/}
                 </BrowserRouter>
+
+                <CookieConsent
+                    location="bottom"
+                    buttonText="Sure!"
+                    declineButtonText="Nah :|"
+                    flipButtons={true}
+                    acceptOnOverlayClick={true}
+                    onAccept={() =>
+                        instance.pushInstruction("forgetUserOptOut")
+                    }
+                    enableDeclineButton
+                    cookieName="TrackingConsent"
+                    style={{ background: "#2B373B", with: "100%" }}
+                    expires={150}
+                >
+                    This website tracks how you use our service in order to
+                    improve it. Is that fine?
+                    <span className="ms-2" style={{ fontSize: "10px" }}>
+                        <a href="/legal" target="_blank" className="link-light">
+                            Read the details
+                        </a>
+                    </span>
+                </CookieConsent>
             </MatomoProvider>
         </QueryClientProvider>
     </React.StrictMode>
