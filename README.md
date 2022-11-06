@@ -13,7 +13,7 @@ You can find the specifics of LambdaPP in our Paper: [_LambdaPP -- Fast and acce
 
 ## General Idea
 
-<div align="center"><img src="src/assets/PredDiagram.png" width="75%" height="75%"/></div>
+<div align="center" style='background-color: white'><img src="src/assets/PredDiagram.png" width="75%" height="75%"/></div>
 
 LambdaPP uses fast sequnece only feature predictions and accurate structure predictions to offer a unified, reactive interface which enables exploration and hypothesis building.
 Under the hood LambdaPP uses React for the frontend and relies on the API of UniprotKB, AlphafoldDB, and bioembeddings to facilitate predictions.
