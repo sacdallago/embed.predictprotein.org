@@ -3,7 +3,7 @@ import { Container, Stack } from "react-bootstrap";
 import { useMatomo } from "@jonkoops/matomo-tracker-react";
 
 import Highlighter from "../components/Features/Highlighter";
-import { proteinColorSchemes } from "../lib/Graphics";
+import { proteinColorSchemes } from "../lib/coloring";
 
 const PrintInput = () => (
     // TODO take colorscheme aliView
@@ -286,17 +286,16 @@ const PrintTopology = () => (
                 <div>
                     <Highlighter
                         dataFn={(data) => data.predictedTransmembrane}
-                        displayStyle={
-                            proteinColorSchemes["predictedTransmembrane"]
-                        }
+                        displayStyle={proteinColorSchemes["transmembrane"]}
                     />
                     <br />
                     Legend: {""}
                     <span
                         style={{
                             backgroundColor:
-                                proteinColorSchemes["predictedTransmembrane"]
-                                    .contrast["B"],
+                                proteinColorSchemes["transmembrane"].contrast[
+                                    "B"
+                                ],
                         }}
                     >
                         B
@@ -306,8 +305,9 @@ const PrintTopology = () => (
                     <span
                         style={{
                             backgroundColor:
-                                proteinColorSchemes["predictedTransmembrane"]
-                                    .contrast["b"],
+                                proteinColorSchemes["transmembrane"].contrast[
+                                    "b"
+                                ],
                         }}
                     >
                         b
@@ -317,8 +317,9 @@ const PrintTopology = () => (
                     <span
                         style={{
                             backgroundColor:
-                                proteinColorSchemes["predictedTransmembrane"]
-                                    .contrast["H"],
+                                proteinColorSchemes["transmembrane"].contrast[
+                                    "H"
+                                ],
                         }}
                     >
                         H
@@ -328,8 +329,9 @@ const PrintTopology = () => (
                     <span
                         style={{
                             backgroundColor:
-                                proteinColorSchemes["predictedTransmembrane"]
-                                    .contrast["h"],
+                                proteinColorSchemes["transmembrane"].contrast[
+                                    "h"
+                                ],
                         }}
                     >
                         h
@@ -339,8 +341,9 @@ const PrintTopology = () => (
                     <span
                         style={{
                             backgroundColor:
-                                proteinColorSchemes["predictedTransmembrane"]
-                                    .contrast["S"],
+                                proteinColorSchemes["transmembrane"].contrast[
+                                    "S"
+                                ],
                         }}
                     >
                         S
