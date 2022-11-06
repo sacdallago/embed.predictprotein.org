@@ -1,8 +1,12 @@
 import React from "react";
 // import { proteinColorSchemes } from "../../utils/Graphics";
 
+import { Button } from "react-bootstrap";
+import { FiDownload } from "react-icons/fi";
+
 import { useFeatures } from "../../hooks/useFeatures";
-import { FeatureViewer } from "feature-viewer-typescript/lib";
+import { useSelection } from "../../stores/featureStore";
+import { download_data } from "../../lib/net_utils";
 
 export default function FeatureViewerCmp() {
     const { isSuccess, isLoading, isError, data } = useFeatures();
@@ -10,32 +14,56 @@ export default function FeatureViewerCmp() {
     const renderAction = () => {
         if (isLoading) return <FeatureViewerLoading />;
         if (isError) return <FeatureViewerError />;
-        if (isSuccess) return <FeatureViewerLoaded sequence={data.sequence} />;
+        if (isSuccess)
+            return (
+                <>
+                    <FeatureNavigator data={data} />
+                    <FeatureViewerLoaded sequence={data.sequence} />
+                </>
+            );
     };
 
     return <>{renderAction()}</>;
 }
 
+function FeatureNavigator({ data }) {
+    return (
+        <div className="d-flex flex-row justify-content-end">
+            <Button
+                variant="link"
+                className="link-dark"
+                onClick={() =>
+                    download_data(JSON.stringify(data), "predictions.json")
+                }
+            >
+                <FiDownload size="1em" />
+                Download all predictions
+            </Button>
+        </div>
+    );
+}
+
 function FeatureViewerLoaded({ sequence }) {
-    var featureViewerRef = React.useRef(null);
+    var featureViewer = React.useRef(null);
+    const { select, unselect } = useSelection((state) => ({
+        select: state.select,
+        unselect: state.unselect,
+    }));
 
     React.useEffect(() => {
-        const proteinsequence =
-            "MTKFTILLISLLFCIAHTCSASKWQHQQDSCRKQLQGVNLTPCEKHIMEKIQGRGDDDDDDDDDNHILRTMRGRINYIRRNEGKDEDEE";
-        if (featureViewerRef) {
-            var ft = new FeatureViewer(proteinsequence, "#fv1", {
-                showAxis: false,
-                showSequence: false,
-                toolbar: false,
-                toolbarPosition: "left",
+        if (featureViewer.current === null) {
+            featureViewer.current = new window.FeatureViewer(sequence, "#fv1", {
+                showAxis: true,
+                showSequence: true,
+                brushActive: true, //zoom
+                toolbar: true,
                 zoomMax: 10,
-                flagColor: "#DFD5F5",
+                bubbleHelp: false,
             });
-            ft.svgContainer.selectAll("single-add-variant-btn").remove();
 
-            return () => {
-                ft.clearInstance();
-            };
+            featureViewer.current.onFeatureSelected(function (d) {
+                select(d.detail.start, d.detail.end);
+            });
         }
     }, []);
 
