@@ -23,7 +23,7 @@ An overview over the orchestration is shown in the figure above.
 ## Getting Involved
 
 We're happy to accept pull requests and try to adress issues as quickly as we can.
-In order to test your changes, feel free to fork, clone and execute:
+In order to test your changes, feel free to fork, clone, and execute:
 
 ```
 npm install
@@ -55,7 +55,8 @@ While our article is still under review, please cite the pre-print on biorxiv.
 LambdaPP: Fast and accessible protein-specific phenotype predictions
 Tobias Olenyi, Céline Marquet, Michael Heinzinger, Benjamin Kröger, Tiha Nikolova, Michael Bernhofer, Philip Sändig, Konstantin Schütze, Maria Littmann, Milot Mirdita, Martin Steinegger, Christian Dallago, Burkhard Rost
 bioRxiv 2022.08.04.502750; doi: [https://doi.org/10.1101/2022.08.04.502750](https://doi.org/10.1101/2022.08.04.502750])
-<pre>
+</pre>
+
 ```
 @article {Olenyi2022.08.04.502750,
 	author = {Olenyi, Tobias and Marquet, C{\'e}line and Heinzinger, Michael and Kr{\"o}ger, Benjamin and Nikolova, Tiha and Bernhofer, Michael and S{\"a}ndig, Philip and Sch{\"u}tze, Konstantin and Littmann, Maria and Mirdita, Milot and Steinegger, Martin and Dallago, Christian and Rost, Burkhard},
