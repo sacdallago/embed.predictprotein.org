@@ -74,6 +74,19 @@ function FeatureViewerLoaded({ data }) {
                 unselect();
             });
         }
+        return () => {
+            // This is very hacky and a problem of the featureViewer not being cooperative
+            // TODO fix!
+            if (featureViewer.current !== null) {
+                featureViewer.current.clearInstance();
+                let div = document.getElementById("fv1");
+                while (div && div.firstChild) {
+                    div.removeChild(div.firstChild);
+                }
+                delete featureViewer.current;
+                featureViewer.current = null;
+            }
+        };
     }, []);
 
     React.useEffect(() => {
