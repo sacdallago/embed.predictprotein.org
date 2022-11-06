@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 // import { proteinColorSchemes } from "../../utils/Graphics";
 
 import { Button } from "react-bootstrap";
@@ -7,6 +7,7 @@ import { FiDownload } from "react-icons/fi";
 import { useFeatures } from "../../hooks/useFeatures";
 import { useSelection } from "../../stores/featureStore";
 import { download_data } from "../../lib/net_utils";
+import { get_featureviewer_data } from "../../lib/bioembd_api";
 
 export default function FeatureViewerCmp() {
     const { isSuccess, isLoading, isError, data } = useFeatures();
@@ -18,7 +19,7 @@ export default function FeatureViewerCmp() {
             return (
                 <>
                     <FeatureNavigator data={data} />
-                    <FeatureViewerLoaded sequence={data.sequence} />
+                    <FeatureViewerLoaded data={data} />
                 </>
             );
     };
@@ -43,8 +44,9 @@ function FeatureNavigator({ data }) {
     );
 }
 
-function FeatureViewerLoaded({ sequence }) {
+function FeatureViewerLoaded({ data }) {
     var featureViewer = React.useRef(null);
+    const [viewerData, setViewerData] = useState(undefined);
     const { select, unselect } = useSelection((state) => ({
         select: state.select,
         unselect: state.unselect,
@@ -52,20 +54,39 @@ function FeatureViewerLoaded({ sequence }) {
 
     React.useEffect(() => {
         if (featureViewer.current === null) {
-            featureViewer.current = new window.FeatureViewer(sequence, "#fv1", {
-                showAxis: true,
-                showSequence: true,
-                brushActive: true, //zoom
-                toolbar: true,
-                zoomMax: 10,
-                bubbleHelp: false,
-            });
+            featureViewer.current = new window.FeatureViewer.createFeature(
+                data.sequence,
+                "#fv1",
+                {
+                    showAxis: true,
+                    showSequence: true,
+                    brushActive: true, //zoom
+                    toolbar: true,
+                    zoomMax: 10,
+                    bubbleHelp: false,
+                }
+            );
 
             featureViewer.current.onFeatureSelected(function (d) {
                 select(d.detail.start, d.detail.end);
             });
+            featureViewer.current.onFeatureDeselected(function (d) {
+                unselect();
+            });
         }
     }, []);
+
+    React.useEffect(() => {
+        if (!viewerData) {
+            setViewerData(get_featureviewer_data(data));
+            return;
+        }
+        if (!featureViewer.current) return;
+
+        viewerData.forEach((feature) =>
+            featureViewer.current.addFeature(feature)
+        );
+    }, [data, viewerData]);
 
     return <div className="use-bootstrap" id="fv1" />;
 }

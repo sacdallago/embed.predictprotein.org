@@ -28,11 +28,11 @@ export const Interactive = () => {
                     </p>
                 </Col>
             </Row>
-            {/* <Row className="justify-content-center mb-5">
+            <Row className="justify-content-center mb-5">
                 <Col md={12}>
                     <FeatureViewer />
                 </Col>
-            </Row> */}
+            </Row>
             <Row className="justify-content-center mt-5">
                 <Col md={12}>
                     <StructureProgress />
