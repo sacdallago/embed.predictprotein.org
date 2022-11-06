@@ -22,8 +22,9 @@ An overview over the orchestration is shown in the figure above.
 
 ## Getting Involved
 
-We're happy to accept pull requests and try to adress issues as quickly as we can.
-In order to test your changes, feel free to fork, clone, and execute:
+We're happy to accept pull requests and try to adress issues as quickly as we can. Feel free to engage!
+
+If you want to contribute to LambdaPP, feel free to fork, clone, and execute:
 
 ```
 npm install
@@ -34,7 +35,7 @@ This will create your own local version of the LambdaPP.
 
 Please be advised that while the front-end will run locally, per-default all API calls will still be directed to external services, this includes [UniprotKB](https://www.uniprot.org/help/api), [AlphafoldDB](https://alphafold.ebi.ac.uk/), [FoldSeek](https://search.foldseek.com/search) and the [bioembeddings API](https://github.com/sacdallago/bio_embeddingsfolds). If you want to disable that behavior, feel free to adjust the request hooks in the `src/hooks` directory.
 
-If you want to deploy your own version of the backend, feel free to check out the [bio_embeddings](https://github.com/sacdallago/bio_embeddings) repository for detailled instructions or [chat us up](https://chat.bioembeddings.com/home). If you work on or use LambdaPP, please acknowledge [Rostlab's Core Values](https://rostlab.org/core_values) and our [Code of Conduct](./CODE_OF_CONDUCT.md) in word and spirit.
+If you want to deploy your own version of the backend, feel free to check out the [bio_embeddings](https://github.com/sacdallago/bio_embeddings) repository for detailled instructions or [chat us up](https://chat.bioembeddings.com/home). When you work on or use LambdaPP, please acknowledge [Rostlab's Core Values](https://rostlab.org/core_values) and our [Code of Conduct](./CODE_OF_CONDUCT.md) in word and spirit.
 
 ## External Services
 
