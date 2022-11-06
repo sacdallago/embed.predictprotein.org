@@ -10,7 +10,7 @@
             "name": "Launch Chrome",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "yarn:start"
+            "preLaunchTask": "server:start"
         },
         {
             "name": "Launch Firefox",
@@ -21,7 +21,7 @@
             "profile": "react-debug",
             "url": "http://localhost:3000",
             "webRoot": "${workspaceFolder}",
-            "preLaunchTask": "yarn:start",
+            "preLaunchTask": "server:start",
             "pathMappings": [
                 {
                     "url": "file:///workspaces/embed.predictprotein.org/src",

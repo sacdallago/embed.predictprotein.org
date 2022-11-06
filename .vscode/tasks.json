@@ -4,7 +4,7 @@
         {
             "type": "npm",
             "script": "start",
-            "label": "yarn:start",
+            "label": "server:start",
             "detail": "react-scripts start",
             "group": {
                 "kind": "build",
