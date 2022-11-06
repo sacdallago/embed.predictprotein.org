@@ -24,7 +24,7 @@ export const Interactive = () => {
                     <p>
                         Explore predicted per-residue features on the structure
                         by highlighting regions of interest in the feature
-                        viewer.
+                        viewer. Brush to zoom in, right click to zoom out.
                     </p>
                 </Col>
             </Row>
