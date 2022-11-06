@@ -27,15 +27,14 @@ export default function HowitWorks() {
                         {/* NOTE: without col-md-10 the paragraph does not format correctly.*/}
                         <strong>LambdaPP pipeline:</strong> Starting with an
                         amino acid sequence, LambdaPP orchestrates the
-                        prediction of (1) protein structure using ColabFold
-                        (45); (2) per-protein features: Gene Ontology (GO)
-                        annotations using goPredSim (38), subcellular location
-                        using LA (64); (3) per-residue features: binding
-                        residues using bindEmbed21DL (39), conservation using
-                        ProtT5cons (42), disorder using SETH (29), secondary
-                        structure using ProtT5-sec (23), helical and barrel
-                        transmembrane (TM) regions using TMbed (13); and (4)
-                        variant effect scores using VESPAl (42).
+                        prediction of protein structure using ColabFold ; (2)
+                        per-protein features: Gene Ontology (GO) annotations
+                        using goPredSim, subcellular location using LA; (3)
+                        per-residue features: binding residues using
+                        bindEmbed21DL, conservation using ProtT5cons, disorder
+                        using SETH, secondary structure using ProtT5-sec,
+                        helical and barrel transmembrane (TM) regions using
+                        TMbed; and variant effect scores using VESPAl.
                     </p>
                 </Col>
             </Row>
