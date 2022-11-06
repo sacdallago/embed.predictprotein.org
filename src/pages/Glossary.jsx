@@ -18,7 +18,7 @@ export default function Glossary() {
         <Container>
             <Row className="justify-content-md-center">
                 <Col xs="12" md="7">
-                    <h1 className="mb-3">Citation</h1>
+                    <h1 className="mb-3">Glossary</h1>
                     <Stack gap={2} className="ms-3">
                         <div>
                             <strong>bio-embeddings:</strong> hosts the backend
